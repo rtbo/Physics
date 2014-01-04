@@ -87,7 +87,7 @@ private:
 
 	{{item.titleName}}Unit unit_;
 
-	bool changeUnitFlag_ {false};
+	bool changeUnitFlag_;
 
 };
 

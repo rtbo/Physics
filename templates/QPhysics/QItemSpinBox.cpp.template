@@ -24,7 +24,7 @@ static int _ = qRegisterMetaType<Physics::{{item.titleName}}>("Physics::{{item.t
 {% for unit in item.units %}
 inline QString {{unit.name}}str()
 {
-	return QString::fromUtf8(u8"{{unit.u8charSeq}}");
+	return QString::fromStdWString(L"{{unit.u8charSeq}}");
 }
 {% endfor %}
 
@@ -76,14 +76,15 @@ inline Physics::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.
 	}
 
 	assert(!"the passed value is wrong");
-	return Physics::{{item.titleName}}{};
+	return Physics::{{item.titleName}}();
 }
 
 
 
 Q{{item.titleName}}SpinBox::Q{{item.titleName}}SpinBox(QWidget *parent) :
 	QDoubleSpinBox(parent),
-	unit_{ {{item.defaultUnit}} }
+	unit_({{item.defaultUnit}}),
+	changeUnitFlag_(false)
 {
 	updateSuffix();
 
