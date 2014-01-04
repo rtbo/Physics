@@ -18,7 +18,7 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'mps2',
-				'u8charSeq' : R'm.s\u207B\u2072'
+				'u8charSeq' : R'm.s\u207B\u00B2'
 			},
 			{
 				'name' : 'g',
@@ -32,16 +32,16 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'm2',
-				'u8charSeq' : R'm\u2072'
+				'u8charSeq' : R'm\u00B2'
 			},
 			{
 				'name' : 'cm2',
-				'u8charSeq' : R'cm\u2072',
+				'u8charSeq' : R'cm\u00B2',
 				'factorToDefault' : 0.0001
 			},
 			{
 				'name' : 'mm2',
-				'u8charSeq' : R'mm\u2072',
+				'u8charSeq' : R'mm\u00B2',
 				'factorToDefault' : 0.000001
 			},
 		],
@@ -69,11 +69,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'lps',
-				'u8charSeq' : R'l.s\u207B\u2071'
+				'u8charSeq' : R'l.s\u207B\u00B9'
 			},
 			{
 				'name' : 'm3ps',
-				'u8charSeq' : R'm\u2073.s\u207B\u2071',
+				'u8charSeq' : R'm\u00B3.s\u207B\u00B9',
 				'factorToDefault' : 1000.0
 			},
 			{
@@ -149,11 +149,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'kgpmol',
-				'u8charSeq' : R'kg.mol\u207B\u2071'
+				'u8charSeq' : R'kg.mol\u207B\u00B9'
 			},
 			{
 				'name' : 'gpmol',
-				'u8charSeq' : R'g.mol\u207B\u2071',
+				'u8charSeq' : R'g.mol\u207B\u00B9',
 				'factorToDefault' : 0.001
 			}
 		],
@@ -240,7 +240,7 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'mps',
-				'u8charSeq' : R'm.s\u207B\u2071',
+				'u8charSeq' : R'm.s\u207B\u00B9',
 			},
 			{
 				'name' : 'kmph',
@@ -270,7 +270,7 @@ PhysicsItems = [
 			},
 			{
 				'name' : 'mm3',
-				'u8charSeq' : R'mm\u2073',
+				'u8charSeq' : R'mm\u00B3',
 				'factorToDefault' : 0.000001
 			}
 		],
@@ -281,11 +281,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'kgpm3',
-				'u8charSeq' : R'kg.m\u207B\u2073',
+				'u8charSeq' : R'kg.m\u207B\u00B3',
 			},
 			{
 				'name' : 'kgpl',
-				'u8charSeq' : R'kg.l\u207B\u2071',
+				'u8charSeq' : R'kg.l\u207B\u00B9',
 				'factorToDefault' : 1000.0
 			}
 		],
