@@ -18,31 +18,37 @@ namespace Physics {
 	class {{item.titleName}} {
 		double {{item.defaultUnit}}_;
 
-		explicit constexpr {{item.titleName}}(double {{item.defaultUnit}}) : {{item.defaultUnit}}_({{item.defaultUnit}}) {}
+		explicit PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}(double {{item.defaultUnit}}) : {{item.defaultUnit}}_({{item.defaultUnit}}) {}
 
 	public:
 
-		constexpr {{item.titleName}}() : {{item.defaultUnit}}_(0.0) {}
+		PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}() : {{item.defaultUnit}}_(0.0) {}
 
-		constexpr {{item.titleName}}(const {{item.titleName}}&) =default;
-		{{item.titleName}}& operator=(const {{item.titleName}}&) =default;
+		PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}(const {{item.titleName}}& other) :
+			{{item.defaultUnit}}_(other.{{item.defaultUnit}}_)
+		{}
+
+		{{item.titleName}}& operator=(const {{item.titleName}}& other) {
+			{{item.defaultUnit}}_ = other.{{item.defaultUnit}}();
+			return *this;
+		}
 		
 
 {%for unit in item.units%}
-		static constexpr {{item.titleName}} from{{unit.titleName}}(double {{unit.name}}) {
-			return {{item.titleName}}{
+		static PHYSICS_INCLASS_CONSTEXPR {{item.titleName}} from{{unit.titleName}}(double {{unit.name}}) {
+			return {{item.titleName}}(
 				{%if unit.offsetToDefault%}({%endif%}
 				{{unit.name}}
 				{%if unit.offsetToDefault%}+{{unit.offsetToDefault}}){%endif%}
 				{%if unit.factorToDefault%}*{{unit.factorToDefault}}{%endif%}
-			};
+			);
 		}
 
 {%endfor%}
 
 
 {%for unit in item.units%}
-		constexpr double {{unit.name}}() const {
+		PHYSICS_INCLASS_CONSTEXPR double {{unit.name}}() const {
 			return 
 				{%if unit.factorToDefault%}({%endif%}
 				{{item.defaultUnit}}_
@@ -79,48 +85,48 @@ namespace Physics {
 
 
 
-	constexpr {{item.titleName}} operator+({{item.titleName}} lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator+({{item.titleName}} lhs, {{item.titleName}} rhs)
 	{
 		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() + rhs.{{item.defaultUnit}}());
 	}
 
-	constexpr {{item.titleName}} operator-({{item.titleName}} lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator-({{item.titleName}} lhs, {{item.titleName}} rhs)
 	{
 		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() - rhs.{{item.defaultUnit}}());
 	}
 
-	constexpr {{item.titleName}} operator-({{item.titleName}} p)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator-({{item.titleName}} p)
 	{
 		return {{item.titleName}}::from{{item.titleDefaultUnit}}(-p.{{item.defaultUnit}}());
 	}
 
-	constexpr {{item.titleName}} operator*({{item.titleName}} lhs, double rhs)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator*({{item.titleName}} lhs, double rhs)
 	{
 		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() * rhs);
 	}
 
-	constexpr {{item.titleName}} operator*(double lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator*(double lhs, {{item.titleName}} rhs)
 	{
 		return rhs * lhs;
 	}
 
-	constexpr {{item.titleName}} operator/({{item.titleName}} lhs, double rhs)
+	PHYSICS_CONSTEXPR {{item.titleName}} operator/({{item.titleName}} lhs, double rhs)
 	{
 		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() / rhs);
 	}
 
-	constexpr double operator/({{item.titleName}} lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR double operator/({{item.titleName}} lhs, {{item.titleName}} rhs)
 	{
 		return lhs.{{item.defaultUnit}}() / rhs.{{item.defaultUnit}}();
 	}
 
 
-	constexpr bool operator==({{item.titleName}} lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR bool operator==({{item.titleName}} lhs, {{item.titleName}} rhs)
 	{
 		return lhs.{{item.defaultUnit}}() == rhs.{{item.defaultUnit}}();
 	}
 
-	constexpr bool operator<({{item.titleName}} lhs, {{item.titleName}} rhs)
+	PHYSICS_CONSTEXPR bool operator<({{item.titleName}} lhs, {{item.titleName}} rhs)
 	{
 		return lhs.{{item.defaultUnit}}() < rhs.{{item.defaultUnit}}();
 	}
