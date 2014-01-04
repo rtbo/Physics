@@ -63,7 +63,6 @@ public:
 	void setMaxi(Physics::{{item.titleName}} val);
 
 
-
 public slots:
 
 	void set{{item.titleName}}(Physics::{{item.titleName}} {{item.name}});
