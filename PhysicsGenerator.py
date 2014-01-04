@@ -18,7 +18,7 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'mps2',
-				'u8charSeq' : R'm.s\u207B\u00B2'
+				'wcharSeq' : R'm.s\u207B\u00B2'
 			},
 			{
 				'name' : 'g',
@@ -32,16 +32,16 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'm2',
-				'u8charSeq' : R'm\u00B2'
+				'wcharSeq' : R'm\u00B2'
 			},
 			{
 				'name' : 'cm2',
-				'u8charSeq' : R'cm\u00B2',
+				'wcharSeq' : R'cm\u00B2',
 				'factorToDefault' : 0.0001
 			},
 			{
 				'name' : 'mm2',
-				'u8charSeq' : R'mm\u00B2',
+				'wcharSeq' : R'mm\u00B2',
 				'factorToDefault' : 0.000001
 			},
 		],
@@ -69,11 +69,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'lps',
-				'u8charSeq' : R'l.s\u207B\u00B9'
+				'wcharSeq' : R'l.s\u207B\u00B9'
 			},
 			{
 				'name' : 'm3ps',
-				'u8charSeq' : R'm\u00B3.s\u207B\u00B9',
+				'wcharSeq' : R'm\u00B3.s\u207B\u00B9',
 				'factorToDefault' : 1000.0
 			},
 			{
@@ -149,11 +149,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'kgpmol',
-				'u8charSeq' : R'kg.mol\u207B\u00B9'
+				'wcharSeq' : R'kg.mol\u207B\u00B9'
 			},
 			{
 				'name' : 'gpmol',
-				'u8charSeq' : R'g.mol\u207B\u00B9',
+				'wcharSeq' : R'g.mol\u207B\u00B9',
 				'factorToDefault' : 0.001
 			}
 		],
@@ -197,18 +197,18 @@ PhysicsItems = [
 			},
 			{
 				'name' : 'degC',
-				'u8charSeq' : R'\u00B0C',
+				'wcharSeq' : R'\u00B0C',
 				'offsetToDefault' : 273.15
 			},
 			{
 				'name' : 'degF',
-				'u8charSeq' : R'\u00B0F',
+				'wcharSeq' : R'\u00B0F',
 				'offsetToDefault' : 459.67,
 				'factorToDefault' : 5.0/9.0
 			},
 			{
 				'name' : 'degR',
-				'u8charSeq' : R'\u00B0R',
+				'wcharSeq' : R'\u00B0R',
 				'factorToDefault' : 5.0/9.0
 			},
 		],
@@ -240,11 +240,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'mps',
-				'u8charSeq' : R'm.s\u207B\u00B9',
+				'wcharSeq' : R'm.s\u207B\u00B9',
 			},
 			{
 				'name' : 'kmph',
-				'u8charSeq' : R'km/h',
+				'wcharSeq' : R'km/h',
 				'factorToDefault' : 1000.0/3600.0
 			}
 		],
@@ -270,7 +270,7 @@ PhysicsItems = [
 			},
 			{
 				'name' : 'mm3',
-				'u8charSeq' : R'mm\u00B3',
+				'wcharSeq' : R'mm\u00B3',
 				'factorToDefault' : 0.000001
 			}
 		],
@@ -281,11 +281,11 @@ PhysicsItems = [
 		'units' : [
 			{
 				'name' : 'kgpm3',
-				'u8charSeq' : R'kg.m\u207B\u00B3',
+				'wcharSeq' : R'kg.m\u207B\u00B3',
 			},
 			{
 				'name' : 'kgpl',
-				'u8charSeq' : R'kg.l\u207B\u00B9',
+				'wcharSeq' : R'kg.l\u207B\u00B9',
 				'factorToDefault' : 1000.0
 			}
 		],
@@ -373,8 +373,8 @@ if __name__ == '__main__':
 			u["titleName"] = titleStr(u["name"])
 			if not "litName" in u:
 				u["litName"] = u["name"]
-			if not "u8charSeq" in u:
-				u["u8charSeq"] = u["name"]
+			if not "wcharSeq" in u:
+				u["wcharSeq"] = u["name"]
 
 
 	inputFiles = []

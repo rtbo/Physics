@@ -24,7 +24,7 @@ static int _ = qRegisterMetaType<Physics::{{item.titleName}}>("Physics::{{item.t
 {% for unit in item.units %}
 inline QString {{unit.name}}str()
 {
-	return QString::fromStdWString(L"{{unit.u8charSeq}}");
+	return QString::fromStdWString(L"{{unit.wcharSeq}}");
 }
 {% endfor %}
 
