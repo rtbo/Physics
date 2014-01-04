@@ -205,7 +205,7 @@ void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &globalPos)
 	QAction *a = menu.exec(globalPos);
 
 	if (a) {
-		setUnit({{item.name}}UnitFromString(a->text()));
+		setUnit({{item.name}}UnitFromString(a->text()), true);
 	}
 }
 
