@@ -44,7 +44,12 @@ public:
 		return unit_;
 	}
 
-	void setUnit({{item.titleName}}Unit unit);
+	// FIXME: actual values of spinbox depends on order of property setting
+	// Designer sets mini and maxi before the unit,
+	// setting the unit affects the spinbox mini maxi
+	// adding trackBounds with false default to fix it.
+	// is this the correct interface?
+	void setUnit({{item.titleName}}Unit unit, bool trackBounds=false);
 
 
 

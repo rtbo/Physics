@@ -160,25 +160,35 @@ void Q{{item.titleName}}SpinBox::handleValueChange(double value)
 }
 
 
-void Q{{item.titleName}}SpinBox::setUnit({{item.titleName}}Unit unit)
+void Q{{item.titleName}}SpinBox::setUnit({{item.titleName}}Unit unit, bool trackBounds)
 {
 	if (unit != unit_) {
-		Physics::{{item.titleName}} t = {{item.name}}();
-		Physics::{{item.titleName}} stp = step();
-		Physics::{{item.titleName}} min = mini();
-		Physics::{{item.titleName}} max = maxi();
+		if (trackBounds) {
+			Physics::{{item.titleName}} t = {{item.name}}();
+			Physics::{{item.titleName}} stp = step();
+			Physics::{{item.titleName}} min = mini();
+			Physics::{{item.titleName}} max = maxi();
 
-		changeUnitFlag_ = true;
+			changeUnitFlag_ = true;
 
-		unit_ = unit;
-		updateSuffix();
+			unit_ = unit;
+			updateSuffix();
 
-		setMaxi(max);
-		setMini(min);
-		setStep(stp);
-		set{{item.titleName}}(t);
+			setMaxi(max);
+			setMini(min);
+			setStep(stp);
+			set{{item.titleName}}(t);
 
-		changeUnitFlag_ = false;
+			changeUnitFlag_ = false;
+		}
+		else {
+			changeUnitFlag_ = true;
+
+			unit_ = unit;
+			updateSuffix();
+
+			changeUnitFlag_ = false;
+		}
 	}
 }
 
