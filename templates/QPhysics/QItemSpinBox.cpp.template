@@ -29,7 +29,7 @@ inline QString {{unit.name}}str()
 {% endfor %}
 
 
-inline QString unitToString(Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit)
+inline QString {{item.name}}UnitToString(Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit)
 {
 	switch (unit) {
 	{% for unit in item.units %}
@@ -43,7 +43,7 @@ inline QString unitToString(Q{{item.titleName}}SpinBox::{{item.titleName}}Unit u
 }
 
 
-inline Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unitFromString(QString s)
+inline Q{{item.titleName}}SpinBox::{{item.titleName}}Unit {{item.name}}UnitFromString(QString s)
 {
 	{% for unit in item.units %}
 	if (s == {{unit.name}}str()) return Q{{item.titleName}}SpinBox::{{unit.name}};
@@ -54,7 +54,7 @@ inline Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unitFromString(QString
 }
 
 
-inline double unitValue(Physics::{{item.titleName}} {{item.name}}, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
+inline double {{item.name}}UnitValue(Physics::{{item.titleName}} {{item.name}}, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
 	switch (unit) {
 	{% for unit in item.units %}
 	case Q{{item.titleName}}SpinBox::{{unit.name}}:
@@ -106,7 +106,7 @@ Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::{{item.name}}() const
 void Q{{item.titleName}}SpinBox::set{{item.titleName}}(Physics::{{item.titleName}} val)
 {
 	if (val != {{item.name}}() && val >= mini() && val <= maxi()) {
-		setValue(unitValue(val, unit()));
+		setValue({{item.name}}UnitValue(val, unit()));
 	}
 }
 
@@ -119,7 +119,7 @@ Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::step() const
 
 void Q{{item.titleName}}SpinBox::setStep(Physics::{{item.titleName}} val)
 {
-	setSingleStep(unitValue(val, unit()));
+	setSingleStep({{item.name}}UnitValue(val, unit()));
 }
 
 
@@ -131,7 +131,7 @@ Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::mini() const
 
 void Q{{item.titleName}}SpinBox::setMini(Physics::{{item.titleName}} val)
 {
-	setMinimum(unitValue(val, unit()));
+	setMinimum({{item.name}}UnitValue(val, unit()));
 }
 
 
@@ -143,13 +143,13 @@ Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::maxi() const
 
 void Q{{item.titleName}}SpinBox::setMaxi(Physics::{{item.titleName}} val)
 {
-	setMaximum(unitValue(val, unit()));
+	setMaximum({{item.name}}UnitValue(val, unit()));
 }
 
 
 void Q{{item.titleName}}SpinBox::updateSuffix()
 {
-	setSuffix(QString(" %1").arg(unitToString(unit_)));
+	setSuffix(QString(" %1").arg({{item.name}}UnitToString(unit_)));
 }
 
 
@@ -198,13 +198,13 @@ void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &globalPos)
 	QMenu menu;
 
 	{% for unit in item.units %}
-	menu.addAction(unitToString({{unit.name}}));
+	menu.addAction({{item.name}}UnitToString({{unit.name}}));
 	{% endfor %}
 
 	QAction *a = menu.exec(globalPos);
 
 	if (a) {
-		setUnit(unitFromString(a->text()));
+		setUnit({{item.name}}UnitFromString(a->text()));
 	}
 }
 
