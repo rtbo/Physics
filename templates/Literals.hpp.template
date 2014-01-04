@@ -20,7 +20,8 @@
 
 {%for item in items%}
 	{%for unit in item.units%}
-constexpr Physics::{{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.name}})
+
+PHYSICS_CONSTEXPR Physics::{{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.name}})
 {
 	return Physics::{{item.titleName}}::from{{unit.titleName}}({{unit.name}});
 }

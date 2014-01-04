@@ -17,24 +17,25 @@
 #include "Operators.hpp"
 #include "Constants.hpp"
 
+#ifndef PHYSICS_NO_LITERALS
 #include "Literals.hpp"
-
+#endif
 
 namespace Physics {
 
 	// a few goodies
 
-	inline Length circle (const Length& radius)
+	PHYSICS_CONSTEXPR Length circle (const Length& radius)
 	{
 		return 2 * pi() * radius;
 	}
 
-	inline Area disk (const Length& radius)
+	PHYSICS_CONSTEXPR Area disk (const Length& radius)
 	{
 		return pi() * radius * radius;
 	}
 
-	inline Volume sphere (const Length& radius)
+	PHYSICS_CONSTEXPR Volume sphere (const Length& radius)
 	{
 		return radius * radius * radius * 4.0 / 3.0;
 	}
@@ -42,14 +43,14 @@ namespace Physics {
 
 
 
-	constexpr double density(const VolumicMass& vm) {
+	PHYSICS_CONSTEXPR double density(const VolumicMass& vm) {
 		return vm.kgpl();
 	}
 
 
 
 
-	constexpr Energy cineticEnergy(const Mass& m, const Velocity& v)
+	PHYSICS_CONSTEXPR Energy cineticEnergy(const Mass& m, const Velocity& v)
 	{
 		return Energy::fromJ(0.5 * m.kg() * v.mps() * v.mps());
 	}
