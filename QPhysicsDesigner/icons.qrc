@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>AccelerationSpin.png</file>
+        <file>AreaSpin.png</file>
+        <file>EnergySpin.png</file>
+        <file>FlowSpin.png</file>
+        <file>ForceSpin.png</file>
+        <file>LengthSpin.png</file>
+        <file>MassSpin.png</file>
+        <file>MolecularMassSpin.png</file>
+        <file>PressureSpin.png</file>
+        <file>QuantitySpin.png</file>
+        <file>TemperatureSpin.png</file>
+        <file>TimeSpin.png</file>
+        <file>VelocitySpin.png</file>
+        <file>VolumeSpin.png</file>
+        <file>VolumicMassSpin.png</file>
+    </qresource>
+</RCC>

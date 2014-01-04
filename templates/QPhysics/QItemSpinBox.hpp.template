@@ -1,0 +1,87 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#ifndef QPHYSICS_{{item.name|upper}}SPINBOX_HPP
+#define QPHYSICS_{{item.name|upper}}SPINBOX_HPP
+
+#include "QPhysics_API.hpp"
+#include "physics/{{item.titleName}}.hpp"
+
+#include "QDoubleSpinBox"
+
+
+
+class QPHYSICS_API Q{{item.titleName}}SpinBox : public QDoubleSpinBox
+{
+	Q_OBJECT
+
+	Q_PROPERTY({{item.titleName}}Unit unit READ unit WRITE setUnit)
+	Q_ENUMS({{item.titleName}}Unit)
+
+public:
+
+	enum {{item.titleName}}Unit {
+	{% for unit in item.units %}
+		{{ unit.name }}{{ ',' if not loop.last }}
+	{% endfor %}
+	};
+
+
+	Q{{item.titleName}}SpinBox(QWidget *parent);
+
+	virtual ~Q{{item.titleName}}SpinBox();
+
+
+	Physics::{{item.titleName}} {{item.name}}() const;
+
+	{{item.titleName}}Unit unit() const {
+		return unit_;
+	}
+
+	void setUnit({{item.titleName}}Unit unit);
+
+
+
+	Physics::{{item.titleName}} step() const;
+	void setStep(Physics::{{item.titleName}} val);
+
+	Physics::{{item.titleName}} mini() const;
+	void setMini(Physics::{{item.titleName}} val);
+
+	Physics::{{item.titleName}} maxi() const;
+	void setMaxi(Physics::{{item.titleName}} val);
+
+
+
+public slots:
+
+	void set{{item.titleName}}(Physics::{{item.titleName}} {{item.name}});
+
+
+signals:
+
+	void {{item.name}}Changed(Physics::{{item.titleName}} {{item.name}});
+
+private slots:
+
+	void handleValueChange(double value);
+	void handleCustomMenu(const QPoint& pos);
+
+	void updateSuffix();
+
+private:
+
+	{{item.titleName}}Unit unit_;
+
+	bool changeUnitFlag_ {false};
+
+};
+
+
+#endif // QPHYSICS_{{item.name|upper}}SPINBOX_HPP

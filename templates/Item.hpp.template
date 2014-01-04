@@ -1,0 +1,130 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#ifndef PHYSICS_{{item.name|upper}}_HPP
+#define PHYSICS_{{item.name|upper}}_HPP
+
+#include "Config.hpp"
+
+
+namespace Physics {
+
+	class {{item.titleName}} {
+		double {{item.defaultUnit}}_;
+
+		explicit constexpr {{item.titleName}}(double {{item.defaultUnit}}) : {{item.defaultUnit}}_({{item.defaultUnit}}) {}
+
+	public:
+
+		constexpr {{item.titleName}}() : {{item.defaultUnit}}_(0.0) {}
+
+		constexpr {{item.titleName}}(const {{item.titleName}}&) =default;
+		{{item.titleName}}& operator=(const {{item.titleName}}&) =default;
+		
+
+{%for unit in item.units%}
+		static constexpr {{item.titleName}} from{{unit.titleName}}(double {{unit.name}}) {
+			return {{item.titleName}}{
+				{%if unit.offsetToDefault%}({%endif%}
+				{{unit.name}}
+				{%if unit.offsetToDefault%}+{{unit.offsetToDefault}}){%endif%}
+				{%if unit.factorToDefault%}*{{unit.factorToDefault}}{%endif%}
+			};
+		}
+
+{%endfor%}
+
+
+{%for unit in item.units%}
+		constexpr double {{unit.name}}() const {
+			return 
+				{%if unit.factorToDefault%}({%endif%}
+				{{item.defaultUnit}}_
+				{%if unit.factorToDefault%}/{{unit.factorToDefault}}){%endif%}
+				{%if unit.offsetToDefault%}-{{unit.offsetToDefault}}{%endif%}
+			;
+		}
+
+{%endfor%}
+
+
+
+		{{item.titleName}}& operator+=({{item.titleName}} rhs) {
+			{{item.defaultUnit}}_ += rhs.{{item.defaultUnit}}();
+			return *this;
+		}
+
+		{{item.titleName}}& operator-=({{item.titleName}} rhs) {
+			{{item.defaultUnit}}_ -= rhs.{{item.defaultUnit}}();
+			return *this;
+		}
+
+		{{item.titleName}}& operator*=(double rhs) {
+			{{item.defaultUnit}}_ *= rhs;
+			return *this;
+		}
+
+		{{item.titleName}}& operator/=(double rhs) {
+			{{item.defaultUnit}}_ /= rhs;
+			return *this;
+		}
+
+	};
+
+
+
+	constexpr {{item.titleName}} operator+({{item.titleName}} lhs, {{item.titleName}} rhs)
+	{
+		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() + rhs.{{item.defaultUnit}}());
+	}
+
+	constexpr {{item.titleName}} operator-({{item.titleName}} lhs, {{item.titleName}} rhs)
+	{
+		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() - rhs.{{item.defaultUnit}}());
+	}
+
+	constexpr {{item.titleName}} operator-({{item.titleName}} p)
+	{
+		return {{item.titleName}}::from{{item.titleDefaultUnit}}(-p.{{item.defaultUnit}}());
+	}
+
+	constexpr {{item.titleName}} operator*({{item.titleName}} lhs, double rhs)
+	{
+		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() * rhs);
+	}
+
+	constexpr {{item.titleName}} operator*(double lhs, {{item.titleName}} rhs)
+	{
+		return rhs * lhs;
+	}
+
+	constexpr {{item.titleName}} operator/({{item.titleName}} lhs, double rhs)
+	{
+		return {{item.titleName}}::from{{item.titleDefaultUnit}}(lhs.{{item.defaultUnit}}() / rhs);
+	}
+
+	constexpr double operator/({{item.titleName}} lhs, {{item.titleName}} rhs)
+	{
+		return lhs.{{item.defaultUnit}}() / rhs.{{item.defaultUnit}}();
+	}
+
+
+	constexpr bool operator==({{item.titleName}} lhs, {{item.titleName}} rhs)
+	{
+		return lhs.{{item.defaultUnit}}() == rhs.{{item.defaultUnit}}();
+	}
+
+	constexpr bool operator<({{item.titleName}} lhs, {{item.titleName}} rhs)
+	{
+		return lhs.{{item.defaultUnit}}() < rhs.{{item.defaultUnit}}();
+	}
+
+}
+
+#endif // PHYSICS_{{item.name|upper}}_HPP

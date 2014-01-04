@@ -1,0 +1,25 @@
+Change Log of Physics
+
+version 1.0
+	Physics classes
+		Acceleration
+		Area
+		Energy
+		Flow
+		Force
+		Length
+		Mass
+		MolecularMass
+		Pressure
+		Quantity
+		Temperature
+		Time
+		Velocity
+		Volume
+		VolumicMass
+	
+	QPhysics:
+		SpinBoxes widgets for the physics class
+	
+	QPhysicsDesigner
+		QtDesigner plugin for QPhysics widgets

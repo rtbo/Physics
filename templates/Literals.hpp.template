@@ -1,0 +1,35 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#ifndef PHYSICS_LITERALS_HPP
+#define PHYSICS_LITERALS_HPP
+
+#include "Config.hpp"
+
+{%for item in items%}
+#include "{{item.titleName}}.hpp"
+{%endfor%}
+
+
+
+{%for item in items%}
+	{%for unit in item.units%}
+constexpr Physics::{{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.name}})
+{
+	return Physics::{{item.titleName}}::from{{unit.titleName}}({{unit.name}});
+}
+
+	{%endfor%}
+	
+	
+	
+{%endfor%}
+
+
+#endif // PHYSICS_LITERALS_HPP

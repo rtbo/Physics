@@ -1,0 +1,13 @@
+
+INCLUDEPATH += include
+
+SOURCES += \
+ {% for item in items %}
+	Q{{item.titleName}}SpinBox.cpp \
+ {% endfor %}
+
+HEADERS += \
+    include/QPhysics_API.hpp \
+ {% for item in items %}
+	include/Q{{item.titleName}}SpinBox.hpp \
+ {% endfor %}

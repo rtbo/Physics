@@ -1,0 +1,199 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#include "Q{{item.titleName}}SpinBox.hpp"
+
+#include "physics/Physics.hpp"
+
+#include "QMenu"
+#include "QMetaType"
+
+#include <cassert>
+
+
+static int _ = qRegisterMetaType<Physics::{{item.titleName}}>("Physics::{{item.titleName}}");
+
+
+{% for unit in item.units %}
+inline QString {{unit.name}}str()
+{
+	return QString::fromUtf8(u8"{{unit.u8charSeq}}");
+}
+{% endfor %}
+
+
+inline QString unitToString(Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit)
+{
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}SpinBox::{{unit.name}}:
+		return {{unit.name}}str();
+	{% endfor %}
+	}
+
+	assert(!"the passed unit is wrong");
+	return "";
+}
+
+
+inline Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unitFromString(QString s)
+{
+	{% for unit in item.units %}
+	if (s == {{unit.name}}str()) return Q{{item.titleName}}SpinBox::{{unit.name}};
+	{% endfor %}
+
+	assert(!"the passed string is wrong");
+	return Q{{item.titleName}}SpinBox::{{item.defaultUnit}};
+}
+
+
+inline double unitValue(Physics::{{item.titleName}} {{item.name}}, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}SpinBox::{{unit.name}}:
+		return {{item.name}}.{{ unit.name }}();
+	{% endfor %}
+	}
+
+	assert(!"the passed {{item.name}} is wrong");
+	return 0.0;
+}
+
+
+inline Physics::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}SpinBox::{{unit.name}}:
+		return Physics::{{item.titleName}}::from{{unit.titleName}}(value);
+	{% endfor %}
+	}
+
+	assert(!"the passed value is wrong");
+	return Physics::{{item.titleName}}{};
+}
+
+
+
+Q{{item.titleName}}SpinBox::Q{{item.titleName}}SpinBox(QWidget *parent) :
+	QDoubleSpinBox(parent),
+	unit_{ {{item.defaultUnit}} }
+{
+	updateSuffix();
+
+	QObject::connect(this, SIGNAL(valueChanged(double)),
+					 this, SLOT(handleValueChange(double)));
+
+	QObject::connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+					 this, SLOT(handleCustomMenu(QPoint)));
+}
+
+Q{{item.titleName}}SpinBox::~Q{{item.titleName}}SpinBox()
+{}
+
+
+Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::{{item.name}}() const
+{
+	return unit{{item.titleName}}(value(), unit());
+}
+
+
+void Q{{item.titleName}}SpinBox::set{{item.titleName}}(Physics::{{item.titleName}} val)
+{
+	if (val != {{item.name}}() && val >= mini() && val <= maxi()) {
+		setValue(unitValue(val, unit()));
+	}
+}
+
+
+Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::step() const
+{
+	return unit{{item.titleName}}(singleStep(), unit());
+}
+
+
+void Q{{item.titleName}}SpinBox::setStep(Physics::{{item.titleName}} val)
+{
+	setSingleStep(unitValue(val, unit()));
+}
+
+
+Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::mini() const
+{
+	return unit{{item.titleName}}(minimum(), unit());
+}
+
+
+void Q{{item.titleName}}SpinBox::setMini(Physics::{{item.titleName}} val)
+{
+	setMinimum(unitValue(val, unit()));
+}
+
+
+Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::maxi() const
+{
+	return unit{{item.titleName}}(maximum(), unit());
+}
+
+
+void Q{{item.titleName}}SpinBox::setMaxi(Physics::{{item.titleName}} val)
+{
+	setMaximum(unitValue(val, unit()));
+}
+
+
+void Q{{item.titleName}}SpinBox::updateSuffix()
+{
+	setSuffix(QString(" %1").arg(unitToString(unit_)));
+}
+
+
+void Q{{item.titleName}}SpinBox::handleValueChange(double value)
+{
+	if (changeUnitFlag_) return;
+	emit {{item.name}}Changed(unit{{item.titleName}}(value, unit()));
+}
+
+
+void Q{{item.titleName}}SpinBox::setUnit({{item.titleName}}Unit unit)
+{
+	if (unit != unit_) {
+		Physics::{{item.titleName}} t = {{item.name}}();
+		Physics::{{item.titleName}} stp = step();
+		Physics::{{item.titleName}} min = mini();
+		Physics::{{item.titleName}} max = maxi();
+
+		changeUnitFlag_ = true;
+
+		unit_ = unit;
+		updateSuffix();
+
+		setMaxi(max);
+		setMini(min);
+		setStep(stp);
+		set{{item.titleName}}(t);
+
+		changeUnitFlag_ = false;
+	}
+}
+
+
+void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &pos)
+{
+	QMenu menu;
+
+	{% for unit in item.units %}
+	menu.addAction(unitToString({{unit.name}}));
+	{% endfor %}
+
+	QAction *a = menu.exec(mapToGlobal(pos));
+
+	if (a) {
+		setUnit(unitFromString(a->text()));
+	}
+}

@@ -1,0 +1,118 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#include "QtPlugin"
+
+#include "QPhysicsDesignerPlugin.hpp"
+
+{% for item in items %}
+#include "Q{{item.titleName}}SpinBox.hpp"
+{% endfor %}
+
+
+using namespace QPhysics;
+
+
+DesignerInterfaceCollection::DesignerInterfaceCollection(QObject *parent) :
+	QObject{parent}
+{
+{% for item in items %}
+	plugs_.append(new {{item.titleName}}SpinBoxDesignerInterface{this});
+{% endfor %}
+}
+
+
+DesignerInterfaceCollection::~DesignerInterfaceCollection()
+{
+}
+
+
+QList<QDesignerCustomWidgetInterface*>
+	DesignerInterfaceCollection::customWidgets() const
+{
+	return plugs_;
+}
+
+
+
+
+DesignerInterface::DesignerInterface(QObject *parent)
+	: QObject(parent)
+{
+	m_initialized = false;
+}
+
+DesignerInterface::~DesignerInterface()
+{}
+
+void DesignerInterface::initialize(QDesignerFormEditorInterface * /* core */)
+{
+	if (m_initialized)
+		return;
+
+	// Add extension registrations, etc. here
+
+	m_initialized = true;
+}
+
+bool DesignerInterface::isInitialized() const
+{
+	return m_initialized;
+}
+
+
+{% for item in items %}
+
+
+
+
+
+{{item.titleName}}SpinBoxDesignerInterface::{{item.titleName}}SpinBoxDesignerInterface(QObject *parent) :
+	DesignerInterface{parent}
+{}
+
+{{item.titleName}}SpinBoxDesignerInterface::~{{item.titleName}}SpinBoxDesignerInterface()
+{}
+
+QIcon {{item.titleName}}SpinBoxDesignerInterface::icon() const
+{
+	return QIcon(":/{{item.titleName}}Spin.png");
+}
+
+QString {{item.titleName}}SpinBoxDesignerInterface::whatsThis() const
+{
+	return QLatin1String("");
+}
+
+QString {{item.titleName}}SpinBoxDesignerInterface::domXml() const
+{
+	return QLatin1String(
+		"<widget "
+			"class=\"Q{{item.titleName}}SpinBox\" "
+			"name=\"flowSpinBox\">\n"
+		"</widget>\n"
+	);
+}
+
+QWidget *{{item.titleName}}SpinBoxDesignerInterface::createWidget(QWidget *parent)
+{
+	return new Q{{item.titleName}}SpinBox(parent);
+}
+{% endfor %}
+
+
+
+
+
+
+
+
+#if QT_VERSION < 0x050000
+Q_EXPORT_PLUGIN2(QPhysicsPlugin, DesignerInterfaceCollection)
+#endif // QT_VERSION < 0x050000
