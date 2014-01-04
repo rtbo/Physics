@@ -20,10 +20,10 @@ using namespace QPhysics;
 
 
 DesignerInterfaceCollection::DesignerInterfaceCollection(QObject *parent) :
-	QObject{parent}
+	QObject(parent)
 {
 {% for item in items %}
-	plugs_.append(new {{item.titleName}}SpinBoxDesignerInterface{this});
+	plugs_.append(new {{item.titleName}}SpinBoxDesignerInterface(this));
 {% endfor %}
 }
 
@@ -74,7 +74,7 @@ bool DesignerInterface::isInitialized() const
 
 
 {{item.titleName}}SpinBoxDesignerInterface::{{item.titleName}}SpinBoxDesignerInterface(QObject *parent) :
-	DesignerInterface{parent}
+	DesignerInterface(parent)
 {}
 
 {{item.titleName}}SpinBoxDesignerInterface::~{{item.titleName}}SpinBoxDesignerInterface()
