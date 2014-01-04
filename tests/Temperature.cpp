@@ -18,13 +18,13 @@ TEST_CASE("Temperature", "[temperature]")
 
 	SECTION("default construct") {
 
-		REQUIRE(Temperature{} == Temperature::fromK(0.0));
+		REQUIRE(Temperature() == Temperature::fromK(0.0));
 
 	}
 
 	SECTION("conversion") {
 
-		REQUIRE(Temperature{} == Temperature::fromDegC(-273.15));
+		REQUIRE(Temperature() == Temperature::fromDegC(-273.15));
 
 	}
 
