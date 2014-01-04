@@ -13,6 +13,7 @@
 
 #include "QMenu"
 #include "QMetaType"
+#include "QContextMenuEvent"
 
 #include <cassert>
 
@@ -89,8 +90,7 @@ Q{{item.titleName}}SpinBox::Q{{item.titleName}}SpinBox(QWidget *parent) :
 	QObject::connect(this, SIGNAL(valueChanged(double)),
 					 this, SLOT(handleValueChange(double)));
 
-	QObject::connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-					 this, SLOT(handleCustomMenu(QPoint)));
+	installEventFilter(this);
 }
 
 Q{{item.titleName}}SpinBox::~Q{{item.titleName}}SpinBox()
@@ -193,7 +193,7 @@ void Q{{item.titleName}}SpinBox::setUnit({{item.titleName}}Unit unit, bool track
 }
 
 
-void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &pos)
+void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &globalPos)
 {
 	QMenu menu;
 
@@ -201,9 +201,27 @@ void Q{{item.titleName}}SpinBox::handleCustomMenu(const QPoint &pos)
 	menu.addAction(unitToString({{unit.name}}));
 	{% endfor %}
 
-	QAction *a = menu.exec(mapToGlobal(pos));
+	QAction *a = menu.exec(globalPos);
 
 	if (a) {
 		setUnit(unitFromString(a->text()));
+	}
+}
+
+
+bool Q{{item.titleName}}SpinBox::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == this) {
+		if (event->type() == QEvent::ContextMenu) {
+			QContextMenuEvent *mEv = static_cast<QContextMenuEvent*>(event);
+			if (mEv->modifiers() & Qt::ControlModifier) {
+				handleCustomMenu(mEv->globalPos());
+				return true;
+			}
+		}
+		return false;
+	}
+	else {
+		return QDoubleSpinBox::eventFilter(obj, event);
 	}
 }
