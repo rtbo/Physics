@@ -95,7 +95,7 @@ QString {{item.titleName}}SpinBoxDesignerInterface::domXml() const
 	return QLatin1String(
 		"<widget "
 			"class=\"Q{{item.titleName}}SpinBox\" "
-			"name=\"flowSpinBox\">\n"
+			"name=\"{{item.name}}SpinBox\">\n"
 		"</widget>\n"
 	);
 }
