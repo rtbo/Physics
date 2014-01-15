@@ -1,7 +1,7 @@
 
 QT       += widgets
 
-TARGET = QPhysics
+TARGET = QPhysicsUI
 TEMPLATE = lib
 
 DEFINES += QPHYSICS_LIBRARY

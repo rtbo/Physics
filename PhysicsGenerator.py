@@ -336,8 +336,8 @@ if __name__ == '__main__':
 			"output": "include/physics/Literals.hpp",
 		},
 		{
-			"input": "QPhysics/src.pri.template",
-			"output": "QPhysics/src.pri",
+			"input": "QPhysicsUI/src.pri.template",
+			"output": "QPhysicsUI/src.pri",
 		},
 		{
 			"input": "QPhysicsDesigner/QPhysicsDesignerPlugin.hpp.template",
@@ -355,12 +355,12 @@ if __name__ == '__main__':
 			"output": "include/physics/{}.hpp",
 		},
 		{
-			"input": "QPhysics/QItemSpinBox.hpp.template",
-			"output": "QPhysics/include/Q{}SpinBox.hpp",
+			"input": "QPhysicsUI/QItemSpinBox.hpp.template",
+			"output": "QPhysicsUI/include/Q{}SpinBox.hpp",
 		},
 		{
-			"input": "QPhysics/QItemSpinBox.cpp.template",
-			"output": "QPhysics/Q{}SpinBox.cpp",
+			"input": "QPhysicsUI/QItemSpinBox.cpp.template",
+			"output": "QPhysicsUI/Q{}SpinBox.cpp",
 		}
 	]
 

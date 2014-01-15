@@ -2,7 +2,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    QPhysics \
+    QPhysicsUI \
     QPhysicsDesigner \
 	tests
 

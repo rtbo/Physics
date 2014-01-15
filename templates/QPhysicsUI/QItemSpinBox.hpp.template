@@ -16,7 +16,6 @@
 #include "QDoubleSpinBox"
 
 
-
 class QPHYSICS_API Q{{item.titleName}}SpinBox : public QDoubleSpinBox
 {
 	Q_OBJECT

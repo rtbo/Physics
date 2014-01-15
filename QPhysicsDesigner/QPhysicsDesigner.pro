@@ -11,19 +11,19 @@ QMAKE_CXXFLAGS += -std=c++11
 DEFINES +=  QPHYSICS_NODLL
 
 
-include(../QPhysics/src.pri)
+include(../QPhysicsUI/src.pri)
 
 
 for( includeP, INCLUDEPATH) {
-    QPHYSICS_DESIGNER_INCLUDEPATH += $$PWD/../QPhysics/$${includeP}
+    QPHYSICS_DESIGNER_INCLUDEPATH += $$PWD/../QPhysicsUI/$${includeP}
 }
 
 for( header, HEADERS) {
-    QPHYSICS_DESIGNER_HEADERS += $$PWD/../QPhysics/$${header}
+    QPHYSICS_DESIGNER_HEADERS += $$PWD/../QPhysicsUI/$${header}
 }
 
 for( source, SOURCES ) {
-    QPHYSICS_DESIGNER_SOURCES += $$PWD/../QPhysics/$${source}
+    QPHYSICS_DESIGNER_SOURCES += $$PWD/../QPhysicsUI/$${source}
 }
 
 
