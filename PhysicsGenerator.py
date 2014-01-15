@@ -297,6 +297,8 @@ PhysicsItems = [
 
 def fileMustBeWritten(templateFile, outFile):
 	if not os.path.exists(outFile): return True
+	if os.path.getmtime(__file__) > os.path.getmtime(outFile):
+		return True
 	if not os.path.exists(templateFile):
 		raise ValueError(templateFile+" do not exist")
 	return os.path.getmtime(templateFile) > os.path.getmtime(outFile)
@@ -334,6 +336,14 @@ if __name__ == '__main__':
 		{
 			"input": "Literals.hpp.template",
 			"output": "include/physics/Literals.hpp",
+		},
+		{
+			"input": "QPhysics/QPhysics.hpp.template",
+			"output": "QPhysics/include/QPhysics.hpp",
+		},
+		{
+			"input": "QPhysics/QPhysics.cpp.template",
+			"output": "QPhysics/QPhysics.cpp",
 		},
 		{
 			"input": "QPhysicsUI/src.pri.template",

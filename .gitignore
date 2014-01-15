@@ -8,6 +8,8 @@
 include/physics/FwdDecl.hpp
 include/physics/_IncludeAll.hpp
 include/physics/Literals.hpp
+QPhysics/include/QPhysics.hpp
+QPhysics/QPhysics.cpp
 QPhysicsUI/src.pri
 QPhysicsDesigner/QPhysicsDesignerPlugin.hpp
 QPhysicsDesigner/QPhysicsDesignerPlugin.cpp

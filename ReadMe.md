@@ -6,6 +6,11 @@ Physics
 	C++ header only library for manipulating physics values
 	
 	
+QPhysics
+--------
+	C++ static Qt library with helpers around physics values
+	
+	
 QPhysicsUI
 --------
 	C++ Qt library with QSpinBoxes widgets that handle physics values

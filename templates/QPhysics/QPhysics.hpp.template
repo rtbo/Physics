@@ -1,0 +1,22 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#ifndef QPHYSICS_HPP
+#define QPHYSICS_HPP
+
+#include "physics/Physics.hpp"
+
+class QDebug;
+
+{% for item in items %}
+QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value);
+{% endfor %}
+
+
+#endif // QPHYSICS_HPP
