@@ -225,11 +225,11 @@ PhysicsItems = [
 				'factorToDefault' : 60.0
 			},
 			{
-				'name' : 'hour',
+				'name' : 'h',
 				'factorToDefault' : 3600.0
 			},
 			{
-				'name' : 'day',
+				'name' : 'd',
 				'factorToDefault' : 3600.0*24.0
 			}
 		],
