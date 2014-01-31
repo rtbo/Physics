@@ -444,6 +444,7 @@ if __name__ == '__main__':
 				tplt = env.get_template(gt["input"])
 				content = tplt.render(items=PhysicsItems)
 				print("writing " + gt["output"])
+				os.makedirs(os.path.dirname(gt["output"]), exist_ok=True)
 				with open(gt["output"], "w") as outF:
 					outF.write(content)
 
@@ -455,6 +456,7 @@ if __name__ == '__main__':
 					if tplt is None: tplt = env.get_template(it["input"])
 					content = tplt.render(item=pi)
 					print("writing " + outFName)
+					os.makedirs(os.path.dirname(outFName), exist_ok=True)
 					with open(outFName, "w") as outF:
 						outF.write(content)
 			
