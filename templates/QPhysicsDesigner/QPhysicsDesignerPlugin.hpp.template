@@ -1,10 +1,10 @@
 /*
-	Copyright (C) 2013-2014 Remi Thebault
-	All rights reserved.
+    Copyright (C) 2013-2014 Remi Thebault
+    All rights reserved.
 
-	This program and its source code are distributed under the
-	terms of the BSD-style license, that can be found in the
-	License.txt file at project root.
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
 */
 
 #ifndef QPHYSICS_DESIGNERPLUGIN_HPP
@@ -15,91 +15,91 @@
 namespace QPhysics {
 
 
-	class DesignerInterface;
+    class DesignerInterface;
 
-	class DesignerInterfaceCollection :
-			public QObject,
-			public QDesignerCustomWidgetCollectionInterface
-	{
-		Q_OBJECT
-		Q_INTERFACES( QDesignerCustomWidgetCollectionInterface )
-	#if QT_VERSION >= 0x050000
-		Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
-	#endif
+    class DesignerInterfaceCollection :
+            public QObject,
+            public QDesignerCustomWidgetCollectionInterface
+    {
+        Q_OBJECT
+        Q_INTERFACES( QDesignerCustomWidgetCollectionInterface )
+    #if QT_VERSION >= 0x050000
+        Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
+    #endif
 
-	public:
+    public:
 
-		DesignerInterfaceCollection(QObject *parent=0);
-		virtual ~DesignerInterfaceCollection();
+        DesignerInterfaceCollection(QObject *parent=0);
+        virtual ~DesignerInterfaceCollection();
 
-		virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
+        virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
 
-	private:
+    private:
 
-		QList<QDesignerCustomWidgetInterface*> plugs_;
+        QList<QDesignerCustomWidgetInterface*> plugs_;
 
-	};
+    };
 
 
 
-	class DesignerInterface :
-			public QObject,
-			public QDesignerCustomWidgetInterface
-	{
-		Q_OBJECT
-		Q_INTERFACES(QDesignerCustomWidgetInterface)
+    class DesignerInterface :
+            public QObject,
+            public QDesignerCustomWidgetInterface
+    {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-	public:
-		DesignerInterface(QObject *parent = 0);
-		virtual ~DesignerInterface();
+    public:
+        DesignerInterface(QObject *parent = 0);
+        virtual ~DesignerInterface();
 
-		virtual bool isContainer() const override {
-			return false;
-		}
-		virtual bool isInitialized() const;
+        virtual bool isContainer() const override {
+            return false;
+        }
+        virtual bool isInitialized() const;
 
-		virtual void initialize(QDesignerFormEditorInterface *core);
+        virtual void initialize(QDesignerFormEditorInterface *core);
 
-	private:
-		bool m_initialized;
-	};
+    private:
+        bool m_initialized;
+    };
 
-	{% for item in items %}
-	
-	
-	
-	class {{item.titleName}}SpinBoxDesignerInterface : public DesignerInterface
-	{
-		Q_OBJECT
-		Q_INTERFACES(QDesignerCustomWidgetInterface)
+    {% for item in items %}
 
-	public:
-		{{item.titleName}}SpinBoxDesignerInterface(QObject *parent = 0);
-		virtual ~{{item.titleName}}SpinBoxDesignerInterface();
 
-		virtual QString name() const override {
-			return "Q{{item.titleName}}SpinBox";
-		}
 
-		virtual QString includeFile() const override {
-			return "Q{{item.titleName}}SpinBox.hpp";
-		}
+    class {{item.titleName}}SpinBoxDesignerInterface : public DesignerInterface
+    {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-		virtual QString group() const override {
-			return "QPhysics Widgets";
-		}
+    public:
+        {{item.titleName}}SpinBoxDesignerInterface(QObject *parent = 0);
+        virtual ~{{item.titleName}}SpinBoxDesignerInterface();
 
-		virtual QString toolTip() const override {
-			return "a spin box to edit Physics::{{item.titleName}} object";
-		}
+        virtual QString name() const override {
+            return "Q{{item.titleName}}SpinBox";
+        }
 
-		virtual QString domXml() const override;
-		virtual QIcon icon() const override;
-		virtual QString whatsThis() const override;
+        virtual QString includeFile() const override {
+            return "Q{{item.titleName}}SpinBox.hpp";
+        }
 
-		virtual QWidget *createWidget(QWidget *parent) override;
-	};
-	{% endfor %}
+        virtual QString group() const override {
+            return "QPhysics Widgets";
+        }
+
+        virtual QString toolTip() const override {
+            return "a spin box to edit Physics::{{item.titleName}} object";
+        }
+
+        virtual QString domXml() const override;
+        virtual QIcon icon() const override;
+        virtual QString whatsThis() const override;
+
+        virtual QWidget *createWidget(QWidget *parent) override;
+    };
+    {% endfor %}
 
 
 }

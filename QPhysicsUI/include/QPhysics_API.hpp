@@ -1,10 +1,10 @@
 /*
-	Copyright (C) 2013-2014 Remi Thebault
-	All rights reserved.
+    Copyright (C) 2013-2014 Remi Thebault
+    All rights reserved.
 
-	This program and its source code are distributed under the
-	terms of the BSD-style license, that can be found in the
-	License.txt file at project root.
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
 */
 
 #ifndef QPHYSICS_API_HPP
@@ -15,9 +15,9 @@
 #ifndef QPHYSICS_NODLL
 
 #if defined(QPHYSICS_LIBRARY)
-#	define QPHYSICS_API Q_DECL_EXPORT
+#   define QPHYSICS_API Q_DECL_EXPORT
 #else
-#	define QPHYSICS_API Q_DECL_IMPORT
+#   define QPHYSICS_API Q_DECL_IMPORT
 #endif
 
 #else

@@ -1,10 +1,10 @@
 /*
-	Copyright (C) 2013-2014 Remi Thebault
-	All rights reserved.
+    Copyright (C) 2013-2014 Remi Thebault
+    All rights reserved.
 
-	This program and its source code are distributed under the
-	terms of the BSD-style license, that can be found in the
-	License.txt file at project root.
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
 */
 
 #include "QtPlugin"
@@ -20,10 +20,10 @@ using namespace QPhysics;
 
 
 DesignerInterfaceCollection::DesignerInterfaceCollection(QObject *parent) :
-	QObject(parent)
+    QObject(parent)
 {
 {% for item in items %}
-	plugs_.append(new {{item.titleName}}SpinBoxDesignerInterface(this));
+    plugs_.append(new {{item.titleName}}SpinBoxDesignerInterface(this));
 {% endfor %}
 }
 
@@ -34,18 +34,18 @@ DesignerInterfaceCollection::~DesignerInterfaceCollection()
 
 
 QList<QDesignerCustomWidgetInterface*>
-	DesignerInterfaceCollection::customWidgets() const
+    DesignerInterfaceCollection::customWidgets() const
 {
-	return plugs_;
+    return plugs_;
 }
 
 
 
 
 DesignerInterface::DesignerInterface(QObject *parent)
-	: QObject(parent)
+    : QObject(parent)
 {
-	m_initialized = false;
+    m_initialized = false;
 }
 
 DesignerInterface::~DesignerInterface()
@@ -53,17 +53,17 @@ DesignerInterface::~DesignerInterface()
 
 void DesignerInterface::initialize(QDesignerFormEditorInterface * /* core */)
 {
-	if (m_initialized)
-		return;
+    if (m_initialized)
+        return;
 
-	// Add extension registrations, etc. here
+    // Add extension registrations, etc. here
 
-	m_initialized = true;
+    m_initialized = true;
 }
 
 bool DesignerInterface::isInitialized() const
 {
-	return m_initialized;
+    return m_initialized;
 }
 
 
@@ -74,7 +74,7 @@ bool DesignerInterface::isInitialized() const
 
 
 {{item.titleName}}SpinBoxDesignerInterface::{{item.titleName}}SpinBoxDesignerInterface(QObject *parent) :
-	DesignerInterface(parent)
+    DesignerInterface(parent)
 {}
 
 {{item.titleName}}SpinBoxDesignerInterface::~{{item.titleName}}SpinBoxDesignerInterface()
@@ -82,27 +82,27 @@ bool DesignerInterface::isInitialized() const
 
 QIcon {{item.titleName}}SpinBoxDesignerInterface::icon() const
 {
-	return QIcon(":/{{item.titleName}}Spin.png");
+    return QIcon(":/{{item.titleName}}Spin.png");
 }
 
 QString {{item.titleName}}SpinBoxDesignerInterface::whatsThis() const
 {
-	return QLatin1String("");
+    return QLatin1String("");
 }
 
 QString {{item.titleName}}SpinBoxDesignerInterface::domXml() const
 {
-	return QLatin1String(
-		"<widget "
-			"class=\"Q{{item.titleName}}SpinBox\" "
-			"name=\"{{item.name}}SpinBox\">\n"
-		"</widget>\n"
-	);
+    return QLatin1String(
+        "<widget "
+            "class=\"Q{{item.titleName}}SpinBox\" "
+            "name=\"{{item.name}}SpinBox\">\n"
+        "</widget>\n"
+    );
 }
 
 QWidget *{{item.titleName}}SpinBoxDesignerInterface::createWidget(QWidget *parent)
 {
-	return new Q{{item.titleName}}SpinBox(parent);
+    return new Q{{item.titleName}}SpinBox(parent);
 }
 {% endfor %}
 
