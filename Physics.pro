@@ -16,4 +16,5 @@ OTHER_FILES = \
 	PhysicsGenerator.py \
     templates/*.template \
     templates/QPhysics/*.template \
+    templates/QPhysicsUI/*.template \
     templates/QPhysicsDesigner/*.template
