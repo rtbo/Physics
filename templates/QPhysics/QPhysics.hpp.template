@@ -14,6 +14,8 @@
 
 #include "QString"
 
+#include <vector>
+
 // Config
 
 // uncomment the following to disable the enum class feature
@@ -61,6 +63,7 @@ extern QString {{item.name}}StrForUnit({{item.titleName}}Unit unit);
 extern {{item.titleName}}Unit {{item.name}}UnitForStr(const QString& str);
 extern double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit);
 extern Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit);
+extern std::vector<{{item.titleName}}Unit> {{item.name}}AllUnits();
 
 {% endfor %}
 

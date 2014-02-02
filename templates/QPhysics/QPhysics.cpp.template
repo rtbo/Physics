@@ -103,6 +103,25 @@ Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleNam
     throw std::out_of_range("the passed {{item.name}} is wrong");
 }
 
+
+
+std::vector<{{item.titleName}}Unit> {{item.name}}AllUnits()
+{
+    std::vector<{{item.titleName}}Unit> allUnits;
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+    {% for unit in item.units %}
+    allUnits.push_back({{item.titleName}}Unit::{{unit.name}});
+    {% endfor %}
+#else
+    {% for unit in item.units %}
+    allUnits.push_back({{item.titleName}}Unit_{{unit.name}});
+    {% endfor %}
+#endif
+    return allUnits;
+}
+
+
+
 {% endfor %}
 
 
