@@ -14,14 +14,14 @@
 
 #ifndef QPHYSICS_NODLL
 
-#if defined(QPHYSICS_LIBRARY)
-#   define QPHYSICS_API Q_DECL_EXPORT
+#if defined(QPHYSICSUI_LIBRARY)
+#   define QPHYSICSUI_API Q_DECL_EXPORT
 #else
-#   define QPHYSICS_API Q_DECL_IMPORT
+#   define QPHYSICSUI_API Q_DECL_IMPORT
 #endif
 
 #else
-#define QPHYSICS_API
+#define QPHYSICSUI_API
 #endif
 
 #endif // QPHYSICS_API_HPP
