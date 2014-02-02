@@ -13,6 +13,7 @@ HEADERS = \
 
 OTHER_FILES = \
     *.txt \
+    PhysicsData.json \
     PhysicsGenerator.py \
     templates/*.template \
     templates/QPhysics/*.template \

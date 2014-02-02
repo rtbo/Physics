@@ -1,0 +1,280 @@
+[
+    {
+        "name" : "acceleration",
+        "units" : [
+            {
+                "name" : "mps2",
+                "wcharSeq" : "m.s\\u207B\\u00B2"
+            },
+            {
+                "name" : "g",
+                "factorToDefault" : 9.80665
+            }
+        ],
+        "defaultUnit" : "mps2"
+    },
+    {
+        "name" : "area",
+        "units" : [
+            {
+                "name" : "m2",
+                "wcharSeq" : "m\\u00B2"
+            },
+            {
+                "name" : "cm2",
+                "wcharSeq" : "cm\\u00B2",
+                "factorToDefault" : 0.0001
+            },
+            {
+                "name" : "mm2",
+                "wcharSeq" : "mm\\u00B2",
+                "factorToDefault" : 0.000001
+            }
+        ],
+        "defaultUnit" : "m2"
+    },
+    {
+        "name" : "energy",
+        "units" : [
+            {
+                "name" : "J"
+            },
+            {
+                "name" : "cal",
+                "factorToDefault" : 4.184
+            },
+            {
+                "name" : "kcal",
+                "factorToDefault" : 4184.0
+            }
+        ],
+        "defaultUnit" : "J"
+    },
+    {
+        "name" : "flow",
+        "units" : [
+            {
+                "name" : "lps",
+                "wcharSeq" : "l.s\\u207B\\u00B9"
+            },
+            {
+                "name" : "m3ps",
+                "wcharSeq" : "m\\u00B3.s\\u207B\\u00B9",
+                "factorToDefault" : 1000.0
+            },
+            {
+                "name" : "lpm",
+                "factorToDefault" : 1.666666666666666667e-2
+            },
+            {
+                "name" : "lph",
+                "factorToDefault" : 2.77777777777777778e-4
+            },
+            {
+                "name" : "ccm",
+                "factorToDefault" : 1.666666666666666667e-5
+            }
+        ],
+        "defaultUnit" : "lps"
+    },
+    {
+        "name" : "force",
+        "units" : [
+            {
+                "name" : "N"
+            },
+            {
+                "name" : "daN",
+                "factorToDefault" : 10.0
+            }
+        ],
+        "defaultUnit" : "N"
+    },
+    {
+        "name" : "length",
+        "units" : [
+            {
+                "name" : "m"
+            },
+            {
+                "name" : "cm",
+                "factorToDefault" : 0.01
+            },
+            {
+                "name" : "mm",
+                "factorToDefault" : 0.001
+            },
+            {
+                "name" : "km",
+                "factorToDefault" : 1000.0
+            }
+        ],
+        "defaultUnit" : "m"
+    },
+    {
+        "name" : "mass",
+        "units" : [
+            {
+                "name" : "kg"
+            },
+            {
+                "name" : "g",
+                "litName" : "gram",
+                "factorToDefault" : 0.001
+            },
+            {
+                "name" : "ton",
+                "litSeq" : "ton",
+                "factorToDefault" : 1000.0
+            }
+        ],
+        "defaultUnit" : "kg"
+    },
+    {
+        "name" : "molecularMass",
+        "units" : [
+            {
+                "name" : "kgpmol",
+                "wcharSeq" : "kg.mol\\u207B\\u00B9"
+            },
+            {
+                "name" : "gpmol",
+                "wcharSeq" : "g.mol\\u207B\\u00B9",
+                "factorToDefault" : 0.001
+            }
+        ],
+        "defaultUnit" : "kgpmol"
+    },
+    {
+        "name" : "pressure",
+        "units" : [
+            {
+                "name" : "Pa"
+            },
+            {
+                "name" : "hPa",
+                "factorToDefault" : 100.0
+            },
+            {
+                "name" : "kPa",
+                "factorToDefault" : 1000.0
+            },
+            {
+                "name" : "PSI",
+                "factorToDefault" : 6894.75729
+            }
+        ],
+        "defaultUnit" : "Pa"
+    },
+    {
+        "name" : "quantity",
+        "units" : [
+            {
+                "name" : "mol"
+            }
+        ],
+        "defaultUnit" : "mol"
+    },
+    {
+        "name" : "temperature",
+        "units" : [
+            {
+                "name" : "K"
+            },
+            {
+                "name" : "degC",
+                "wcharSeq" : "\\u00B0C",
+                "offsetToDefault" : 273.15
+            },
+            {
+                "name" : "degF",
+                "wcharSeq" : "\\u00B0F",
+                "offsetToDefault" : 459.67,
+                "factorToDefault" : 0.555555555555555555556
+            },
+            {
+                "name" : "degR",
+                "wcharSeq" : "\\u00B0R",
+                "factorToDefault" : 0.555555555555555555556
+            }
+        ],
+        "defaultUnit" : "K"
+    },
+    {
+        "name" : "time",
+        "units" : [
+            {
+                "name" : "s"
+            },
+            {
+                "name" : "min",
+                "factorToDefault" : 60.0
+            },
+            {
+                "name" : "h",
+                "factorToDefault" : 3600.0
+            },
+            {
+                "name" : "d",
+                "factorToDefault" : 86400.0
+            }
+        ],
+        "defaultUnit" : "s"
+    },
+    {
+        "name" : "velocity",
+        "units" : [
+            {
+                "name" : "mps",
+                "wcharSeq" : "m.s\\u207B\\u00B9"
+            },
+            {
+                "name" : "kmph",
+                "wcharSeq" : "km/h",
+                "factorToDefault" : 0.277777777777777778
+            }
+        ],
+        "defaultUnit" : "mps"
+    },
+    {
+        "name" : "volume",
+        "units" : [
+            {
+                "name" : "l"
+            },
+            {
+                "name" : "m3",
+                "factorToDefault" : 1000.0
+            },
+            {
+                "name" : "gal",
+                "factorToDefault" : 3.78541
+            },
+            {
+                "name" : "ml",
+                "factorToDefault" : 0.001
+            },
+            {
+                "name" : "mm3",
+                "wcharSeq" : "mm\\u00B3",
+                "factorToDefault" : 0.000001
+            }
+        ],
+        "defaultUnit" : "l"
+    },
+    {
+        "name" : "volumicMass",
+        "units" : [
+            {
+                "name" : "kgpm3",
+                "wcharSeq" : "kg.m\\u207B\\u00B3"
+            },
+            {
+                "name" : "kgpl",
+                "wcharSeq" : "kg.l\\u207B\\u00B9",
+                "factorToDefault" : 1000.0
+            }
+        ],
+        "defaultUnit" : "kgpm3"
+    }
+]
