@@ -12,6 +12,101 @@
 
 #include "QDebug"
 
+#include <stdexcept>
+
+
+{% for item in items %}
+
+QString {{item.name}}StrForUnit({{item.titleName}}Unit unit)
+{
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+    switch (unit) {
+        {% for unit in item.units %}
+    case {{item.titleName}}Unit::{{unit.name}}:
+        return QString::fromStdWString(L"{{unit.wcharSeq}}");
+        {% endfor %}
+    }
+#else
+    switch (unit) {
+        {% for unit in item.units %}
+    case {{item.titleName}}Unit_{{unit.name}}:
+        return QString::fromStdWString(L"{{unit.wcharSeq}}");
+        {% endfor %}
+    }
+#endif
+    return QString();
+}
+
+
+{{item.titleName}}Unit {{item.name}}UnitForStr(const QString& str)
+{
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+    {{item.titleName}}Unit unit = {{item.titleName}}Unit::{{item.defaultUnit}};
+    {% for unit in item.units %}
+    if (str == QString::fromStdWString(L"{{unit.wcharSeq}}")) {
+        unit = {{item.titleName}}Unit::{{unit.name}};
+    }
+    else
+    {% endfor %}
+    {}
+#else
+    {{item.titleName}}Unit unit = {{item.titleName}}Unit_{{item.defaultUnit}};
+    {% for unit in item.units %}
+    if (str == QString::fromStdWString(L"{{unit.wcharSeq}}")) {
+        unit = {{item.titleName}}Unit_{{unit.name}};
+    }
+    else
+    {% endfor %}
+    {}
+#endif
+    return unit;
+}
+
+double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit)
+{
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+    switch (unit) {
+    {% for unit in item.units %}
+    case {{item.titleName}}Unit::{{unit.name}}:
+        return {{item.name}}.{{ unit.name }}();
+    {% endfor %}
+    }
+#else
+    switch (unit) {
+    {% for unit in item.units %}
+    case {{item.titleName}}Unit_{{unit.name}}:
+        return {{item.name}}.{{ unit.name }}();
+    {% endfor %}
+    }
+#endif
+    throw std::out_of_range("the passed {{item.name}} is wrong");
+}
+
+
+Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit)
+{
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+    switch (unit) {
+    {% for unit in item.units %}
+    case {{item.titleName}}Unit::{{unit.name}}:
+        return Physics::{{item.titleName}}::from{{ unit.titleName }}(value);
+    {% endfor %}
+    }
+#else
+    switch (unit) {
+    {% for unit in item.units %}
+    case {{item.titleName}}Unit_{{unit.name}}:
+        return Physics::{{item.titleName}}::from{{ unit.titleName }}(value);
+    {% endfor %}
+    }
+#endif
+    throw std::out_of_range("the passed {{item.name}} is wrong");
+}
+
+{% endfor %}
+
+
+
 {% for item in items %}
 
 QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value)

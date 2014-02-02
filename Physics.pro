@@ -5,15 +5,15 @@ SUBDIRS += \
     QPhysics \
     QPhysicsUI \
     QPhysicsDesigner \
-	tests
+    tests
 
 
 HEADERS = \
-	include/physics/*.hpp
+    include/physics/*.hpp
 
 OTHER_FILES = \
     *.txt \
-	PhysicsGenerator.py \
+    PhysicsGenerator.py \
     templates/*.template \
     templates/QPhysics/*.template \
     templates/QPhysicsUI/*.template \

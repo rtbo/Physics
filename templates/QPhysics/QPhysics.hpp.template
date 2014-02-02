@@ -12,11 +12,63 @@
 
 #include "physics/Physics.hpp"
 
+#include "QString"
+
+// Config
+
+// uncomment the following to disable the enum class feature
+// #define QPHYSICS_FORCE_PLAIN_ENUM_UNITS
+
+#if __cplusplus < 201103L
+
+#else
+#   define QPHYSICS_UNITS_ENUM_CLASS 1
+#endif
+
+
+// End Config
+
 class QDebug;
 
+#ifdef QPHYSICS_UNITS_ENUM_CLASS
+
 {% for item in items %}
-QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value);
+
+enum class {{item.titleName}}Unit {
+{% for unit in item.units %}
+    {{unit.name}},
+{% endfor %}
+};
 {% endfor %}
 
+#else
+
+{% for item in items %}
+
+enum {{item.titleName}}Unit {
+{% for unit in item.units %}
+    {{item.titleName}}Unit_{{unit.name}},
+{% endfor %}
+};
+{% endfor %}
+
+#endif
+
+
+
+{% for item in items %}
+extern QString {{item.name}}StrForUnit({{item.titleName}}Unit unit);
+extern {{item.titleName}}Unit {{item.name}}UnitForStr(const QString& str);
+extern double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit);
+extern Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit);
+
+{% endfor %}
+
+
+
+
+{% for item in items %}
+extern QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value);
+{% endfor %}
 
 #endif // QPHYSICS_HPP
