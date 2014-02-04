@@ -11,7 +11,7 @@
 #define PHYSICS_FWDDELC_HPP
 
 
-namespace Physics {
+namespace ph {
 
 {%for item in items%}
     class {{item.titleName}};

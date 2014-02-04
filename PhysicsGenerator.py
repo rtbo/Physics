@@ -51,15 +51,15 @@ if __name__ == '__main__':
     globTemplates = [
         {
             "input": "FwdDecl.hpp.template",
-            "output": "include/physics/FwdDecl.hpp",
+            "output": "include/ph/FwdDecl.hpp",
         },
         {
             "input": "_IncludeAll.hpp.template",
-            "output": "include/physics/_IncludeAll.hpp",
+            "output": "include/ph/_IncludeAll.hpp",
         },
         {
             "input": "Literals.hpp.template",
-            "output": "include/physics/Literals.hpp",
+            "output": "include/ph/Literals.hpp",
         },
         {
             "input": "QPhysics/QPhysics.hpp.template",
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     itemTemplates = [
         {
             "input": "Item.hpp.template",
-            "output": "include/physics/{}.hpp",
+            "output": "include/ph/{}.hpp",
         },
         {
             "input": "QPhysicsUI/QItemSpinBox.hpp.template",

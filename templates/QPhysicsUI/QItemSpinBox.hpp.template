@@ -11,7 +11,7 @@
 #define QPHYSICS_{{item.name|upper}}SPINBOX_HPP
 
 #include "QPhysicsUI_API.hpp"
-#include "physics/{{item.titleName}}.hpp"
+#include "ph/{{item.titleName}}.hpp"
 
 #include "QDoubleSpinBox"
 
@@ -37,7 +37,7 @@ public:
     virtual ~Q{{item.titleName}}SpinBox();
 
 
-    Physics::{{item.titleName}} {{item.name}}() const;
+    ph::{{item.titleName}} {{item.name}}() const;
 
     {{item.titleName}}Unit unit() const {
         return unit_;
@@ -52,24 +52,24 @@ public:
 
 
 
-    Physics::{{item.titleName}} step() const;
-    void setStep(Physics::{{item.titleName}} val);
+    ph::{{item.titleName}} step() const;
+    void setStep(ph::{{item.titleName}} val);
 
-    Physics::{{item.titleName}} mini() const;
-    void setMini(Physics::{{item.titleName}} val);
+    ph::{{item.titleName}} mini() const;
+    void setMini(ph::{{item.titleName}} val);
 
-    Physics::{{item.titleName}} maxi() const;
-    void setMaxi(Physics::{{item.titleName}} val);
+    ph::{{item.titleName}} maxi() const;
+    void setMaxi(ph::{{item.titleName}} val);
 
 
 public slots:
 
-    void set{{item.titleName}}(Physics::{{item.titleName}} {{item.name}});
+    void set{{item.titleName}}(ph::{{item.titleName}} {{item.name}});
 
 
 signals:
 
-    void {{item.name}}Changed(Physics::{{item.titleName}} {{item.name}});
+    void {{item.name}}Changed(ph::{{item.titleName}} {{item.name}});
 
 private slots:
 

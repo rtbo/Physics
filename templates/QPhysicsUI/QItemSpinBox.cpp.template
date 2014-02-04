@@ -9,7 +9,7 @@
 
 #include "Q{{item.titleName}}SpinBox.hpp"
 
-#include "physics/Physics.hpp"
+#include "ph/Physics.hpp"
 
 #include "QMenu"
 #include "QMetaType"
@@ -18,7 +18,7 @@
 #include <cassert>
 
 
-static int _ = qRegisterMetaType<Physics::{{item.titleName}}>("Physics::{{item.titleName}}");
+static int _ = qRegisterMetaType<ph::{{item.titleName}}>("ph::{{item.titleName}}");
 
 
 
@@ -57,7 +57,7 @@ inline Q{{item.titleName}}SpinBox::{{item.titleName}}Unit {{item.name}}UnitFromS
 }
 
 
-inline double {{item.name}}UnitValue(Physics::{{item.titleName}} {{item.name}}, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
+inline double {{item.name}}UnitValue(ph::{{item.titleName}} {{item.name}}, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
 	switch (unit) {
 	{% for unit in item.units %}
 	case Q{{item.titleName}}SpinBox::{{unit.name}}:
@@ -70,16 +70,16 @@ inline double {{item.name}}UnitValue(Physics::{{item.titleName}} {{item.name}}, 
 }
 
 
-inline Physics::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
+inline ph::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.titleName}}SpinBox::{{item.titleName}}Unit unit) {
 	switch (unit) {
 	{% for unit in item.units %}
 	case Q{{item.titleName}}SpinBox::{{unit.name}}:
-		return Physics::{{item.titleName}}::from{{unit.titleName}}(value);
+		return ph::{{item.titleName}}::from{{unit.titleName}}(value);
 	{% endfor %}
 	}
 
 	assert(!"the passed value is wrong");
-	return Physics::{{item.titleName}}();
+	return ph::{{item.titleName}}();
 }
 
 
@@ -101,13 +101,13 @@ Q{{item.titleName}}SpinBox::~Q{{item.titleName}}SpinBox()
 {}
 
 
-Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::{{item.name}}() const
+ph::{{item.titleName}} Q{{item.titleName}}SpinBox::{{item.name}}() const
 {
 	return unit{{item.titleName}}(value(), unit());
 }
 
 
-void Q{{item.titleName}}SpinBox::set{{item.titleName}}(Physics::{{item.titleName}} val)
+void Q{{item.titleName}}SpinBox::set{{item.titleName}}(ph::{{item.titleName}} val)
 {
 	if (val != {{item.name}}() && val >= mini() && val <= maxi()) {
 		setValue({{item.name}}UnitValue(val, unit()));
@@ -115,37 +115,37 @@ void Q{{item.titleName}}SpinBox::set{{item.titleName}}(Physics::{{item.titleName
 }
 
 
-Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::step() const
+ph::{{item.titleName}} Q{{item.titleName}}SpinBox::step() const
 {
 	return unit{{item.titleName}}(singleStep(), unit());
 }
 
 
-void Q{{item.titleName}}SpinBox::setStep(Physics::{{item.titleName}} val)
+void Q{{item.titleName}}SpinBox::setStep(ph::{{item.titleName}} val)
 {
 	setSingleStep({{item.name}}UnitValue(val, unit()));
 }
 
 
-Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::mini() const
+ph::{{item.titleName}} Q{{item.titleName}}SpinBox::mini() const
 {
 	return unit{{item.titleName}}(minimum(), unit());
 }
 
 
-void Q{{item.titleName}}SpinBox::setMini(Physics::{{item.titleName}} val)
+void Q{{item.titleName}}SpinBox::setMini(ph::{{item.titleName}} val)
 {
 	setMinimum({{item.name}}UnitValue(val, unit()));
 }
 
 
-Physics::{{item.titleName}} Q{{item.titleName}}SpinBox::maxi() const
+ph::{{item.titleName}} Q{{item.titleName}}SpinBox::maxi() const
 {
 	return unit{{item.titleName}}(maximum(), unit());
 }
 
 
-void Q{{item.titleName}}SpinBox::setMaxi(Physics::{{item.titleName}} val)
+void Q{{item.titleName}}SpinBox::setMaxi(ph::{{item.titleName}} val)
 {
 	setMaximum({{item.name}}UnitValue(val, unit()));
 }
@@ -168,10 +168,10 @@ void Q{{item.titleName}}SpinBox::setUnit({{item.titleName}}Unit unit, bool track
 {
 	if (unit != unit_) {
 		if (trackBounds) {
-			Physics::{{item.titleName}} t = {{item.name}}();
-			Physics::{{item.titleName}} stp = step();
-			Physics::{{item.titleName}} min = mini();
-			Physics::{{item.titleName}} max = maxi();
+			ph::{{item.titleName}} t = {{item.name}}();
+			ph::{{item.titleName}} stp = step();
+			ph::{{item.titleName}} min = mini();
+			ph::{{item.titleName}} max = maxi();
 
 			changeUnitFlag_ = true;
 

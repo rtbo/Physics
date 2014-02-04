@@ -21,7 +21,7 @@
 #include "Literals.hpp"
 #endif
 
-namespace Physics {
+namespace ph {
 
     // a few goodies
 

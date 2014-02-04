@@ -10,7 +10,7 @@
 #ifndef QPHYSICS_HPP
 #define QPHYSICS_HPP
 
-#include "physics/Physics.hpp"
+#include "ph/Physics.hpp"
 
 #include "QString"
 
@@ -61,8 +61,8 @@ enum {{item.titleName}}Unit {
 {% for item in items %}
 extern QString {{item.name}}StrForUnit({{item.titleName}}Unit unit);
 extern {{item.titleName}}Unit {{item.name}}UnitForStr(const QString& str);
-extern double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit);
-extern Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit);
+extern double {{item.name}}UnitValue(const ph::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit);
+extern ph::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit);
 extern std::vector<{{item.titleName}}Unit> {{item.name}}AllUnits();
 
 {% endfor %}
@@ -71,7 +71,7 @@ extern std::vector<{{item.titleName}}Unit> {{item.name}}AllUnits();
 
 
 {% for item in items %}
-extern QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value);
+extern QDebug operator<< (QDebug dbg, const ph::{{item.titleName}} &value);
 {% endfor %}
 
 #endif // QPHYSICS_HPP

@@ -13,7 +13,7 @@
 #include "Config.hpp"
 
 
-namespace Physics {
+namespace ph {
 
     class {{item.titleName}} {
         double {{item.defaultUnit}}_;

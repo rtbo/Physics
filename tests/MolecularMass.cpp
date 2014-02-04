@@ -8,11 +8,11 @@
 */
 
 
-#include "physics/Physics.hpp"
+#include "ph/Physics.hpp"
 
 #include "catch.hpp"
 
-using namespace Physics;
+using namespace ph;
 
 TEST_CASE("Molecular Mass", "[molecularMass][quantity][mass]")
 {

@@ -9,7 +9,7 @@ SUBDIRS += \
 
 
 HEADERS = \
-    include/physics/*.hpp
+    include/ph/*.hpp
 
 OTHER_FILES = \
     *.txt \

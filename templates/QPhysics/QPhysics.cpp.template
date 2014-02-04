@@ -62,7 +62,7 @@ QString {{item.name}}StrForUnit({{item.titleName}}Unit unit)
     return unit;
 }
 
-double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit)
+double {{item.name}}UnitValue(const ph::{{item.titleName}}& {{item.name}}, {{item.titleName}}Unit unit)
 {
 #ifdef QPHYSICS_UNITS_ENUM_CLASS
     switch (unit) {
@@ -83,20 +83,20 @@ double {{item.name}}UnitValue(const Physics::{{item.titleName}}& {{item.name}}, 
 }
 
 
-Physics::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit)
+ph::{{item.titleName}} {{item.name}}UnitValue(double value, {{item.titleName}}Unit unit)
 {
 #ifdef QPHYSICS_UNITS_ENUM_CLASS
     switch (unit) {
     {% for unit in item.units %}
     case {{item.titleName}}Unit::{{unit.name}}:
-        return Physics::{{item.titleName}}::from{{ unit.titleName }}(value);
+        return ph::{{item.titleName}}::from{{ unit.titleName }}(value);
     {% endfor %}
     }
 #else
     switch (unit) {
     {% for unit in item.units %}
     case {{item.titleName}}Unit_{{unit.name}}:
-        return Physics::{{item.titleName}}::from{{ unit.titleName }}(value);
+        return ph::{{item.titleName}}::from{{ unit.titleName }}(value);
     {% endfor %}
     }
 #endif
@@ -128,7 +128,7 @@ std::vector<{{item.titleName}}Unit> {{item.name}}AllUnits()
 
 {% for item in items %}
 
-QDebug operator<< (QDebug dbg, const Physics::{{item.titleName}} &value)
+QDebug operator<< (QDebug dbg, const ph::{{item.titleName}} &value)
 {
     dbg.nospace() << '[' << value.{{item.defaultUnit}}() << " {{item.defaultUnit}}]";
     return dbg;

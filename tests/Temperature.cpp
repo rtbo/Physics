@@ -7,11 +7,11 @@
 	License.txt file at project root.
 */
 
-#include "physics/Temperature.hpp"
+#include "ph/Temperature.hpp"
 
 #include "catch.hpp"
 
-using namespace Physics;
+using namespace ph;
 
 TEST_CASE("Temperature", "[temperature]")
 {

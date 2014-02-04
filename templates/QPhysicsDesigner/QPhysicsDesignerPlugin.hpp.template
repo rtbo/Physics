@@ -90,7 +90,7 @@ namespace QPhysics {
         }
 
         virtual QString toolTip() const override {
-            return "a spin box to edit Physics::{{item.titleName}} object";
+            return "a spin box to edit ph::{{item.titleName}} object";
         }
 
         virtual QString domXml() const override;

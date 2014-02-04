@@ -7,11 +7,11 @@
 	License.txt file at project root.
 */
 
-#include "physics/Physics.hpp"
+#include "ph/Physics.hpp"
 
 #include "catch.hpp"
 
-using namespace Physics;
+using namespace ph;
 
 TEST_CASE("Volumic Mass", "[volumicMass][volume][mass][density]")
 {

@@ -16,7 +16,7 @@
 #include "_IncludeAll.hpp"
 
 
-namespace Physics {
+namespace ph {
 
 
     // deducing common operators from == and <
