@@ -229,6 +229,11 @@
                 "wcharSeq" : "m.s\\u207B\\u00B9"
             },
             {
+                "name" : "mmps",
+                "wcharSeq" : "mm.s\\u207B\\u00B9",
+                "factorToDefault" : 0.001
+            },
+            {
                 "name" : "kmph",
                 "wcharSeq" : "km/h",
                 "factorToDefault" : 0.277777777777777778

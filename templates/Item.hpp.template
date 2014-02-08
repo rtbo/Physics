@@ -11,7 +11,7 @@
 #define PHYSICS_{{item.name|upper}}_HPP
 
 #include "Config.hpp"
-
+#include "Zero.hpp"
 
 namespace ph {
 
@@ -22,14 +22,25 @@ namespace ph {
 
     public:
 
-        PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}() : {{item.defaultUnit}}_(0.0) {}
+        PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}() :
+            {{item.defaultUnit}}_(0.0)
+        {}
 
         PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}(const {{item.titleName}}& other) :
             {{item.defaultUnit}}_(other.{{item.defaultUnit}}_)
         {}
 
+        PHYSICS_INCLASS_CONSTEXPR {{item.titleName}}(const zero_t&) :
+            {{item.defaultUnit}}_(0.0)
+        {}
+
         {{item.titleName}}& operator=(const {{item.titleName}}& other) {
             {{item.defaultUnit}}_ = other.{{item.defaultUnit}}();
+            return *this;
+        }
+
+        {{item.titleName}}& operator=(const zero_t&) {
+            {{item.defaultUnit}}_ = 0.0;
             return *this;
         }
 
@@ -129,6 +140,72 @@ namespace ph {
     PHYSICS_CONSTEXPR bool operator<({{item.titleName}} lhs, {{item.titleName}} rhs)
     {
         return lhs.{{item.defaultUnit}}() < rhs.{{item.defaultUnit}}();
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator==({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() == 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator==(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() == 0.0;
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator!=({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() != 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator!=(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() != 0.0;
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator<({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() < 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator<(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() > 0.0;
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator>({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() > 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator>(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() < 0.0;
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator<=({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() <= 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator<=(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() >= 0.0;
+    }
+
+
+    PHYSICS_CONSTEXPR bool operator>=({{item.titleName}} lhs, zero_t)
+    {
+        return lhs.{{item.defaultUnit}}() >= 0.0;
+    }
+
+    PHYSICS_CONSTEXPR bool operator>=(zero_t, {{item.titleName}} rhs)
+    {
+        return rhs.{{item.defaultUnit}}() <= 0.0;
     }
 
 }

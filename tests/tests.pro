@@ -17,10 +17,24 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
-INCLUDEPATH += ../include
+
+CONFIG(debug, debug|release) {
+    CURBUILD = debug
+} else {
+    CURBUILD = release
+}
+
+PH_LIBDIR = $$OUT_PWD/../Physics/$$CURBUILD
+
+
+LIBS = -L$$PH_LIBDIR -lPhysics
+
+
+INCLUDEPATH += $$PWD/../Physics/include
 
 
 SOURCES += main.cpp \
     Temperature.cpp \
     VolumicMass.cpp \
-    MolecularMass.cpp
+    MolecularMass.cpp \
+    Zero.cpp

@@ -8,6 +8,10 @@
 */
 
 
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+#include "ph/Zero.hpp"
 
+namespace ph {
+
+	zero_t zero;
+
+}

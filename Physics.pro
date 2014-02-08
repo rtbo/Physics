@@ -1,15 +1,16 @@
 
 TEMPLATE = subdirs
+CONFIG += ordered
+
+INCLUDEPATH += include
 
 SUBDIRS += \
+    Physics \
     QPhysics \
     QPhysicsUI \
     QPhysicsDesigner \
     tests
 
-
-HEADERS = \
-    include/ph/*.hpp
 
 OTHER_FILES = \
     *.txt \

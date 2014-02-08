@@ -7,7 +7,15 @@
     License.txt file at project root.
 */
 
+#ifndef PHYSICS_ZERO_HPP
+#define PHYSICS_ZERO_HPP
 
-#define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+namespace ph {
 
+    struct zero_t {};
+
+    extern zero_t zero;
+
+}
+
+#endif // PHYSICS_ZERO_HPP

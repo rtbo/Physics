@@ -35,8 +35,7 @@ SOURCES = $${QPHYSICS_DESIGNER_SOURCES}
 
 
 
-
-INCLUDEPATH += $$PWD/../include
+INCLUDEPATH += $$PWD/../Physics/include
 HEADERS += QPhysicsDesignerPlugin.hpp
 SOURCES += QPhysicsDesignerPlugin.cpp
 

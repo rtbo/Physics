@@ -9,7 +9,7 @@ DEFINES += QPHYSICSUI_LIBRARY
 
 QMAKE_CXXFLAGS += -std=c++11
 
-INCLUDEPATH += $$PWD/../include
+INCLUDEPATH += $$PWD/../Physics/include
 
 
 include(src.pri)

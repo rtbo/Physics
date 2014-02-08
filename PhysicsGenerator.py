@@ -17,6 +17,8 @@ from jinja2 import Environment, FileSystemLoader
 
 def fileMustBeWritten(templateFile, outFile):
     if not os.path.exists(outFile): return True
+    if os.path.getmtime('PhysicsData.json') > os.path.getmtime(outFile):
+        return True
     if os.path.getmtime(__file__) > os.path.getmtime(outFile):
         return True
     if not os.path.exists(templateFile):
@@ -51,15 +53,15 @@ if __name__ == '__main__':
     globTemplates = [
         {
             "input": "FwdDecl.hpp.template",
-            "output": "include/ph/FwdDecl.hpp",
+            "output": "Physics/include/ph/FwdDecl.hpp",
         },
         {
             "input": "_IncludeAll.hpp.template",
-            "output": "include/ph/_IncludeAll.hpp",
+            "output": "Physics/include/ph/_IncludeAll.hpp",
         },
         {
             "input": "Literals.hpp.template",
-            "output": "include/ph/Literals.hpp",
+            "output": "Physics/include/ph/Literals.hpp",
         },
         {
             "input": "QPhysics/QPhysics.hpp.template",
@@ -86,7 +88,7 @@ if __name__ == '__main__':
     itemTemplates = [
         {
             "input": "Item.hpp.template",
-            "output": "include/ph/{}.hpp",
+            "output": "Physics/include/ph/{}.hpp",
         },
         {
             "input": "QPhysicsUI/QItemSpinBox.hpp.template",

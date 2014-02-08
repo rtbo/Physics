@@ -62,6 +62,21 @@ namespace ph {
         return rhs * lhs;
     }
 
+    PHYSICS_CONSTEXPR Length operator/(Area lhs, Length rhs)
+    {
+        return Length::fromM(lhs.m2() / rhs.m());
+    }
+
+    PHYSICS_CONSTEXPR Area operator/(Volume lhs, Length rhs)
+    {
+        return Area::fromM2(lhs.m3() / rhs.m());
+    }
+
+    PHYSICS_CONSTEXPR Length operator/(Volume lhs, Area rhs)
+    {
+        return Length::fromM(lhs.m3() / rhs.m2());
+    }
+
 
 
     PHYSICS_CONSTEXPR Velocity operator/(Length lhs, Time rhs)
@@ -72,6 +87,16 @@ namespace ph {
     PHYSICS_CONSTEXPR Acceleration operator/(Velocity lhs, Time rhs)
     {
         return Acceleration::fromMps2(lhs.mps() / rhs.s());
+    }
+
+    PHYSICS_CONSTEXPR Length operator*(Velocity lhs, Time rhs)
+    {
+        return Length::fromM(lhs.mps() * rhs.s());
+    }
+
+    PHYSICS_CONSTEXPR Velocity operator*(Acceleration lhs, Time rhs)
+    {
+        return Velocity::fromMps(lhs.mps2() * rhs.s());
     }
 
 
