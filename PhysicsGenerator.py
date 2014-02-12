@@ -144,6 +144,14 @@ if __name__ == '__main__':
                 os.remove(outF)
 
 
+    elif len(sys.argv) > 1 and sys.argv[1] == "inputs":
+        for inF in inputFiles:
+            print(inF)
+
+    elif len(sys.argv) > 1 and sys.argv[1] == "outputs":
+        for outF in outputFiles:
+            print(outF)
+
     elif len(sys.argv) > 1 and sys.argv[1] == 'ignorefile':
 
         ignoreFName = ".gitignore"
