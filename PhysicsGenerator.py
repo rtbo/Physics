@@ -132,6 +132,8 @@ if __name__ == '__main__':
         for pi in PhysicsItems:
             outputFiles.append(it["output"].format(pi['titleName']))
 
+    inputFiles.append("PhysicsData.json")
+
 
     if len(sys.argv) > 1 and sys.argv[1] == 'clear':
         # clear mode
