@@ -52,6 +52,10 @@ if __name__ == '__main__':
 
     globTemplates = [
         {
+            "input": "Physics.qbs.template",
+            "output": "Physics/Physics.qbs",
+        },
+        {
             "input": "FwdDecl.hpp.template",
             "output": "Physics/include/ph/FwdDecl.hpp",
         },
@@ -74,6 +78,10 @@ if __name__ == '__main__':
         {
             "input": "QPhysicsUI/src.pri.template",
             "output": "QPhysicsUI/src.pri",
+        },
+        {
+            "input": "QPhysicsUI/QPhysicsUI.qbs.template",
+            "output": "QPhysicsUI/QPhysicsUI.qbs",
         },
         {
             "input": "QPhysicsDesigner/QPhysicsDesignerPlugin.hpp.template",

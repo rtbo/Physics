@@ -10,13 +10,12 @@
 #ifndef QPHYSICS_{{item.name|upper}}SPINBOX_HPP
 #define QPHYSICS_{{item.name|upper}}SPINBOX_HPP
 
-#include "QPhysicsUI_API.hpp"
 #include "ph/{{item.titleName}}.hpp"
 
 #include "QDoubleSpinBox"
 
 
-class QPHYSICSUI_API Q{{item.titleName}}SpinBox : public QDoubleSpinBox
+class Q{{item.titleName}}SpinBox : public QDoubleSpinBox
 {
     Q_OBJECT
 
