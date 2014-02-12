@@ -121,22 +121,22 @@ if __name__ == '__main__':
                 u["wcharSeq"] = u["name"]
 
 
-    inputFiles = []
+    outputFiles = []
     for gt in globTemplates:
-        inputFiles.append(gt["output"])
+        outputFiles.append(gt["output"])
 
     for it in itemTemplates:
         for pi in PhysicsItems:
-            inputFiles.append(it["output"].format(pi['titleName']))
+            outputFiles.append(it["output"].format(pi['titleName']))
 
 
     if len(sys.argv) > 1 and sys.argv[1] == 'clear':
         # clear mode
 
-        for inF in inputFiles:
-            if os.path.exists(inF):
-                print ("removing " + inF)
-                os.remove(inF)
+        for outF in outputFiles:
+            if os.path.exists(outF):
+                print ("removing " + outF)
+                os.remove(outF)
 
 
     elif len(sys.argv) > 1 and sys.argv[1] == 'ignorefile':
@@ -165,8 +165,8 @@ if __name__ == '__main__':
         # updating file with the updated data
         with open(ignoreFName, "a") as ignoreF:
             ignoreF.write(marker+"\n")
-            for inF in inputFiles:
-                ignoreF.write(inF+"\n")
+            for outF in outputFiles:
+                ignoreF.write(outF+"\n")
             ignoreF.write(marker+"\n")
 
 

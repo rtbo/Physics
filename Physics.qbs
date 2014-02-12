@@ -8,4 +8,12 @@ Project {
         "QPhysicsUI/QPhysicsUI.qbs",
         "QPhysicsDesigner/QPhysicsDesigner.qbs"
     ]
+
+
+    Product {
+        name: "CodeGen"
+
+
+
+    }
 }
