@@ -121,7 +121,7 @@ if __name__ == '__main__':
                 u["wcharSeq"] = u["name"]
 
 
-    intputFiles = []
+    inputFiles = []
     outputFiles = []
     for gt in globTemplates:
         inputFiles.append(os.path.join(gt["input"]))
