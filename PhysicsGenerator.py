@@ -121,11 +121,14 @@ if __name__ == '__main__':
                 u["wcharSeq"] = u["name"]
 
 
+    intputFiles = []
     outputFiles = []
     for gt in globTemplates:
+        inputFiles.append(os.path.join(gt["input"]))
         outputFiles.append(gt["output"])
 
     for it in itemTemplates:
+        inputFiles.append(os.path.join(it["input"]))
         for pi in PhysicsItems:
             outputFiles.append(it["output"].format(pi['titleName']))
 
