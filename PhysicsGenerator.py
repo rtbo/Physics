@@ -46,67 +46,15 @@ if __name__ == '__main__':
     with open("PhysicsData.json", "r") as data_file:
         PhysicsItems = json.load(data_file)
 
+    with open("templates/globTemplates.json", "r") as data_file:
+        globTemplates = json.load(data_file)
+
+    with open("templates/itemTemplates.json", "r") as data_file:
+        itemTemplates = json.load(data_file)
+
 
     env = Environment(trim_blocks=True, loader=FileSystemLoader('templates'))
 
-
-    globTemplates = [
-        {
-            "input": "Physics.qbs.template",
-            "output": "Physics/Physics.qbs",
-        },
-        {
-            "input": "FwdDecl.hpp.template",
-            "output": "Physics/include/ph/FwdDecl.hpp",
-        },
-        {
-            "input": "_IncludeAll.hpp.template",
-            "output": "Physics/include/ph/_IncludeAll.hpp",
-        },
-        {
-            "input": "Literals.hpp.template",
-            "output": "Physics/include/ph/Literals.hpp",
-        },
-        {
-            "input": "QPhysics/QPhysics.hpp.template",
-            "output": "QPhysics/include/QPhysics.hpp",
-        },
-        {
-            "input": "QPhysics/QPhysics.cpp.template",
-            "output": "QPhysics/QPhysics.cpp",
-        },
-        {
-            "input": "QPhysicsUI/src.pri.template",
-            "output": "QPhysicsUI/src.pri",
-        },
-        {
-            "input": "QPhysicsUI/QPhysicsUI.qbs.template",
-            "output": "QPhysicsUI/QPhysicsUI.qbs",
-        },
-        {
-            "input": "QPhysicsDesigner/QPhysicsDesignerPlugin.hpp.template",
-            "output": "QPhysicsDesigner/QPhysicsDesignerPlugin.hpp",
-        },
-        {
-            "input": "QPhysicsDesigner/QPhysicsDesignerPlugin.cpp.template",
-            "output": "QPhysicsDesigner/QPhysicsDesignerPlugin.cpp",
-        }
-    ]
-
-    itemTemplates = [
-        {
-            "input": "Item.hpp.template",
-            "output": "Physics/include/ph/{}.hpp",
-        },
-        {
-            "input": "QPhysicsUI/QItemSpinBox.hpp.template",
-            "output": "QPhysicsUI/include/Q{}SpinBox.hpp",
-        },
-        {
-            "input": "QPhysicsUI/QItemSpinBox.cpp.template",
-            "output": "QPhysicsUI/Q{}SpinBox.cpp",
-        }
-    ]
 
 
     # completing items

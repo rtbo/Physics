@@ -1,0 +1,14 @@
+[
+   {
+       "input": "Item.hpp.template",
+       "output": "Physics/include/ph/{}.hpp"
+   },
+   {
+       "input": "QPhysicsUI/QItemSpinBox.hpp.template",
+       "output": "QPhysicsUI/include/Q{}SpinBox.hpp"
+   },
+   {
+       "input": "QPhysicsUI/QItemSpinBox.cpp.template",
+       "output": "QPhysicsUI/Q{}SpinBox.cpp"
+   }
+]
