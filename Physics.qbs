@@ -6,7 +6,9 @@ Project {
         "Physics/Physics.qbs",
         "QPhysics/QPhysics.qbs",
         "QPhysicsUI/QPhysicsUI.qbs",
-        "QPhysicsDesigner/QPhysicsDesigner.qbs"
+        "QPhysicsDesigner/QPhysicsDesigner.qbs",
+
+        "tests/tests.qbs"
     ]
 
 
