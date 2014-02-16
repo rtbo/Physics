@@ -1,11 +1,11 @@
 import qbs
 
 StaticLibrary {
-    Depends { name: "cpp" }
-    Depends { name: "Qt"; submodules:["core", "widgets"] }
-    Depends { name: "Physics" }
+    Depends {name: "cpp"}
+    Depends {name: "Qt"; submodules:["core", "widgets"]}
+    Depends {name: "Physics"}
     name: "QPhysicsUI"
-    cpp.includePaths: ["include"]
+    cpp.includePaths: "include"
     cpp.cxxFlags: "-std=c++11"
     files: [
         "include/QAccelerationSpinBox.hpp",
@@ -39,11 +39,10 @@ StaticLibrary {
         "QVolumeSpinBox.cpp",
         "QVolumicMassSpinBox.cpp",
     ]
-    Export {
-        Depends { name: "cpp" }
-        Depends { name: "Qt"; submodules:["core", "widgets"] }
-        Depends { name: "Physics" }
 
-        cpp.includePaths: ["include"]
+    Export {
+        Depends {name: "cpp"}
+        Depends {name: "Physics"}
+        cpp.includePaths: "include"
     }
 }
