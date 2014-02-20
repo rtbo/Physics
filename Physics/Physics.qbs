@@ -4,7 +4,17 @@ StaticLibrary {
     Depends { name: "cpp" }
     name: "Physics"
     cpp.includePaths: "include"
-    cpp.cxxFlags: "-std=c++11"
+
+    Properties {
+        condition: qbs.toolchain.contains("gcc")
+        cpp.cxxFlags: "-std=c++11"
+    }
+    Properties {
+        condition: qbs.toolchain.contains("msvc")
+        cpp.cxxFlags: "/FS"
+        cpp.defines: ["WIN32"]
+    }
+
     files: [
         "include/ph/Acceleration.hpp",
         "include/ph/Area.hpp",
@@ -34,6 +44,15 @@ StaticLibrary {
     Export {
         Depends {name: "cpp"}
         cpp.includePaths: "include"
-        cpp.cxxFlags: "-std=c++11"
+
+        Properties {
+            condition: qbs.toolchain.contains("gcc")
+            cpp.cxxFlags: "-std=c++11"
+        }
+        Properties {
+            condition: qbs.toolchain.contains("msvc")
+            cpp.cxxFlags: "/FS"
+            cpp.defines: ["WIN32"]
+        }
     }
 }
