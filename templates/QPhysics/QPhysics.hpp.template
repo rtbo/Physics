@@ -13,6 +13,7 @@
 #include "ph/Physics.hpp"
 
 #include "QString"
+#include "qcompilerdetection.h"
 
 #include <vector>
 
@@ -21,12 +22,16 @@
 // uncomment the following to disable the enum class feature
 // #define QPHYSICS_FORCE_PLAIN_ENUM_UNITS
 
-#if __cplusplus < 201103L
+#ifndef Q_COMPILER_CLASS_ENUM
 
 #else
 #   define QPHYSICS_UNITS_ENUM_CLASS 1
 #endif
 
+
+#ifdef QPHYSICS_FORCE_PLAIN_ENUM_UNITS
+#   undef QPHYSICS_UNITS_ENUM_CLASS 
+#endif
 
 // End Config
 
