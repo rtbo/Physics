@@ -12,7 +12,6 @@ StaticLibrary {
     Properties {
         condition: qbs.toolchain.contains("msvc")
         cpp.cxxFlags: "/FS"
-        cpp.defines: ["WIN32"]
     }
 
     files: [
@@ -52,7 +51,6 @@ StaticLibrary {
         Properties {
             condition: qbs.toolchain.contains("msvc")
             cpp.cxxFlags: "/FS"
-            cpp.defines: ["WIN32"]
         }
     }
 }
