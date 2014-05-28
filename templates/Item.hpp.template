@@ -172,7 +172,7 @@ namespace ph {
 
     PHYSICS_CONSTEXPR bool operator<(zero_t, {{item.titleName}} rhs)
     {
-        return rhs.{{item.defaultUnit}}() > 0.0;
+        return 0.0 < rhs.{{item.defaultUnit}}();
     }
 
 
@@ -183,7 +183,7 @@ namespace ph {
 
     PHYSICS_CONSTEXPR bool operator>(zero_t, {{item.titleName}} rhs)
     {
-        return rhs.{{item.defaultUnit}}() < 0.0;
+        return 0.0 > rhs.{{item.defaultUnit}}();
     }
 
 
@@ -194,7 +194,7 @@ namespace ph {
 
     PHYSICS_CONSTEXPR bool operator<=(zero_t, {{item.titleName}} rhs)
     {
-        return rhs.{{item.defaultUnit}}() >= 0.0;
+        return 0.0 <= rhs.{{item.defaultUnit}}();
     }
 
 
@@ -205,7 +205,7 @@ namespace ph {
 
     PHYSICS_CONSTEXPR bool operator>=(zero_t, {{item.titleName}} rhs)
     {
-        return rhs.{{item.defaultUnit}}() <= 0.0;
+        return 0.0 >= rhs.{{item.defaultUnit}}();
     }
 
 }
