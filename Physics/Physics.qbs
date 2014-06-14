@@ -7,7 +7,7 @@ StaticLibrary {
 
     Properties {
         condition: qbs.toolchain.contains("gcc")
-        cpp.cxxFlags: "-std=c++11"
+        cpp.cxxFlags: "-std=c++1y"
     }
     Properties {
         condition: qbs.toolchain.contains("msvc")
@@ -46,7 +46,7 @@ StaticLibrary {
 
         Properties {
             condition: qbs.toolchain.contains("gcc")
-            cpp.cxxFlags: "-std=c++11"
+            cpp.cxxFlags: "-std=c++1y"
         }
         Properties {
             condition: qbs.toolchain.contains("msvc")

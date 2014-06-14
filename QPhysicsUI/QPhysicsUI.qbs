@@ -6,12 +6,6 @@ StaticLibrary {
     Depends {name: "Physics"}
     name: "QPhysicsUI"
     cpp.includePaths: "include"
-    Properties {
-        condition: qbs.toolchain.contains("gcc")
-        cpp.cxxFlags: [
-            "-std=c++11"
-        ]
-    }
     files: [
         "include/QAccelerationSpinBox.hpp",
         "include/QAreaSpinBox.hpp",
