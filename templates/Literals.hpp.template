@@ -28,10 +28,13 @@ PHYSICS_CONSTEXPR {{item.titleName}} operator"" _{{unit.litName}} (long double {
     return {{item.titleName}}::from{{unit.titleName}}({{unit.name}});
 }
 
+
+PHYSICS_CONSTEXPR {{item.titleName}} operator"" _{{unit.litName}} (unsigned long long int {{unit.name}})
+{
+    return {{item.titleName}}::from{{unit.titleName}}({{unit.name}});
+}
+
     {%endfor%}
-
-
-
 {%endfor%}
 
 } // inline namespace literals
