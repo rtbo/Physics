@@ -24,10 +24,6 @@
         "output": "QPhysics/QPhysics.cpp"
     },
     {
-        "input": "QPhysicsUI/src.pri.template",
-        "output": "QPhysicsUI/src.pri"
-    },
-    {
         "input": "QPhysicsUI/QPhysicsUI.qbs.template",
         "output": "QPhysicsUI/QPhysicsUI.qbs"
     },
