@@ -17,13 +17,15 @@
 {%endfor%}
 
 
+namespace ph {
+inline namespace literals {
 
 {%for item in items%}
     {%for unit in item.units%}
 
-PHYSICS_CONSTEXPR ph::{{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.name}})
+PHYSICS_CONSTEXPR {{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.name}})
 {
-    return ph::{{item.titleName}}::from{{unit.titleName}}({{unit.name}});
+    return {{item.titleName}}::from{{unit.titleName}}({{unit.name}});
 }
 
     {%endfor%}
@@ -32,5 +34,7 @@ PHYSICS_CONSTEXPR ph::{{item.titleName}} operator"" _{{unit.litName}} (long doub
 
 {%endfor%}
 
+} // inline namespace literals
+} // namespace ph
 
 #endif // PHYSICS_LITERALS_HPP
