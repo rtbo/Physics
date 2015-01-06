@@ -1,9 +1,5 @@
 [
     {
-        "input": "Physics.qbs.template",
-        "output": "Physics/Physics.qbs"
-    },
-    {
         "input": "FwdDecl.hpp.template",
         "output": "Physics/include/ph/FwdDecl.hpp"
     },
@@ -22,10 +18,6 @@
     {
         "input": "QPhysics/QPhysics.cpp.template",
         "output": "QPhysics/QPhysics.cpp"
-    },
-    {
-        "input": "QPhysicsUI/QPhysicsUI.qbs.template",
-        "output": "QPhysicsUI/QPhysicsUI.qbs"
     },
     {
         "input": "QPhysicsDesigner/QPhysicsDesignerPlugin.hpp.template",
