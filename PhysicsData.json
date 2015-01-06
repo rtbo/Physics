@@ -54,28 +54,28 @@
         "name" : "flow",
         "units" : [
             {
-                "name" : "lps",
-                "wcharSeq" : "l.s\\u207B\\u00B9"
+                "name" : "m3ps",
+                "wcharSeq" : "m\\u00B3.s\\u207B\\u00B9"
             },
             {
-                "name" : "m3ps",
-                "wcharSeq" : "m\\u00B3.s\\u207B\\u00B9",
-                "factorToDefault" : 1000.0
+                "name" : "lps",
+                "wcharSeq" : "l.s\\u207B\\u00B9",
+                "factorToDefault" : 0.001
             },
             {
                 "name" : "lpm",
-                "factorToDefault" : 1.666666666666666667e-2
+                "factorToDefault" : 1.666666666666666667e-5
             },
             {
                 "name" : "lph",
-                "factorToDefault" : 2.77777777777777778e-4
+                "factorToDefault" : 2.77777777777777778e-7
             },
             {
                 "name" : "ccm",
-                "factorToDefault" : 1.666666666666666667e-5
+                "factorToDefault" : 1.666666666666666667e-8
             }
         ],
-        "defaultUnit" : "lps"
+        "defaultUnit" : "m3ps"
     },
     {
         "name" : "force",
