@@ -7,8 +7,8 @@
     License.txt file at project root.
 */
 
-#ifndef PHYSICS_FWDDELC_HPP
-#define PHYSICS_FWDDELC_HPP
+#ifndef PHYSICS_FWDDECL_HPP
+#define PHYSICS_FWDDECL_HPP
 
 
 namespace ph {
@@ -19,4 +19,4 @@ namespace ph {
 
 }
 
-#endif // PHYSICS_FWDDELC_HPP
+#endif // PHYSICS_FWDDECL_HPP

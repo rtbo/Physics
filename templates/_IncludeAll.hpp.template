@@ -7,12 +7,12 @@
     License.txt file at project root.
 */
 
-#ifndef PHYSX_INCLUDE_ALL_HPP
-#define PHYSX_INCLUDE_ALL_HPP
+#ifndef PHYSICS_INCLUDE_ALL_HPP
+#define PHYSICS_INCLUDE_ALL_HPP
 
 {%for item in items%}
 #include "{{item.titleName}}.hpp"
 {%endfor%}
 
 
-#endif // PHYSX_INCLUDE_ALL_HPP
+#endif // PHYSICS_INCLUDE_ALL_HPP

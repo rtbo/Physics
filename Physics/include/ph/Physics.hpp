@@ -7,8 +7,8 @@
     License.txt file at project root.
 */
 
-#ifndef PHYSX_PHYSX_HPP
-#define PHYSX_PHYSX_HPP
+#ifndef PHYSICS_PHYSICS_HPP
+#define PHYSICS_PHYSICS_HPP
 
 #include "_IncludeAll.hpp"
 
@@ -79,4 +79,4 @@ namespace ph {
 
 }
 
-#endif // PHYSX_PHYSX_HPP
+#endif // PHYSICS_PHYSICS_HPP
