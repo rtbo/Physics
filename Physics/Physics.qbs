@@ -1,6 +1,6 @@
 import qbs
 
-StaticLibrary {
+Product {
     Depends { name: "cpp" }
     name: "Physics"
     cpp.includePaths: "include"
@@ -8,10 +8,6 @@ StaticLibrary {
     Properties {
         condition: qbs.toolchain.contains("gcc")
         cpp.cxxFlags: "-std=c++1y"
-    }
-    Properties {
-        condition: qbs.toolchain.contains("msvc")
-        cpp.cxxFlags: "/FS"
     }
 
     files: [
@@ -30,14 +26,13 @@ StaticLibrary {
         "include/ph/Velocity.hpp",
         "include/ph/Volume.hpp",
         "include/ph/VolumicMass.hpp",
-        "include/ph/Config.hpp",
         "include/ph/FwdDecl.hpp",
         "include/ph/Operators.hpp",
         "include/ph/Literals.hpp",
         "include/ph/Physics.hpp",
         "include/ph/Constants.hpp",
+        "include/ph/Zero.hpp",
         "include/ph/_IncludeAll.hpp",
-        "Zero.cpp"
     ]
 
     Export {
@@ -47,10 +42,6 @@ StaticLibrary {
         Properties {
             condition: qbs.toolchain.contains("gcc")
             cpp.cxxFlags: "-std=c++1y"
-        }
-        Properties {
-            condition: qbs.toolchain.contains("msvc")
-            cpp.cxxFlags: "/FS"
         }
     }
 }

@@ -10,8 +10,6 @@
 #ifndef PHYSICS_OPERATORS_HPP
 #define PHYSICS_OPERATORS_HPP
 
-#include "Config.hpp"
-
 
 #include "_IncludeAll.hpp"
 
@@ -22,140 +20,140 @@ namespace ph {
     // deducing common operators from == and <
 
     template <class T>
-    PHYSICS_CONSTEXPR bool operator!=(const T& lhs, const T& rhs)
+    constexpr bool operator!=(const T& lhs, const T& rhs)
     {
         return !(lhs == rhs);
     }
 
     template <class T>
-    PHYSICS_CONSTEXPR bool operator>(const T& lhs, const T& rhs)
+    constexpr bool operator>(const T& lhs, const T& rhs)
     {
         return rhs < lhs;
     }
 
     template <class T>
-    PHYSICS_CONSTEXPR bool operator<=(const T& lhs, const T& rhs)
+    constexpr bool operator<=(const T& lhs, const T& rhs)
     {
         return !(rhs < lhs);
     }
 
     template <class T>
-    PHYSICS_CONSTEXPR bool operator>=(const T& lhs, const T& rhs)
+    constexpr bool operator>=(const T& lhs, const T& rhs)
     {
         return !(lhs < rhs);
     }
 
 
 
-    PHYSICS_CONSTEXPR Area operator*(Length lhs, Length rhs)
+    constexpr Area operator*(Length lhs, Length rhs)
     {
         return Area::fromM2(lhs.m() * rhs.m());
     }
 
-    PHYSICS_CONSTEXPR Volume operator*(Length lhs, Area rhs)
+    constexpr Volume operator*(Length lhs, Area rhs)
     {
         return Volume::fromM3(lhs.m() * rhs.m2());
     }
 
-    PHYSICS_CONSTEXPR Volume operator*(Area lhs, Length rhs)
+    constexpr Volume operator*(Area lhs, Length rhs)
     {
         return rhs * lhs;
     }
 
-    PHYSICS_CONSTEXPR Length operator/(Area lhs, Length rhs)
+    constexpr Length operator/(Area lhs, Length rhs)
     {
         return Length::fromM(lhs.m2() / rhs.m());
     }
 
-    PHYSICS_CONSTEXPR Area operator/(Volume lhs, Length rhs)
+    constexpr Area operator/(Volume lhs, Length rhs)
     {
         return Area::fromM2(lhs.m3() / rhs.m());
     }
 
-    PHYSICS_CONSTEXPR Length operator/(Volume lhs, Area rhs)
+    constexpr Length operator/(Volume lhs, Area rhs)
     {
         return Length::fromM(lhs.m3() / rhs.m2());
     }
 
 
 
-    PHYSICS_CONSTEXPR Velocity operator/(Length lhs, Time rhs)
+    constexpr Velocity operator/(Length lhs, Time rhs)
     {
         return Velocity::fromMps(lhs.m() / rhs.s());
     }
 
-    PHYSICS_CONSTEXPR Acceleration operator/(Velocity lhs, Time rhs)
+    constexpr Acceleration operator/(Velocity lhs, Time rhs)
     {
         return Acceleration::fromMps2(lhs.mps() / rhs.s());
     }
 
-    PHYSICS_CONSTEXPR Length operator*(Velocity lhs, Time rhs)
+    constexpr Length operator*(Velocity lhs, Time rhs)
     {
         return Length::fromM(lhs.mps() * rhs.s());
     }
 
-    PHYSICS_CONSTEXPR Velocity operator*(Acceleration lhs, Time rhs)
+    constexpr Velocity operator*(Acceleration lhs, Time rhs)
     {
         return Velocity::fromMps(lhs.mps2() * rhs.s());
     }
 
 
 
-    PHYSICS_CONSTEXPR Flow operator/(Volume lhs, Time rhs)
+    constexpr Flow operator/(Volume lhs, Time rhs)
     {
         return Flow::fromM3ps(lhs.m3() / rhs.s());
     }
 
-    PHYSICS_CONSTEXPR Volume operator*(Flow lhs, Time rhs)
+    constexpr Volume operator*(Flow lhs, Time rhs)
     {
         return Volume::fromM3(lhs.m3ps() * rhs.s());
     }
 
 
-    PHYSICS_CONSTEXPR Pressure operator/(Force lhs, Area rhs)
+    constexpr Pressure operator/(Force lhs, Area rhs)
     {
         return Pressure::fromPa(lhs.N() / rhs.m2());
     }
 
-    PHYSICS_CONSTEXPR Force operator*(Pressure lhs, Area rhs)
+    constexpr Force operator*(Pressure lhs, Area rhs)
     {
         return Force::fromN(lhs.Pa() * rhs.m2());
     }
 
-    PHYSICS_CONSTEXPR Force operator*(Area lhs, Pressure rhs)
+    constexpr Force operator*(Area lhs, Pressure rhs)
     {
         return rhs * lhs;
     }
 
 
-    PHYSICS_CONSTEXPR Force operator*(Mass lhs, Acceleration rhs)
+    constexpr Force operator*(Mass lhs, Acceleration rhs)
     {
         return Force::fromN(lhs.kg() * rhs.mps2());
     }
 
-    PHYSICS_CONSTEXPR Force operator*(Acceleration lhs, Mass rhs)
+    constexpr Force operator*(Acceleration lhs, Mass rhs)
     {
         return rhs * lhs;
     }
 
 
 
-    PHYSICS_CONSTEXPR VolumicMass operator/(Mass lhs, Volume rhs)
+    constexpr VolumicMass operator/(Mass lhs, Volume rhs)
     {
         return VolumicMass::fromKgpm3(lhs.kg() / rhs.m3());
     }
 
-    PHYSICS_CONSTEXPR Volume operator/(Mass lhs, VolumicMass rhs)
+    constexpr Volume operator/(Mass lhs, VolumicMass rhs)
     {
         return Volume::fromM3(lhs.kg() / rhs.kgpm3());
     }
 
-    PHYSICS_CONSTEXPR Mass operator*(Volume lhs, VolumicMass rhs)
+    constexpr Mass operator*(Volume lhs, VolumicMass rhs)
     {
         return Mass::fromKg(lhs.m3() * rhs.kgpm3());
     }
 
-    PHYSICS_CONSTEXPR Mass operator*(VolumicMass lhs, Volume rhs)
+    constexpr Mass operator*(VolumicMass lhs, Volume rhs)
     {
         return rhs * lhs;
     }

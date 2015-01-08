@@ -14,7 +14,7 @@ namespace ph {
 
     struct zero_t {};
 
-    extern zero_t zero;
+    constexpr auto zero = zero_t{};
 
 }
 
