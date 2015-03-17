@@ -4,6 +4,14 @@
        "output": "Physics/include/ph/{}.hpp"
    },
    {
+       "input": "QPhysicsUI/QItemLabel.hpp.template",
+       "output": "QPhysicsUI/include/Q{}Label.hpp"
+   },
+   {
+       "input": "QPhysicsUI/QItemLabel.cpp.template",
+       "output": "QPhysicsUI/Q{}Label.cpp"
+   },
+   {
        "input": "QPhysicsUI/QItemSpinBox.hpp.template",
        "output": "QPhysicsUI/include/Q{}SpinBox.hpp"
    },
