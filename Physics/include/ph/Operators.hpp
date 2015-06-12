@@ -92,9 +92,19 @@ namespace ph {
         return Length::fromM(lhs.mps() * rhs.s());
     }
 
+    constexpr Length operator*(Time lhs, Velocity rhs)
+    {
+        return Length::fromM(lhs.s() * rhs.mps());
+    }
+
     constexpr Velocity operator*(Acceleration lhs, Time rhs)
     {
         return Velocity::fromMps(lhs.mps2() * rhs.s());
+    }
+
+    constexpr Velocity operator*(Time lhs, Acceleration rhs)
+    {
+        return Velocity::fromMps(lhs.s() * rhs.mps2());
     }
 
 
@@ -107,6 +117,11 @@ namespace ph {
     constexpr Volume operator*(Flow lhs, Time rhs)
     {
         return Volume::fromM3(lhs.m3ps() * rhs.s());
+    }
+
+    constexpr Volume operator*(Time lhs, Flow rhs)
+    {
+        return Volume::fromM3(lhs.s() * rhs.m3ps());
     }
 
 
