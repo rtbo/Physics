@@ -14,8 +14,10 @@
 #include "QMenu"
 #include "QMetaType"
 #include "QContextMenuEvent"
+#include "QLocale"
 
 #include <cassert>
+#include <cmath>
 
 
 {% for unit in item.units %}
@@ -80,7 +82,8 @@ inline ph::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.title
 
 Q{{item.titleName}}Label::Q{{item.titleName}}Label(QWidget *parent) :
 	QLabel(parent),
-	unit_({{item.defaultUnit}})
+	unit_({{item.defaultUnit}}),
+    precision_(2)
 {
 	updateValue();
 
@@ -109,7 +112,10 @@ void Q{{item.titleName}}Label::set{{item.titleName}}(ph::{{item.titleName}} val)
 
 void Q{{item.titleName}}Label::updateValue()
 {
-    setText(QString("%1 %2").arg(QString::number({{item.name}}UnitValue(value_, unit_))).arg({{item.name}}UnitToString(unit_)));
+    const auto val = {{item.name}}UnitValue(value_, unit_);
+    int integerDigits = val >= 1 ? static_cast<int>(std::log10(val)) + 1 : 1;
+    QLocale locale;
+    setText(QString("%1 %2").arg(locale.toString(val, 'g', precision_+integerDigits)).arg({{item.name}}UnitToString(unit_)));
 }
 
 
@@ -119,6 +125,14 @@ void Q{{item.titleName}}Label::setUnit({{item.titleName}}Unit unit)
 
     unit_ = unit;
     updateValue();
+}
+
+void Q{{item.titleName}}Label::setPrecision(int precision)
+{
+     if (precision_ == precision) return;
+
+     precision_ = precision;
+     updateValue();
 }
 
 

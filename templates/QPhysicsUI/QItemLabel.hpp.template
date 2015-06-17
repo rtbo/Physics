@@ -20,6 +20,7 @@ class Q{{item.titleName}}Label : public QLabel
     Q_OBJECT
 
     Q_PROPERTY({{item.titleName}}Unit unit READ unit WRITE setUnit)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
     Q_ENUMS({{item.titleName}}Unit)
 
 public:
@@ -45,6 +46,12 @@ public:
     void setUnit({{item.titleName}}Unit unit);
 
 
+    int precision() const {
+        return precision_;
+    }
+
+    void setPrecision(int precision);
+
 
 public slots:
 
@@ -69,6 +76,7 @@ private:
 
     ph::{{item.titleName}} value_;
     {{item.titleName}}Unit unit_;
+    double precision_;
 
 };
 
