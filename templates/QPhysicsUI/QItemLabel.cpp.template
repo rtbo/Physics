@@ -113,9 +113,7 @@ void Q{{item.titleName}}Label::set{{item.titleName}}(ph::{{item.titleName}} val)
 void Q{{item.titleName}}Label::updateValue()
 {
     const auto val = {{item.name}}UnitValue(value_, unit_);
-    int integerDigits = val >= 1 ? static_cast<int>(std::log10(val)) + 1 : 1;
-    QLocale locale;
-    setText(QString("%1 %2").arg(locale.toString(val, 'g', precision_+integerDigits)).arg({{item.name}}UnitToString(unit_)));
+    setText(QString("%1 %2").arg(QLocale().toString(val, 'f', precision_)).arg({{item.name}}UnitToString(unit_)));
 }
 
 
