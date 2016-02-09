@@ -68,6 +68,40 @@ namespace QPhysics {
 
 
 
+    class {{item.titleName}}LabelDesignerInterface : public DesignerInterface
+    {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerCustomWidgetInterface)
+
+    public:
+        {{item.titleName}}LabelDesignerInterface(QObject *parent = 0);
+        virtual ~{{item.titleName}}LabelDesignerInterface();
+
+        virtual QString name() const override {
+            return "Q{{item.titleName}}Label";
+        }
+
+        virtual QString includeFile() const override {
+            return "Q{{item.titleName}}Label.hpp";
+        }
+
+        virtual QString group() const override {
+            return "QPhysics Widgets";
+        }
+
+        virtual QString toolTip() const override {
+            return "a label to display ph::{{item.titleName}} object";
+        }
+
+        virtual QString domXml() const override;
+        virtual QIcon icon() const override;
+        virtual QString whatsThis() const override;
+
+        virtual QWidget *createWidget(QWidget *parent) override;
+
+    };
+
+
     class {{item.titleName}}SpinBoxDesignerInterface : public DesignerInterface
     {
         Q_OBJECT

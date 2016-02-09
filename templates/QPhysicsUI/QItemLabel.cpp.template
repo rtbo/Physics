@@ -1,0 +1,168 @@
+/*
+	Copyright (C) 2013-2014 Remi Thebault
+	All rights reserved.
+
+	This program and its source code are distributed under the
+	terms of the BSD-style license, that can be found in the
+	License.txt file at project root.
+*/
+
+#include "Q{{item.titleName}}Label.hpp"
+
+#include "ph/Physics.hpp"
+
+#include "QMenu"
+#include "QMetaType"
+#include "QContextMenuEvent"
+#include "QLocale"
+
+#include <cassert>
+#include <cmath>
+
+
+{% for unit in item.units %}
+inline QString {{unit.name}}str()
+{
+	return QString::fromStdWString(L"{{unit.wcharSeq}}");
+}
+{% endfor %}
+
+
+inline QString {{item.name}}UnitToString(Q{{item.titleName}}Label::{{item.titleName}}Unit unit)
+{
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}Label::{{unit.name}}:
+		return {{unit.name}}str();
+	{% endfor %}
+	}
+
+	assert(!"the passed unit is wrong");
+	return "";
+}
+
+
+inline Q{{item.titleName}}Label::{{item.titleName}}Unit {{item.name}}UnitFromString(QString s)
+{
+	{% for unit in item.units %}
+	if (s == {{unit.name}}str()) return Q{{item.titleName}}Label::{{unit.name}};
+	{% endfor %}
+
+	assert(!"the passed string is wrong");
+	return Q{{item.titleName}}Label::{{item.defaultUnit}};
+}
+
+
+inline double {{item.name}}UnitValue(ph::{{item.titleName}} {{item.name}}, Q{{item.titleName}}Label::{{item.titleName}}Unit unit) {
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}Label::{{unit.name}}:
+		return {{item.name}}.{{ unit.name }}();
+	{% endfor %}
+	}
+
+	assert(!"the passed {{item.name}} is wrong");
+	return 0.0;
+}
+
+
+inline ph::{{item.titleName}} unit{{item.titleName}}(double value, Q{{item.titleName}}Label::{{item.titleName}}Unit unit) {
+	switch (unit) {
+	{% for unit in item.units %}
+	case Q{{item.titleName}}Label::{{unit.name}}:
+		return ph::{{item.titleName}}::from{{unit.titleName}}(value);
+	{% endfor %}
+	}
+
+	assert(!"the passed value is wrong");
+	return ph::{{item.titleName}}();
+}
+
+
+
+Q{{item.titleName}}Label::Q{{item.titleName}}Label(QWidget *parent) :
+	QLabel(parent),
+	unit_({{item.defaultUnit}}),
+    precision_(2)
+{
+	updateValue();
+
+	installEventFilter(this);
+}
+
+Q{{item.titleName}}Label::~Q{{item.titleName}}Label()
+{}
+
+
+ph::{{item.titleName}} Q{{item.titleName}}Label::{{item.name}}() const
+{
+	return value_;
+}
+
+
+void Q{{item.titleName}}Label::set{{item.titleName}}(ph::{{item.titleName}} val)
+{
+    if (value_ == val) return;
+
+    value_ = val;
+    updateValue();
+    emit {{item.name}}Changed(value_);
+}
+
+
+void Q{{item.titleName}}Label::updateValue()
+{
+    const auto val = {{item.name}}UnitValue(value_, unit_);
+    setText(QString("%1 %2").arg(QLocale().toString(val, 'f', precision_)).arg({{item.name}}UnitToString(unit_)));
+}
+
+
+void Q{{item.titleName}}Label::setUnit({{item.titleName}}Unit unit)
+{
+    if (unit_ == unit) return;
+
+    unit_ = unit;
+    updateValue();
+}
+
+void Q{{item.titleName}}Label::setPrecision(int precision)
+{
+     if (precision_ == precision) return;
+
+     precision_ = precision;
+     updateValue();
+}
+
+
+void Q{{item.titleName}}Label::handleCustomMenu(const QPoint &globalPos)
+{
+	QMenu menu;
+
+	{% for unit in item.units %}
+	menu.addAction({{item.name}}UnitToString({{unit.name}}));
+	{% endfor %}
+
+	QAction *a = menu.exec(globalPos);
+
+	if (a) {
+		setUnit({{item.name}}UnitFromString(a->text()));
+	}
+}
+
+
+bool Q{{item.titleName}}Label::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == this) {
+		if (event->type() == QEvent::ContextMenu) {
+			QContextMenuEvent *mEv = static_cast<QContextMenuEvent*>(event);
+			if (mEv->modifiers() & Qt::ControlModifier) {
+				handleCustomMenu(mEv->globalPos());
+				return true;
+			}
+		}
+		return false;
+	}
+	else {
+		return QLabel::eventFilter(obj, event);
+	}
+}

@@ -1,0 +1,84 @@
+/*
+    Copyright (C) 2013-2015 Remi Thebault
+    All rights reserved.
+
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
+*/
+
+#ifndef QPHYSICS_{{item.name|upper}}LABEL_HPP
+#define QPHYSICS_{{item.name|upper}}LABEL_HPP
+
+#include "ph/{{item.titleName}}.hpp"
+
+#include "QLabel"
+
+
+class Q{{item.titleName}}Label : public QLabel
+{
+    Q_OBJECT
+
+    Q_PROPERTY({{item.titleName}}Unit unit READ unit WRITE setUnit)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
+    Q_ENUMS({{item.titleName}}Unit)
+
+public:
+
+    enum {{item.titleName}}Unit {
+    {% for unit in item.units %}
+        {{ unit.name }}{{ ',' if not loop.last }}
+    {% endfor %}
+    };
+
+
+    Q{{item.titleName}}Label(QWidget *parent);
+
+    virtual ~Q{{item.titleName}}Label();
+
+
+    ph::{{item.titleName}} {{item.name}}() const;
+
+    {{item.titleName}}Unit unit() const {
+        return unit_;
+    }
+
+    void setUnit({{item.titleName}}Unit unit);
+
+
+    int precision() const {
+        return precision_;
+    }
+
+    void setPrecision(int precision);
+
+
+public slots:
+
+    void set{{item.titleName}}(ph::{{item.titleName}} value);
+
+
+signals:
+
+    void {{item.name}}Changed(ph::{{item.titleName}} value);
+
+private slots:
+
+    void handleCustomMenu(const QPoint& globalPos);
+
+    void updateValue();
+
+protected:
+
+    virtual bool eventFilter(QObject *obj, QEvent *ev) override;
+
+private:
+
+    ph::{{item.titleName}} value_;
+    {{item.titleName}}Unit unit_;
+    double precision_;
+
+};
+
+
+#endif // QPHYSICS_{{item.name|upper}}LABEL_HPP
