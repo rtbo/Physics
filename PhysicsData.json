@@ -146,6 +146,15 @@
         "defaultUnit" : "kgpmol"
     },
     {
+        "name" : "power",
+        "units" : [
+            {
+                "name" : "W"
+            }
+        ],
+        "defaultUnit" : "W"
+    },
+    {
         "name" : "pressure",
         "units" : [
             {

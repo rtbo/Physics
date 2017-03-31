@@ -19,6 +19,7 @@ Product {
         "include/ph/Length.hpp",
         "include/ph/Mass.hpp",
         "include/ph/MolecularMass.hpp",
+        "include/ph/Power.hpp",
         "include/ph/Pressure.hpp",
         "include/ph/Quantity.hpp",
         "include/ph/Temperature.hpp",

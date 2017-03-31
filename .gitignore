@@ -20,6 +20,7 @@ Physics/include/ph/Force.hpp
 Physics/include/ph/Length.hpp
 Physics/include/ph/Mass.hpp
 Physics/include/ph/MolecularMass.hpp
+Physics/include/ph/Power.hpp
 Physics/include/ph/Pressure.hpp
 Physics/include/ph/Quantity.hpp
 Physics/include/ph/Temperature.hpp
@@ -35,6 +36,7 @@ QPhysicsUI/include/QForceLabel.hpp
 QPhysicsUI/include/QLengthLabel.hpp
 QPhysicsUI/include/QMassLabel.hpp
 QPhysicsUI/include/QMolecularMassLabel.hpp
+QPhysicsUI/include/QPowerLabel.hpp
 QPhysicsUI/include/QPressureLabel.hpp
 QPhysicsUI/include/QQuantityLabel.hpp
 QPhysicsUI/include/QTemperatureLabel.hpp
@@ -50,6 +52,7 @@ QPhysicsUI/QForceLabel.cpp
 QPhysicsUI/QLengthLabel.cpp
 QPhysicsUI/QMassLabel.cpp
 QPhysicsUI/QMolecularMassLabel.cpp
+QPhysicsUI/QPowerLabel.cpp
 QPhysicsUI/QPressureLabel.cpp
 QPhysicsUI/QQuantityLabel.cpp
 QPhysicsUI/QTemperatureLabel.cpp
@@ -65,6 +68,7 @@ QPhysicsUI/include/QForceSpinBox.hpp
 QPhysicsUI/include/QLengthSpinBox.hpp
 QPhysicsUI/include/QMassSpinBox.hpp
 QPhysicsUI/include/QMolecularMassSpinBox.hpp
+QPhysicsUI/include/QPowerSpinBox.hpp
 QPhysicsUI/include/QPressureSpinBox.hpp
 QPhysicsUI/include/QQuantitySpinBox.hpp
 QPhysicsUI/include/QTemperatureSpinBox.hpp
@@ -80,6 +84,7 @@ QPhysicsUI/QForceSpinBox.cpp
 QPhysicsUI/QLengthSpinBox.cpp
 QPhysicsUI/QMassSpinBox.cpp
 QPhysicsUI/QMolecularMassSpinBox.cpp
+QPhysicsUI/QPowerSpinBox.cpp
 QPhysicsUI/QPressureSpinBox.cpp
 QPhysicsUI/QQuantitySpinBox.cpp
 QPhysicsUI/QTemperatureSpinBox.cpp

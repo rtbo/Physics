@@ -173,6 +173,26 @@ namespace ph {
         return rhs * lhs;
     }
 
+
+    constexpr Power operator/(Energy lhs, Time rhs)
+    {
+        return Power::fromW(lhs.J() / rhs.s());
+    }
+
+    constexpr Energy operator*(Power lhs, Time rhs)
+    {
+        return Energy::fromJ(lhs.W() * rhs.s());
+    }
+
+    constexpr Energy operator*(Time lhs, Power rhs)
+    {
+        return Energy::fromJ(lhs.s() * rhs.W());
+    }
+
+    constexpr Time operator/(Energy lhs, Power rhs)
+    {
+        return Time::fromS(lhs.J() / rhs.W());
+    }
 }
 
 #endif // PHYSX_OPERATORS_HPP
