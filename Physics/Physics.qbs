@@ -5,10 +5,7 @@ Product {
     name: "Physics"
     cpp.includePaths: "include"
 
-    Properties {
-        condition: qbs.toolchain.contains("gcc")
-        cpp.cxxFlags: "-std=c++1y"
-    }
+    cpp.cxxLanguageVersion: "c++14"
 
     files: [
         "include/ph/Acceleration.hpp",
@@ -39,9 +36,6 @@ Product {
         Depends {name: "cpp"}
         cpp.includePaths: "include"
 
-        Properties {
-            condition: qbs.toolchain.contains("gcc")
-            cpp.cxxFlags: "-std=c++1y"
-        }
+        cpp.cxxLanguageVersion: "c++14"
     }
 }
