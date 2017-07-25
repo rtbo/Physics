@@ -14,16 +14,12 @@ Module {
     Rule {
         inputs: ["glob_template"]
 
-        outputFileTags: ["generated_glob", "hpp", "cpp"]
-
-        outputArtifacts: {
-            var rp = PhCgFuncs.getSrcRelativePath(product, FileInfo.path(input.filePath));
-            var of = FileInfo.joinPaths(rp, input.completeBaseName);
-            return [{
-                filePath: of,
-                //fileTags: PhCgFuncs.outputFileTags([], of)
-                //explicitlyDependsOn: ["cpp"]
-            }];
+        Artifact {
+            fileTags: ["generated_glob", "hpp", "cpp"]
+            filePath: {
+                var rp = PhCgFuncs.getSrcRelativePath(product, FileInfo.path(input.filePath));
+                return FileInfo.joinPaths(rp, input.completeBaseName);
+            }
         }
 
         prepare: {
