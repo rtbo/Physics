@@ -20,26 +20,9 @@ function getSrcRelativePath(product, path)
     return FileInfo.relativePath(product.sourceDirectory, path);
 }
 
-function getBldRelativePath(product, path)
-{
-    return FileInfo.relativePath(product.buildDirectory, path);
-}
-
 function outputItemPath(product, input, item)
 {
     var rp = getSrcRelativePath(product, FileInfo.path(input.filePath));
     return FileInfo.joinPaths(rp, input.completeBaseName)
             .replace("Item", itemTitleName(item));
-}
-
-function outputFileTags(initialTags, input)
-{
-    var fn = input.completeBaseName;
-    if (fn.endsWith(".cpp")) {
-        initialTags.push("cpp");
-    }
-    else if (fn.endsWith(".hpp")) {
-        initialTags.push("cpp");
-    }
-    return initialTags;
 }
