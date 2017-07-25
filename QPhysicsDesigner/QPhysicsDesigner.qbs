@@ -1,14 +1,13 @@
 import qbs
 import qbs.FileInfo
 
-Product {
+DynamicLibrary {
     Depends {name: "cpp"}
     Depends {name: "QPhysicsUI"}
     Depends {name: "Qt"; submodules:["core", "gui", "widgets", "designer"]}
     Depends {name: "phcg"}
     name: "QPhysicsDesigner"
 
-    type: ["dynamiclibrary", "generated_glob", "generated_item"]
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
 

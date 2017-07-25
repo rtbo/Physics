@@ -1,14 +1,12 @@
 import qbs
 import qbs.FileInfo
 
-Product {
+StaticLibrary {
     name: "QPhysics"
     Depends { name: "cpp" }
     Depends { name: "Qt.core" }
     Depends { name: "Physics" }
     Depends { name: "phcg" }
-
-    type: ["staticlibrary", "generated_glob", "generated_item_hpp"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"

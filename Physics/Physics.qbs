@@ -5,7 +5,6 @@ Product {
     Depends { name: "phcg" }
 
     name: "Physics"
-
     type: ["generated_glob", "generated_item"]
 
     phcg.script: "../PhysicsCodeGen.py"

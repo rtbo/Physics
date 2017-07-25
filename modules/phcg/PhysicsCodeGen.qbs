@@ -11,6 +11,8 @@ Module {
     property path script
     property path data
 
+    additionalProductFileTags: ["generated_glob", "generated_item"]
+
     Rule {
         inputs: ["glob_template"]
 
