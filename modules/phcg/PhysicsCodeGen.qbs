@@ -1,5 +1,8 @@
 import qbs
 import qbs.FileInfo
+import qbs.TextFile
+
+import 'phcgfuncs.js' as PhCgFuncs
 
 Module {
 
@@ -10,29 +13,12 @@ Module {
         inputs: ["glob_hpp_template"]
         Artifact {
             filePath: {
-                var rp = FileInfo.relativePath(product.sourceDirectory, FileInfo.path(input.filePath));
+                var rp = PhCgFuncs.getSrcRelativePath(product, FileInfo.path(input.filePath));
                 var of = FileInfo.joinPaths(rp, input.completeBaseName);
                 return of;
             }
-            fileTags: ["generated_hpp"]
+            fileTags: ["generated_glob_hpp"]
         }
-
-//        outputFileTags: ["generated_headers"]
-//        outputArtifacts: {
-//            var i, infile;
-//            var oa = [];
-//            for (i=0; i<inputs.ph_globs.length; ++i) {
-//                infile = inputs.ph_globs[i];
-//                oa.push({
-//                    filePath: FileInfo.joinPaths(
-//                        "include/ph", FileInfo.completeBaseName(infile)
-//                    ),
-//                    fileTags: ["hpp"],
-//                    cgInput: infile,
-//                });
-//            }
-//            return oa;
-//        }
 
         prepare: {
             var script = product.moduleProperty("phcg", "script");
@@ -42,10 +28,48 @@ Module {
                 "--input", input.filePath, "--output", output.filePath
             ]);
             cmd.highlight = "codegen";
-            cmd.description = input.filePath + " -> " + output.filePath
+            cmd.description = "Generating "+
+                    PhCgFuncs.getBldRelativePath(product, output.filePath);
             return cmd;
         }
-
     }
 
+    Rule {
+        inputs: ["item_hpp_template"]
+        outputFileTags: ["generated_item_hpp"]
+        outputArtifacts: {
+            var dp = product.moduleProperty("phcg", "data");
+            var items = PhCgFuncs.getItems(dp);
+            var oa = [];
+            for (var i=0; i<items.length; ++i) {
+                var item = items[i];
+                var of = PhCgFuncs.outputItemPath(product, input, item);
+                oa.push({
+                    filePath: of
+                });
+            }
+            return oa;
+        }
+
+        prepare: {
+            var script = product.moduleProperty("phcg", "script");
+            var dataPath = product.moduleProperty("phcg", "data");
+            var items = PhCgFuncs.getItems(dataPath);
+            var cmds = [];
+            for (var i=0; i<items.length; ++i) {
+                var item = items[i];
+                var of = PhCgFuncs.outputItemPath(product, input, item);
+                var cmd = new Command("python", [ script, "--help"]);
+                var cmd = new Command("python", [
+                    script, "--mode", "item", "--datafile", dataPath, "--item", item.name,
+                    "--input", input.filePath,
+                    "--output", FileInfo.joinPaths(product.buildDirectory, of)
+                ]);
+                cmd.highlight = "codegen";
+                cmd.description = "Generating "+of;
+                cmds.push(cmd);
+            }
+            return cmds;
+        }
+    }
 }

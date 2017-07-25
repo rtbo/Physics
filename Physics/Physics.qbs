@@ -4,7 +4,7 @@ import qbs.FileInfo
 Product {
     Depends { name: "phcg" }
 
-    type: ["generated_hpp"]
+    type: ["generated_glob_hpp", "generated_item_hpp"]
     name: "Physics"
 
     phcg.script: "../PhysicsCodeGen.py"
@@ -33,9 +33,9 @@ Product {
     Group {
         name: "Item templates"
         files: [
-            "../templates/Item.hpp.template",
+            "include/ph/Item.hpp.template",
         ]
-        fileTags: ["item_templates"]
+        fileTags: ["item_hpp_template"]
     }
 
 
