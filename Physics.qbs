@@ -8,7 +8,7 @@ Project {
         "QPhysicsUI/QPhysicsUI.qbs",
         "QPhysicsDesigner/QPhysicsDesigner.qbs",
 
-        //"tests/tests.qbs"
+        "tests/tests.qbs"
     ]
 
     qbsSearchPaths: ["."]
