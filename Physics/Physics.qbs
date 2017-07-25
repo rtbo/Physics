@@ -6,7 +6,7 @@ Product {
 
     name: "Physics"
 
-    type: ["generated_glob_hpp", "generated_item_hpp"]
+    type: ["generated_glob", "generated_item"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -28,7 +28,7 @@ Product {
             "include/ph/Literals.hpp.template",
             "include/ph/_IncludeAll.hpp.template",
         ]
-        fileTags: ["glob_hpp_template"]
+        fileTags: ["glob_template"]
     }
 
     Group {
@@ -36,7 +36,7 @@ Product {
         files: [
             "include/ph/Item.hpp.template",
         ]
-        fileTags: ["item_hpp_template"]
+        fileTags: ["item_template"]
     }
 
 

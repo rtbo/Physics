@@ -9,7 +9,7 @@ Product {
 
     name: "QPhysicsUI"
 
-    type: ["staticlibrary", "generated_glob_hpp", "generated_item_hpp"]
+    type: ["staticlibrary", "generated_glob", "generated_item"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -25,7 +25,7 @@ Product {
             "include/QItemLabel.hpp.template",
             "include/QItemSpinBox.hpp.template",
         ]
-        fileTags: ["item_hpp_template"]
+        fileTags: ["item_template"]
     }
     Group {
         name: "Source templates"
@@ -33,7 +33,7 @@ Product {
             "QItemLabel.cpp.template",
             "QItemSpinBox.cpp.template",
         ]
-        fileTags: ["item_cpp_template"]
+        fileTags: ["item_template"]
     }
 
     Export {

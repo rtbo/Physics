@@ -8,7 +8,7 @@ Product {
     Depends { name: "Physics" }
     Depends { name: "phcg" }
 
-    type: ["staticlibrary", "generated_glob_hpp", "generated_item_hpp"]
+    type: ["staticlibrary", "generated_glob", "generated_item_hpp"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -20,12 +20,12 @@ Product {
     Group {
         name: "Header template"
         files: ["include/QPhysics.hpp.template"]
-        fileTags: ["glob_hpp_template"]
+        fileTags: ["glob_template"]
     }
     Group {
         name: "Source template"
         files: ["QPhysics.cpp.template"]
-        fileTags: ["glob_cpp_template"]
+        fileTags: ["glob_template"]
     }
 
     Export {
