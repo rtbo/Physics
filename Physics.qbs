@@ -18,23 +18,9 @@ Project {
 
         name: "CodeGen"
 
-        Group {
-            name: "script"
-            files: [
-                "PhysicsGenerator.py",
-                "PhysicsCodeGen.py"
-            ]
-            fileTags: ["cg_script"]
-        }
-
-        Group {
-            name: "data"
-            files: [
-                "PhysicsData.json"
-            ]
-            fileTags: ["cg_data"]
-        }
-
-
+        files: [
+            "PhysicsCodeGen.py",
+            "PhysicsData.json"
+        ]
     }
 }
