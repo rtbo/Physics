@@ -11,6 +11,7 @@ Project {
         //"tests/tests.qbs"
     ]
 
+    qbsSearchPaths: ["."]
 
     Product {
         name: "CodeGen"
