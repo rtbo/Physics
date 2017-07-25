@@ -28,8 +28,7 @@ Module {
                 "--input", input.filePath, "--output", output.filePath
             ]);
             cmd.highlight = "codegen";
-            cmd.description = "generating "+
-                    PhCgFuncs.getBldRelativePath(product, output.filePath);
+            cmd.description = "generating "+output.fileName;
             return cmd;
         }
     }
@@ -53,8 +52,7 @@ Module {
                 "--input", input.filePath, "--output", output.filePath
             ]);
             cmd.highlight = "codegen";
-            cmd.description = "generating "+
-                    PhCgFuncs.getBldRelativePath(product, output.filePath);
+            cmd.description = "generating "+output.fileName;
             return cmd;
         }
     }
@@ -91,7 +89,7 @@ Module {
                     "--output", FileInfo.joinPaths(product.buildDirectory, of)
                 ]);
                 cmd.highlight = "codegen";
-                cmd.description = "generating "+of;
+                cmd.description = "generating "+FileInfo.fileName(of);
                 cmds.push(cmd);
             }
             return cmds;
@@ -130,7 +128,7 @@ Module {
                     "--output", FileInfo.joinPaths(product.buildDirectory, of)
                 ]);
                 cmd.highlight = "codegen";
-                cmd.description = "generating "+of;
+                cmd.description = "generating "+FileInfo.fileName(of);
                 cmds.push(cmd);
             }
             return cmds;
