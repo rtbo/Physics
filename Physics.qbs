@@ -4,8 +4,8 @@ Project {
 
     references: [
         "Physics/Physics.qbs",
-        //"QPhysics/QPhysics.qbs",
-        //"QPhysicsUI/QPhysicsUI.qbs",
+        "QPhysics/QPhysics.qbs",
+        "QPhysicsUI/QPhysicsUI.qbs",
         //"QPhysicsDesigner/QPhysicsDesigner.qbs",
 
         //"tests/tests.qbs"
@@ -14,6 +14,8 @@ Project {
     qbsSearchPaths: ["."]
 
     Product {
+        // product to make the files available in QtCreator
+
         name: "CodeGen"
 
         Group {

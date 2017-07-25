@@ -31,3 +31,15 @@ function outputItemPath(product, input, item)
     return FileInfo.joinPaths(rp, input.completeBaseName)
             .replace("Item", itemTitleName(item));
 }
+
+function outputFileTags(initialTags, input)
+{
+    var fn = input.completeBaseName;
+    if (fn.endsWith(".cpp")) {
+        initialTags.push("cpp");
+    }
+    else if (fn.endsWith(".hpp")) {
+        initialTags.push("cpp");
+    }
+    return initialTags;
+}

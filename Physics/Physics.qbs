@@ -4,8 +4,9 @@ import qbs.FileInfo
 Product {
     Depends { name: "phcg" }
 
-    type: ["generated_glob_hpp", "generated_item_hpp"]
     name: "Physics"
+
+    type: ["generated_glob_hpp", "generated_item_hpp"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -43,7 +44,10 @@ Product {
 
     Export {
         Depends {name: "cpp"}
-        cpp.includePaths: "include"
+        cpp.includePaths: [
+            "include",
+            FileInfo.joinPaths(product.buildDirectory, "include")
+        ]
 
         cpp.cxxLanguageVersion: "c++14"
     }
