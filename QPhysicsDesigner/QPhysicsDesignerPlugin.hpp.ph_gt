@@ -10,7 +10,7 @@
 #ifndef QPHYSICS_DESIGNERPLUGIN_HPP
 #define QPHYSICS_DESIGNERPLUGIN_HPP
 
-#include "QDesignerCustomWidgetInterface"
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
 namespace QPhysics {
 
