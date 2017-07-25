@@ -8,11 +8,6 @@ StaticLibrary {
 
     cpp.includePaths: "include"
 
-    files: [
-        "include/QPhysics.hpp",
-        "QPhysics.cpp"
-    ]
-
     Export {
         Depends { name: "cpp" }
         Depends { name: "Physics" }

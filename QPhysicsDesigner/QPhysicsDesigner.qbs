@@ -7,8 +7,6 @@ DynamicLibrary {
     Depends {name: "Qt"; submodules:["core", "gui", "widgets", "designer"]}
     name: "QPhysicsDesigner"
     files: [
-        "QPhysicsDesignerPlugin.hpp",
-        "QPhysicsDesignerPlugin.cpp",
         "icons.qrc"
     ]
 //    Group {
