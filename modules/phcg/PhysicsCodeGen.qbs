@@ -13,8 +13,20 @@ Module {
 
     additionalProductFileTags: ["generated_glob", "generated_item"]
 
+    FileTagger {
+        // Physics global templates
+        patterns: ["*.ph_gt"]
+        fileTags: ["ph_glob_template"]
+    }
+
+    FileTagger {
+        // Physics global templates
+        patterns: ["*.ph_it"]
+        fileTags: ["ph_item_template"]
+    }
+
     Rule {
-        inputs: ["glob_template"]
+        inputs: ["ph_glob_template"]
 
         Artifact {
             fileTags: ["generated_glob", "hpp", "cpp"]
@@ -38,7 +50,7 @@ Module {
     }
 
     Rule {
-        inputs: ["item_template"]
+        inputs: ["ph_item_template"]
 
         outputFileTags: ["generated_item", "hpp", "cpp"]
 

@@ -21,28 +21,18 @@ Product {
     }
 
     Group {
-        name: "Global templates"
+        name: "Templates"
         files: [
-            "include/ph/FwdDecl.hpp.template",
-            "include/ph/Literals.hpp.template",
-            "include/ph/_IncludeAll.hpp.template",
+            "include/ph/FwdDecl.hpp.ph_gt",
+            "include/ph/Literals.hpp.ph_gt",
+            "include/ph/_IncludeAll.hpp.ph_gt",
+            "include/ph/Item.hpp.ph_it",
         ]
-        fileTags: ["glob_template"]
     }
-
-    Group {
-        name: "Item templates"
-        files: [
-            "include/ph/Item.hpp.template",
-        ]
-        fileTags: ["item_template"]
-    }
-
-
-
 
     Export {
         Depends {name: "cpp"}
+
         cpp.includePaths: [
             "include",
             FileInfo.joinPaths(product.buildDirectory, "include")

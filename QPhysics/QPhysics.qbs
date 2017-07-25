@@ -2,11 +2,12 @@ import qbs
 import qbs.FileInfo
 
 StaticLibrary {
-    name: "QPhysics"
     Depends { name: "cpp" }
     Depends { name: "Qt.core" }
     Depends { name: "Physics" }
     Depends { name: "phcg" }
+
+    name: "QPhysics"
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -15,16 +16,10 @@ StaticLibrary {
         FileInfo.joinPaths(buildDirectory, "include")
     ]
 
-    Group {
-        name: "Header template"
-        files: ["include/QPhysics.hpp.template"]
-        fileTags: ["glob_template"]
-    }
-    Group {
-        name: "Source template"
-        files: ["QPhysics.cpp.template"]
-        fileTags: ["glob_template"]
-    }
+    files: [
+        "include/QPhysics.hpp.ph_gt",
+        "QPhysics.cpp.ph_gt",
+    ]
 
     Export {
         Depends { name: "cpp" }

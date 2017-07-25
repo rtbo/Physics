@@ -6,6 +6,7 @@ DynamicLibrary {
     Depends {name: "QPhysicsUI"}
     Depends {name: "Qt"; submodules:["core", "gui", "widgets", "designer"]}
     Depends {name: "phcg"}
+
     name: "QPhysicsDesigner"
 
     phcg.script: "../PhysicsCodeGen.py"
@@ -15,20 +16,11 @@ DynamicLibrary {
         buildDirectory
     ]
 
-    Group {
-        name: "Header template"
-        files: ["QPhysicsDesignerPlugin.hpp.template"]
-        fileTags: ["glob_template"]
-    }
-    Group {
-        name: "Source template"
-        files: ["QPhysicsDesignerPlugin.cpp.template"]
-        fileTags: ["glob_template"]
-    }
-    Group {
-        name: "Resource"
-        files: ["icons.qrc"]
-    }
+    files: [
+        "icons.qrc",
+        "QPhysicsDesignerPlugin.hpp.ph_gt",
+        "QPhysicsDesignerPlugin.cpp.ph_gt",
+    ]
 
 //    Group {
 //        qbs.install: true

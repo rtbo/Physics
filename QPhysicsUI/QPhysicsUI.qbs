@@ -17,22 +17,12 @@ StaticLibrary {
         FileInfo.joinPaths(buildDirectory, "include")
     ]
 
-    Group {
-        name: "Header templates"
-        files: [
-            "include/QItemLabel.hpp.template",
-            "include/QItemSpinBox.hpp.template",
-        ]
-        fileTags: ["item_template"]
-    }
-    Group {
-        name: "Source templates"
-        files: [
-            "QItemLabel.cpp.template",
-            "QItemSpinBox.cpp.template",
-        ]
-        fileTags: ["item_template"]
-    }
+    files: [
+        "include/QItemLabel.hpp.ph_it",
+        "include/QItemSpinBox.hpp.ph_it",
+        "QItemLabel.cpp.ph_it",
+        "QItemSpinBox.cpp.ph_it",
+    ]
 
     Export {
         Depends {name: "cpp"}
