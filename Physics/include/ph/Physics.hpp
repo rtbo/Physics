@@ -10,12 +10,12 @@
 #ifndef PHYSICS_PHYSICS_HPP
 #define PHYSICS_PHYSICS_HPP
 
-#include "_IncludeAll.hpp"
+#include "ph/_IncludeAll.hpp"
 
 #include "Operators.hpp"
 #include "Constants.hpp"
 
-#include "Literals.hpp"
+#include "ph/Literals.hpp"
 
 
 namespace std {
