@@ -4,9 +4,10 @@ import qbs.TextFile
 
 Product {
     Depends { name: "phcg" }
+    Depends { name: "cpp" }
 
     name: "Physics"
-    type: ["generated_glob", "generated_item", "generated_version"]
+    type: ["hpp"]
 
     phcg.script: "../PhysicsCodeGen.py"
     phcg.data: "../PhysicsData.json"
@@ -41,7 +42,7 @@ Product {
     Rule {
         inputs: ["version_template"]
         Artifact {
-            fileTags: ["generated_version"]
+            fileTags: ["hpp"]
             filePath: "include/ph/Version.hpp"
         }
         prepare: {

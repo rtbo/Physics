@@ -11,16 +11,14 @@ Module {
     property path script
     property path data
 
-    additionalProductFileTags: ["generated_glob", "generated_item"]
-
     FileTagger {
-        // Physics global templates
+        // Physics global templates: one file generated per template
         patterns: ["*.ph_gt"]
         fileTags: ["ph_glob_template"]
     }
 
     FileTagger {
-        // Physics global templates
+        // Physics item templates: one file generated per template and per item
         patterns: ["*.ph_it"]
         fileTags: ["ph_item_template"]
     }
@@ -29,7 +27,7 @@ Module {
         inputs: ["ph_glob_template"]
 
         Artifact {
-            fileTags: ["generated_glob", "hpp", "cpp"]
+            fileTags: ["hpp", "cpp"]
             filePath: {
                 var rp = PhCgFuncs.getSrcRelativePath(product, FileInfo.path(input.filePath));
                 return FileInfo.joinPaths(rp, input.completeBaseName);
@@ -52,7 +50,7 @@ Module {
     Rule {
         inputs: ["ph_item_template"]
 
-        outputFileTags: ["generated_item", "hpp", "cpp"]
+        outputFileTags: ["hpp", "cpp"]
 
         outputArtifacts: {
             var dp = product.moduleProperty("phcg", "data");
@@ -61,9 +59,7 @@ Module {
             for (var i=0; i<items.length; ++i) {
                 var item = items[i];
                 var of = PhCgFuncs.outputItemPath(product, input, item);
-                oa.push({
-                    filePath: of
-                });
+                oa.push({ filePath: of });
             }
             return oa;
         }
