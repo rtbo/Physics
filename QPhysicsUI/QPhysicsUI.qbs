@@ -16,6 +16,12 @@ StaticLibrary {
         "include",
         FileInfo.joinPaths(buildDirectory, "include")
     ]
+    Properties {
+        condition: qbs.toolchain.contains("gcc")
+        cpp.cxxFlags: [
+            "-Wno-unused-variable"
+        ]
+    }
 
     files: [
         "include/QItemLabel.hpp.ph_it",
