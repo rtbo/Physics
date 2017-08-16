@@ -4,7 +4,7 @@ Project {
 
     property string phVersionMaj: "1"
     property string phVersionMin: "1"
-    property string phVersionMic: "0"
+    property string phVersionMic: "1"
     property string phVersionStr: {
         return phVersionMaj + "." + phVersionMin + "." + phVersionMic;
     }
