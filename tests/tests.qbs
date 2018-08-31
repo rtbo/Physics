@@ -8,6 +8,8 @@ Application {
 
     consoleApplication: true
 
+    cpp.cxxLanguageVersion: "c++17"
+
     files: [
         "main.cpp",
         "Temperature.cpp",

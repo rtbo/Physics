@@ -75,6 +75,6 @@ Product {
             FileInfo.joinPaths(product.buildDirectory, "include")
         ]
 
-        cpp.cxxLanguageVersion: "c++14"
+        cpp.cxxLanguageVersion: "c++17"
     }
 }
