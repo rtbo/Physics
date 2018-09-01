@@ -161,6 +161,22 @@ namespace ph {
         return lhs.{{item.defaultUnit}}() < rhs.{{item.defaultUnit}}();
     }
 
+    constexpr bool operator<=({{item.titleName}} lhs, {{item.titleName}} rhs)
+    {
+        return lhs.{{item.defaultUnit}}() <= rhs.{{item.defaultUnit}}();
+    }
+
+    constexpr bool operator>({{item.titleName}} lhs, {{item.titleName}} rhs)
+    {
+        return lhs.{{item.defaultUnit}}() > rhs.{{item.defaultUnit}}();
+    }
+
+    constexpr bool operator>=({{item.titleName}} lhs, {{item.titleName}} rhs)
+    {
+        return lhs.{{item.defaultUnit}}() >= rhs.{{item.defaultUnit}}();
+    }
+
+
 
     constexpr bool operator==({{item.titleName}} lhs, zero_t)
     {
