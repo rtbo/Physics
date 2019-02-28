@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     if args.print_items:
         for item in physicsItems:
-            args.output.write(item["name"] + "\n")
+            args.output.write(item["name"] + ";")
         sys.exit(0)
 
     tplt = Environment(trim_blocks=True).from_string(args.input.read())

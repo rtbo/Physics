@@ -1,34 +1,24 @@
 
-set(PHYSICS_SRC
-    include/ph/Acceleration.hpp
-    include/ph/Area.hpp
-    include/ph/Energy.hpp
-    include/ph/Flow.hpp
-    include/ph/Force.hpp
-    include/ph/Length.hpp
-    include/ph/Mass.hpp
-    include/ph/MolecularMass.hpp
-    include/ph/Pressure.hpp
-    include/ph/Quantity.hpp
-    include/ph/Temperature.hpp
-    include/ph/Time.hpp
-    include/ph/Velocity.hpp
-    include/ph/Volume.hpp
-    include/ph/VolumicMass.hpp
-    include/ph/FwdDecl.hpp
-    include/ph/Operators.hpp
-    include/ph/Literals.hpp
-    include/ph/Physics.hpp
-    include/ph/Constants.hpp
-    include/ph/Zero.hpp
-    include/ph/_IncludeAll.hpp)
+set(TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/templates")
+set(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
-add_library(Physics INTERFACE)
+configure_file(
+    "${TEMPLATE_DIR}/include/ph/Version.hpp.in"
+    "${OUTPUT_DIR}/include/ph/Version.hpp"
+)
 
-target_include_directories(Physics INTERFACE include)
-#target_sources(Physics INTERFACE ${PHYSICS_SRC})
+code_gen_glob(
+    "${TEMPLATE_DIR}"
+    "${OUTPUT_DIR}"
+    GLOB_FILES
+)
 
-if(NOT ${SKIP_PHYSICS_INSTALL})
-    install(DIRECTORY include/ph DESTINATION include)
-endif()
+code_gen_item(
+    "${TEMPLATE_DIR}"
+    "${OUTPUT_DIR}"
+    ITEM_FILES
+)
 
+add_library(PhysicsCore STATIC ${GLOB_FILES} ${ITEM_FILES})
+set_target_properties(PhysicsCore PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(PhysicsCore INTERFACE PUBLIC include "${OUTPUT_DIR}/include")

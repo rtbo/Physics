@@ -1,14 +1,13 @@
 
-add_library(QPhysics STATIC
-    include/QPhysics.hpp
-    QPhysics.cpp)
+set(TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/templates")
+set(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
-target_include_directories(QPhysics PUBLIC include)
+code_gen_glob(
+    "${TEMPLATE_DIR}"
+    "${OUTPUT_DIR}"
+    GLOB_FILES
+)
 
-target_link_libraries(QPhysics Physics Qt5::Core)
-
-if(NOT ${SKIP_PHYSICS_INSTALL})
-    install(TARGETS QPhysics
-        ARCHIVE DESTINATION lib)
-    install(FILES include/QPhysics.hpp DESTINATION include)
-endif()
+add_library(QPhysics STATIC ${GLOB_FILES})
+target_include_directories(QPhysics PUBLIC "${OUTPUT_DIR}/include")
+target_link_libraries(QPhysics PhysicsCore Qt5::Core)
