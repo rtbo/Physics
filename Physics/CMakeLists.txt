@@ -19,6 +19,10 @@ code_gen_item(
     ITEM_FILES
 )
 
-add_library(PhysicsCore STATIC ${GLOB_FILES} ${ITEM_FILES})
+add_library(PhysicsCore STATIC
+    ${GLOB_FILES} ${ITEM_FILES}
+    CodeGen.cpp)
 set_target_properties(PhysicsCore PROPERTIES LINKER_LANGUAGE CXX)
-target_include_directories(PhysicsCore INTERFACE PUBLIC include "${OUTPUT_DIR}/include")
+# add_library(PhysicsCore INTERFACE)
+# target_sources(PhysicsCore INTERFACE ${GLOB_FILES} ${ITEM_FILES})
+target_include_directories(PhysicsCore INTERFACE include "${OUTPUT_DIR}/include")

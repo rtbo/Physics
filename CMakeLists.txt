@@ -1,9 +1,5 @@
 
-cmake_minimum_required(VERSION 3.1...3.13)
-
-if(${CMAKE_VERSION} VERSION_LESS 3.12)
-    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
-endif()
+cmake_minimum_required(VERSION 3.12)
 
 project(Physics VERSION 1.2.0
                 DESCRIPTION "Physics C++ library"
@@ -30,6 +26,8 @@ if (NOT PHYSICS_ITEMS_RESULT EQUAL "0")
     message(FATAL_ERROR "Could not list items. Make sure Python 3 is available and that Jinja2 is installed")
 endif()
 
+set(CMAKE_AUTOMOC ON)
+
 add_subdirectory(Physics)
 
 find_package(Qt5Core)
@@ -37,17 +35,17 @@ if(${Qt5Core_FOUND})
 
     add_subdirectory(QPhysics)
 
-#     find_package(Qt5Widgets)
-#     if(${Qt5Widgets_FOUND})
+    find_package(Qt5Widgets)
+    if(${Qt5Widgets_FOUND})
 
-#         add_subdirectory(QPhysicsUI)
+        add_subdirectory(QPhysicsUI)
 
-#         find_package(Qt5Designer)
-#         if(${Qt5Designer_FOUND})
-#             add_subdirectory(QPhysicsDesigner)
-#         endif()
+        find_package(Qt5Designer)
+        if(${Qt5Designer_FOUND})
+            add_subdirectory(QPhysicsDesigner)
+        endif()
 
-#     endif()
+    endif()
 endif()
 
 
