@@ -29,7 +29,7 @@ constexpr {{item.titleName}} operator"" _{{unit.litName}} (long double {{unit.na
 
 constexpr {{item.titleName}} operator"" _{{unit.litName}} (unsigned long long int {{unit.name}})
 {
-    return {{item.titleName}}::from{{unit.titleName}}({{unit.name}});
+    return {{item.titleName}}::from{{unit.titleName}}(static_cast<double>({{unit.name}}));
 }
 
     {%endfor%}
