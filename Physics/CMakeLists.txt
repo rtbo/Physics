@@ -19,10 +19,11 @@ code_gen_item(
     ITEM_FILES
 )
 
+# generating an empty static lib instead of an INTERFACE target
+# otherwise code generation is not triggered
 add_library(PhysicsCore STATIC
     ${GLOB_FILES} ${ITEM_FILES}
-    CodeGen.cpp)
+    Empty.cpp)
 set_target_properties(PhysicsCore PROPERTIES LINKER_LANGUAGE CXX)
-# add_library(PhysicsCore INTERFACE)
-# target_sources(PhysicsCore INTERFACE ${GLOB_FILES} ${ITEM_FILES})
+target_compile_features(PhysicsCore PUBLIC cxx_std_17)
 target_include_directories(PhysicsCore INTERFACE include "${OUTPUT_DIR}/include")
