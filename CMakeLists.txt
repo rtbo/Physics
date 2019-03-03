@@ -8,10 +8,7 @@ project(Physics VERSION 1.2.0
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 include(CodeGen)
 
-find_package(Python)
-if (NOT Python_Interpreter_FOUND)
-    message(FATAL_ERROR "Python not found but required for code generation")
-endif()
+find_package(Python REQUIRED)
 
 set(CODEGEN_SCRIPT "${Physics_SOURCE_DIR}/PhysicsCodeGen.py")
 set(CODEGEN_DATA "${Physics_SOURCE_DIR}/PhysicsData.json")
@@ -25,8 +22,6 @@ execute_process(COMMAND ${Python_EXECUTABLE} PhysicsCodeGen.py --print-items
 if (NOT PHYSICS_ITEMS_RESULT EQUAL "0")
     message(FATAL_ERROR "Could not list items. Make sure Python 3 is available and that Jinja2 is installed")
 endif()
-
-set(CMAKE_AUTOMOC ON)
 
 add_subdirectory(Physics)
 

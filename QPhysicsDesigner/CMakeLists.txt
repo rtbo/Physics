@@ -14,3 +14,4 @@ add_library(QPhysicsDesigner SHARED
     icons.qrc)
 
 target_link_libraries(QPhysicsDesigner QPhysicsUI Qt5::Designer)
+set_property(TARGET QPhysicsDesigner PROPERTY AUTOMOC ON)

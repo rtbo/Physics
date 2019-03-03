@@ -13,5 +13,5 @@ add_library(QPhysicsUI STATIC
     ${ITEM_FILES})
 
 target_include_directories(QPhysicsUI PUBLIC include "${OUTPUT_DIR}/include")
-
 target_link_libraries(QPhysicsUI QPhysics Qt5::Widgets)
+set_property(TARGET QPhysicsUI PROPERTY AUTOMOC ON)
