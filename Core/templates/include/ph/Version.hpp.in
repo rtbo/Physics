@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Remi Thebault
+    Copyright (C) 2017-2019 Remi Thebault
 
     This program and its source code are distributed under the
     terms of the BSD-style license, that can be found in the
@@ -10,10 +10,10 @@
 #define PHYSICS_VERSION_HPP
 
 
-#define PHYSICS_VERSION_MAJ ##VERSION_MAJ##
-#define PHYSICS_VERSION_MIN ##VERSION_MIN##
-#define PHYSICS_VERSION_MIC ##VERSION_MIC##
-#define PHYSICS_VERSION "##VERSION_STR##"
+#define PHYSICS_VERSION_MAJ @Physics_VERSION_MAJOR@
+#define PHYSICS_VERSION_MIN @Physics_VERSION_MINOR@
+#define PHYSICS_VERSION_MIC @Physics_VERSION_PATCH@
+#define PHYSICS_VERSION "@Physics_VERSION@"
 
 
 #endif // PHYSICS_VERSION_HPP
