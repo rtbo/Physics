@@ -1,7 +1,7 @@
 Physics C++ library
 ===================
 
-Physics
+Core
 -------
 	C++ header only library for manipulating physics values
 
