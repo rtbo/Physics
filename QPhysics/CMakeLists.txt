@@ -10,5 +10,5 @@ code_gen_glob(
 
 add_library(QPhysics STATIC ${GLOB_FILES})
 target_include_directories(QPhysics PUBLIC "${OUTPUT_DIR}/include")
-target_link_libraries(QPhysics PhysicsCore Qt5::Core)
+target_link_libraries(QPhysics Physics::Core Qt5::Core)
 set_property(TARGET QPhysics PROPERTY AUTOMOC ON)

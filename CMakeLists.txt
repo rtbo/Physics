@@ -23,7 +23,7 @@ if (NOT PHYSICS_ITEMS_RESULT EQUAL "0")
     message(FATAL_ERROR "Could not list items. Make sure Python 3 is available and that Jinja2 is installed")
 endif()
 
-add_subdirectory(Physics)
+add_subdirectory(Core)
 
 find_package(Qt5Core)
 if(${Qt5Core_FOUND})
