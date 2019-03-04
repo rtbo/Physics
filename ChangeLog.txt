@@ -1,5 +1,10 @@
 Change Log of Physics
 
+version 1.2.0
+	Switched to CMake build system
+	Out of line code generation
+
+
 version 1.0
 	Physics classes
 		Acceleration
@@ -17,9 +22,9 @@ version 1.0
 		Velocity
 		Volume
 		VolumicMass
-	
+
 	QPhysics:
 		SpinBoxes widgets for the physics class
-	
+
 	QPhysicsDesigner
 		QtDesigner plugin for QPhysics widgets

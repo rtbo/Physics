@@ -1,12 +1,17 @@
 
+
+set(TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/templates")
+set(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+
+code_gen_glob(
+    "${TEMPLATE_DIR}"
+    "${OUTPUT_DIR}"
+    GLOB_FILES
+)
+
 add_library(QPhysicsDesigner SHARED
-    QPhysicsDesignerPlugin.hpp
-    QPhysicsDesignerPlugin.cpp
+    ${GLOB_FILES}
     icons.qrc)
 
 target_link_libraries(QPhysicsDesigner QPhysicsUI Qt5::Designer)
-
-if(NOT ${SKIP_PHYSICSDESIGNER_INSTALL})
-    install(TARGETS QPhysicsDesigner
-        RUNTIME DESTINATION plugins/designer)
-endif()
+set_property(TARGET QPhysicsDesigner PROPERTY AUTOMOC ON)

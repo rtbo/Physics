@@ -40,7 +40,9 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description="Physics code generator")
     ap.add_argument("--datafile", default="PhysicsData.json",
             help="Path to the 'PhysicsData.json' file")
-    ap.add_argument("--mode", choices=["glob", "item"], required=True,
+    ap.add_argument("--print-items", dest="print_items", action="store_true", default=False,
+            help="print the list of items (one per line) and exit")
+    ap.add_argument("--mode", choices=["glob", "item"],
             help="Generation mode: 'glob' for files that take all items as input,"+
              "'item' for files that deal with one item (in such case, --item is required")
     ap.add_argument("--item", help="The physical quantity to generate code for")
@@ -53,6 +55,11 @@ if __name__ == '__main__':
     with open(args.datafile, "r") as datafile:
         physicsItems = json.load(datafile)
 
+    if args.print_items:
+        for item in physicsItems:
+            args.output.write(item["name"] + ";")
+        sys.exit(0)
+
     tplt = Environment(trim_blocks=True).from_string(args.input.read())
 
     if args.mode == 'glob':
@@ -63,4 +70,3 @@ if __name__ == '__main__':
         item = [pi for pi in physicsItems if pi["name"] == args.item][0]
         completeItem(item)
         args.output.write(tplt.render(item=item))
-

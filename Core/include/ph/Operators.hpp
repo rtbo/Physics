@@ -17,34 +17,6 @@
 namespace ph {
 
 
-    // deducing common operators from == and <
-
-    template <class T>
-    constexpr bool operator!=(const T& lhs, const T& rhs)
-    {
-        return !(lhs == rhs);
-    }
-
-    template <class T>
-    constexpr bool operator>(const T& lhs, const T& rhs)
-    {
-        return rhs < lhs;
-    }
-
-    template <class T>
-    constexpr bool operator<=(const T& lhs, const T& rhs)
-    {
-        return !(rhs < lhs);
-    }
-
-    template <class T>
-    constexpr bool operator>=(const T& lhs, const T& rhs)
-    {
-        return !(lhs < rhs);
-    }
-
-
-
     constexpr Area operator*(Length lhs, Length rhs)
     {
         return Area::fromM2(lhs.m() * rhs.m());
