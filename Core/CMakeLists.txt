@@ -7,6 +7,21 @@ configure_file(
     "${OUTPUT_DIR}/include/ph/Version.hpp"
 )
 
+set(HAND_WRITTEN_SRC
+    include/ph/Constants.hpp
+    include/ph/Operators.hpp
+    include/ph/Physics.hpp
+    include/ph/Zero.hpp
+)
+
+set(TEMPLATES_SRC
+    templates/include/ph/_IncludeAll.hpp.glob.in
+    templates/include/ph/FwdDecl.hpp.glob.in
+    templates/include/ph/Item.hpp.item.in
+    templates/include/ph/Literals.hpp.glob.in
+    templates/include/ph/Version.hpp.in
+)
+
 code_gen_glob(
     "${TEMPLATE_DIR}"
     "${OUTPUT_DIR}"
@@ -22,7 +37,7 @@ code_gen_item(
 # generating an empty static lib instead of an INTERFACE target
 # otherwise code generation is not triggered
 add_library(Core STATIC
-    ${GLOB_FILES} ${ITEM_FILES}
+    ${HAND_WRITTEN_SRC} ${TEMPLATES_SRC} ${GLOB_FILES} ${ITEM_FILES}
     Empty.cpp)
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(Core PUBLIC cxx_std_17)
