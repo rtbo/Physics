@@ -41,6 +41,6 @@ add_library(Core STATIC
     Empty.cpp)
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(Core PUBLIC cxx_std_17)
-target_include_directories(Core INTERFACE include "${OUTPUT_DIR}/include")
+target_include_directories(Core PUBLIC include "${OUTPUT_DIR}/include")
 
 add_library(Physics::Core ALIAS Core)
