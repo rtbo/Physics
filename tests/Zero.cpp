@@ -1,10 +1,3 @@
-/*
-    Copyright (c) 2013 2014, Plastic Omnium Auto INERGY
-    All rights reserved.
-
-    Copy and redistribution of this program in source or binary forms,
-    with or without modification, are strictly forbidden.
-*/
 
 #include "ph/Physics.hpp"
 
