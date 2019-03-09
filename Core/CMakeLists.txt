@@ -55,6 +55,9 @@ add_library(Core STATIC
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(Core PUBLIC cxx_std_17)
 target_include_directories(Core PUBLIC include "${CMAKE_CURRENT_BINARY_DIR}/include")
+if(${Qt5Core_FOUND})
+    target_link_libraries(Core PUBLIC Qt5::Core)
+endif()
 
 add_library(Physics::Core ALIAS Core)
 
