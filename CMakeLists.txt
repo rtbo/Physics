@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.12)
 
-project(Physics VERSION 1.2.0
+project(Physics VERSION 1.3.0
                 DESCRIPTION "Physics C++ library"
                 LANGUAGES CXX)
 
