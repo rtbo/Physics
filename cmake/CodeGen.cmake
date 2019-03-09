@@ -18,7 +18,7 @@ function(code_gen_capitalize INPUT resultVar)
 endfunction()
 
 function(code_gen_glob_file TEMPLATE_DIR TEMPLATE OUTPUT_DIR resultVar)
-    string(REPLACE ".glob.in" "" OUTPUT_FILE "${TEMPLATE}")
+    string(REPLACE ".glob.j2" "" OUTPUT_FILE "${TEMPLATE}")
     string(REPLACE "${TEMPLATE_DIR}" "${OUTPUT_DIR}" OUTPUT_FILE "${OUTPUT_FILE}")
     file(TO_CMAKE_PATH ${OUTPUT_FILE} OUTPUT_FILE)
     set(${resultVar} ${OUTPUT_FILE} PARENT_SCOPE)
@@ -26,7 +26,7 @@ endfunction()
 
 function(code_gen_item_file TEMPLATE_DIR TEMPLATE OUTPUT_DIR ITEM resultVar)
     code_gen_capitalize("${ITEM}" CAP_ITEM)
-    string(REPLACE ".item.in" "" OUTPUT_FILE "${TEMPLATE}")
+    string(REPLACE ".item.j2" "" OUTPUT_FILE "${TEMPLATE}")
     string(REPLACE "Item" "${CAP_ITEM}" OUTPUT_FILE "${OUTPUT_FILE}")
     string(REPLACE "item" "${ITEM}" OUTPUT_FILE "${OUTPUT_FILE}")
     string(REPLACE "${TEMPLATE_DIR}" "${OUTPUT_DIR}" OUTPUT_FILE "${OUTPUT_FILE}")
@@ -39,7 +39,7 @@ function(code_gen_glob TEMPLATE_DIR OUTPUT_DIR resultVar)
     file(TO_CMAKE_PATH "${TEMPLATE_DIR}" TEMPLATE_DIR)
     file(TO_CMAKE_PATH "${OUTPUT_DIR}" OUTPUT_DIR)
 
-    file(GLOB_RECURSE TEMPLATES "${TEMPLATE_DIR}/*.glob.in")
+    file(GLOB_RECURSE TEMPLATES "${TEMPLATE_DIR}/*.glob.j2")
 
     set(GEN_LIST)
     foreach(TEMPLATE ${TEMPLATES})
@@ -60,7 +60,7 @@ function(code_gen_item TEMPLATE_DIR OUTPUT_DIR resultVar)
     file(TO_CMAKE_PATH "${TEMPLATE_DIR}" TEMPLATE_DIR)
     file(TO_CMAKE_PATH "${OUTPUT_DIR}" OUTPUT_DIR)
 
-    file(GLOB_RECURSE TEMPLATES "${TEMPLATE_DIR}/*.item.in")
+    file(GLOB_RECURSE TEMPLATES "${TEMPLATE_DIR}/*.item.j2")
 
     set(GEN_LIST)
     foreach(TEMPLATE ${TEMPLATES})
@@ -71,7 +71,7 @@ function(code_gen_item TEMPLATE_DIR OUTPUT_DIR resultVar)
                 OUTPUT "${OUTPUT_FILE}"
                 COMMAND ${Python_EXECUTABLE} PhysicsCodeGen.py --mode item --item "${ITEM}" --input "${TEMPLATE}" --output "${OUTPUT_FILE}"
                 WORKING_DIRECTORY "${Physics_SOURCE_DIR}"
-                DEPENDS "${TEMPLATE}"
+                DEPENDS "${TEMPLATE}" "${Physics_SOURCE_DIR}/PhysicsCodeGen.py" "${Physics_SOURCE_DIR}/PhysicsData.json"
                 )
             list(APPEND GEN_LIST "${OUTPUT_FILE}")
 
