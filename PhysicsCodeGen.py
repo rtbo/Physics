@@ -24,6 +24,10 @@ def titleStr(s):
         ts = ts + s[1:]
     return ts
 
+def wcharSeqLen(s):
+    numEsc = s.count('\\')
+    return len(s) - 5 * numEsc
+
 def completeItem(item):
     item["titleName"] = titleStr(item["name"])
     item["titleDefaultUnit"] = titleStr(item["defaultUnit"])
@@ -33,6 +37,11 @@ def completeItem(item):
             u["litName"] = u["name"]
         if not "wcharSeq" in u:
             u["wcharSeq"] = u["name"]
+        if not "offsetToDefault" in u:
+            u["offsetToDefault"] = 0.0
+        if not "factorToDefault" in u:
+            u["factorToDefault"] = 1.0
+        u["wcharSeqLen"] = wcharSeqLen(u["wcharSeq"])
 
 
 if __name__ == '__main__':

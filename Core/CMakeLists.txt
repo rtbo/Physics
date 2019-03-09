@@ -3,6 +3,11 @@ set(TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/templates")
 set(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
 configure_file(
+    "${TEMPLATE_DIR}/include/ph/Config.hpp.in"
+    "${OUTPUT_DIR}/include/ph/Config.hpp"
+)
+
+configure_file(
     "${TEMPLATE_DIR}/include/ph/Version.hpp.in"
     "${OUTPUT_DIR}/include/ph/Version.hpp"
 )
@@ -15,10 +20,11 @@ set(HAND_WRITTEN_SRC
 )
 
 set(TEMPLATES_SRC
-    templates/include/ph/_IncludeAll.hpp.glob.in
-    templates/include/ph/FwdDecl.hpp.glob.in
-    templates/include/ph/Item.hpp.item.in
-    templates/include/ph/Literals.hpp.glob.in
+    templates/include/ph/Config.hpp.in
+    templates/include/ph/_IncludeAll.hpp.glob.j2
+    templates/include/ph/FwdDecl.hpp.glob.j2
+    templates/include/ph/Item.hpp.item.j2
+    templates/include/ph/Literals.hpp.glob.j2
     templates/include/ph/Version.hpp.in
 )
 
@@ -37,6 +43,8 @@ code_gen_item(
 # generating an empty static lib instead of an INTERFACE target
 # otherwise code generation is not triggered
 add_library(Core STATIC
+    "${OUTPUT_DIR}/include/ph/Config.hpp"
+    "${OUTPUT_DIR}/include/ph/Version.hpp"
     ${HAND_WRITTEN_SRC} ${TEMPLATES_SRC} ${GLOB_FILES} ${ITEM_FILES}
     Empty.cpp)
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)
@@ -44,3 +52,4 @@ target_compile_features(Core PUBLIC cxx_std_17)
 target_include_directories(Core PUBLIC include "${OUTPUT_DIR}/include")
 
 add_library(Physics::Core ALIAS Core)
+

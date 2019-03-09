@@ -23,7 +23,8 @@
 {% for unit in item.units %}
 inline QString {{unit.name}}str()
 {
-	return QString::fromStdWString(L"{{unit.wcharSeq}}");
+    const auto strView = ph::{{item.titleName}}::allUnitsUtf16[{{ loop.index }}];
+    return QString::fromUtf16(strView.data(), strView.size());
 }
 {% endfor %}
 

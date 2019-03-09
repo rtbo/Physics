@@ -1,0 +1,15 @@
+/*
+    Copyright (C) 2017-2019 Remi Thebault
+
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
+*/
+
+#ifndef PHYSICS_CONFIG_HPP
+#define PHYSICS_CONFIG_HPP
+
+#cmakedefine PHYSICS_HAVE_QT_CORE
+
+#endif // PHYSICS_CONFIG_HPP
+
