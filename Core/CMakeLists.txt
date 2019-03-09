@@ -61,3 +61,4 @@ endif()
 
 add_library(Physics::Core ALIAS Core)
 
+add_subdirectory(tests)
