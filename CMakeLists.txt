@@ -6,15 +6,12 @@ project(Physics VERSION 1.2.0
                 LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-include(CodeGen)
+include(PhysicsCodeGen)
 
 find_package(Python REQUIRED)
 
-set(CODEGEN_SCRIPT "${Physics_SOURCE_DIR}/PhysicsCodeGen.py")
-set(CODEGEN_DATA "${Physics_SOURCE_DIR}/PhysicsData.json")
-
-execute_process(COMMAND ${Python_EXECUTABLE} PhysicsCodeGen.py --print-items
-                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+execute_process(COMMAND "${Python_EXECUTABLE}" PhysicsCodeGen.py --print-items
+                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                 OUTPUT_VARIABLE PHYSICS_ITEMS
                 RESULT_VARIABLE PHYSICS_ITEMS_RESULT
                 OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -28,21 +25,14 @@ set(PHYSICS_HAVE_QT_CORE ${Qt5Core_FOUND})
 
 add_subdirectory(Core)
 
-if(${Qt5Core_FOUND})
+find_package(Qt5Widgets)
+if(${Qt5Core_FOUND} AND ${Qt5Widgets_FOUND})
 
-    add_subdirectory(QPhysics)
+    add_subdirectory(Widgets)
 
-    find_package(Qt5Widgets)
-    if(${Qt5Widgets_FOUND})
-
-        add_subdirectory(QPhysicsUI)
-
-        find_package(Qt5Designer)
-        if(${Qt5Designer_FOUND})
-            add_subdirectory(QPhysicsDesigner)
-        endif()
-
+    find_package(Qt5Designer)
+    if(${Qt5Designer_FOUND})
+        add_subdirectory(DesignerPlugin)
     endif()
+
 endif()
-
-

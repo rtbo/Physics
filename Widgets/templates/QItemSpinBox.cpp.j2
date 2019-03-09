@@ -11,9 +11,9 @@
 
 #include "ph/Physics.hpp"
 
-#include "QMenu"
-#include "QMetaType"
-#include "QContextMenuEvent"
+#include <QMenu>
+#include <QMetaType>
+#include <QContextMenuEvent>
 
 #include <cassert>
 
@@ -24,8 +24,7 @@ static int _ = qRegisterMetaType<ph::{{item.titleName}}>("ph::{{item.titleName}}
 {% for unit in item.units %}
 inline QString {{unit.name}}str()
 {
-    const auto strView = ph::{{item.titleName}}::allUnitsUtf16[{{ loop.index }}];
-    return QString::fromUtf16(strView.data(), strView.size());
+	return ph::{{item.titleName}}::{{unit.name}}Str();
 }
 {% endfor %}
 

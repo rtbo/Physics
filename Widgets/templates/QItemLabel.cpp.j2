@@ -9,12 +9,12 @@
 
 #include "Q{{item.titleName}}Label.hpp"
 
-#include "ph/Physics.hpp"
+#include <ph/Physics.hpp>
 
-#include "QMenu"
-#include "QMetaType"
-#include "QContextMenuEvent"
-#include "QLocale"
+#include <QMenu>
+#include <QMetaType>
+#include <QContextMenuEvent>
+#include <QLocale>
 
 #include <cassert>
 #include <cmath>
@@ -23,8 +23,7 @@
 {% for unit in item.units %}
 inline QString {{unit.name}}str()
 {
-    const auto strView = ph::{{item.titleName}}::allUnitsUtf16[{{ loop.index }}];
-    return QString::fromUtf16(strView.data(), strView.size());
+	return ph::{{item.titleName}}::{{unit.name}}Str();
 }
 {% endfor %}
 

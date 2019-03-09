@@ -1,24 +1,19 @@
 Physics C++ library
 ===================
 
-Core
+Physics::Core
 -------
 	C++ header only library for manipulating physics values
 
 
-QPhysics
+Physics::Widgets
 --------
-	C++ static Qt library with helpers around physics values
+	C++ Qt library with QSpinBoxes and QLabel widgets that handle physics values
 
 
-QPhysicsUI
---------
-	C++ Qt library with QSpinBoxes widgets that handle physics values
-
-
-QPhysicsDesigner
+Physics::DesignerPlugin
 ----------------
-	Qt designer plugin for the QPhysics widgets
+	Qt designer plugin for the Physics widgets
 
 
 

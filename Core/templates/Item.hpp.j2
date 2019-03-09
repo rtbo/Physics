@@ -11,9 +11,11 @@
 #define PHYSICS_{{item.name|upper}}_HPP
 
 #include "ph/Zero.hpp"
+#include "ph/Config.hpp"
 
 #ifdef PHYSICS_HAVE_QT_CORE
 #include <QMetaType>
+#include <QString>
 #endif
 
 #include <array>
@@ -58,6 +60,28 @@ namespace ph {
         {
             return allUnitsUtf16 [ static_cast<int>(unit) ];
         }
+
+{% for unit in item.units %}
+        static constexpr std::u16string_view {{ unit.name }}Utf16 = { u"{{ unit.wcharSeq }}", {{ unit.wcharSeqLen }} };
+{% endfor %}
+
+
+#ifdef PHYSICS_HAVE_QT_CORE
+
+        static QString unitStr(const Unit unit)
+        {
+            const auto utf16 = unitUtf16(unit);
+            return QString::fromUtf16(utf16.data(), static_cast<int>(utf16.length()));
+        }
+
+{% for unit in item.units %}
+        static QString {{ unit.name }}Str()
+        {
+            return QString::fromUtf16({{unit.name}}Utf16.data(), static_cast<int>({{unit.name}}Utf16.length()));
+        }
+
+{% endfor %}
+#endif
 
         constexpr {{item.titleName}}(const Unit unit, const double value) :
             {{item.defaultUnit}}_{0.0}
@@ -105,7 +129,7 @@ namespace ph {
             return *this;
         }
 
-        constexpr double to(const Unit unit) const
+        constexpr double as(const Unit unit) const
         {
             switch(unit) {
 {% for unit in item.units %}

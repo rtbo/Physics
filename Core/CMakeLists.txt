@@ -1,55 +1,60 @@
 
-set(TEMPLATE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/templates")
-set(OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-
-configure_file(
-    "${TEMPLATE_DIR}/include/ph/Config.hpp.in"
-    "${OUTPUT_DIR}/include/ph/Config.hpp"
-)
-
-configure_file(
-    "${TEMPLATE_DIR}/include/ph/Version.hpp.in"
-    "${OUTPUT_DIR}/include/ph/Version.hpp"
-)
-
-set(HAND_WRITTEN_SRC
+set(PHYSICS_CORE_SRC
     include/ph/Constants.hpp
     include/ph/Operators.hpp
     include/ph/Physics.hpp
     include/ph/Zero.hpp
+
+    templates/Config.hpp.in
+    templates/_IncludeAll.hpp.j2
+    templates/FwdDecl.hpp.j2
+    templates/Item.hpp.j2
+    templates/Literals.hpp.j2
+    templates/Version.hpp.in
 )
 
-set(TEMPLATES_SRC
-    templates/include/ph/Config.hpp.in
-    templates/include/ph/_IncludeAll.hpp.glob.j2
-    templates/include/ph/FwdDecl.hpp.glob.j2
-    templates/include/ph/Item.hpp.item.j2
-    templates/include/ph/Literals.hpp.glob.j2
-    templates/include/ph/Version.hpp.in
+configure_file(
+    templates/Config.hpp.in
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Config.hpp"
+)
+configure_file(
+    templates/Version.hpp.in
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Version.hpp"
 )
 
-code_gen_glob(
-    "${TEMPLATE_DIR}"
-    "${OUTPUT_DIR}"
-    GLOB_FILES
+physics_glob_codegen(
+    templates/_IncludeAll.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/_IncludeAll.hpp"
 )
-
-code_gen_item(
-    "${TEMPLATE_DIR}"
-    "${OUTPUT_DIR}"
-    ITEM_FILES
+physics_glob_codegen(
+    templates/FwdDecl.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/FwdDecl.hpp"
+)
+physics_glob_codegen(
+    templates/Literals.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Literals.hpp"
+)
+physics_item_codegen(
+    templates/Item.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/@Item@.hpp"
+    PHYSICS_CORE_ITEMS
 )
 
 # generating an empty static lib instead of an INTERFACE target
 # otherwise code generation is not triggered
 add_library(Core STATIC
-    "${OUTPUT_DIR}/include/ph/Config.hpp"
-    "${OUTPUT_DIR}/include/ph/Version.hpp"
-    ${HAND_WRITTEN_SRC} ${TEMPLATES_SRC} ${GLOB_FILES} ${ITEM_FILES}
+    ${PHYSICS_CORE_SRC}
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Config.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Version.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/_IncludeAll.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/FwdDecl.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Literals.hpp"
+    ${PHYSICS_CORE_ITEMS}
     Empty.cpp)
+
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_features(Core PUBLIC cxx_std_17)
-target_include_directories(Core PUBLIC include "${OUTPUT_DIR}/include")
+target_include_directories(Core PUBLIC include "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 add_library(Physics::Core ALIAS Core)
 
