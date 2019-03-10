@@ -1,0 +1,27 @@
+#pragma once
+
+#include "si/BaseDims.hpp"
+#include "si/Value.hpp"
+
+namespace si {
+
+{% for dim in dims %}
+using {{ dim.name }}DimSet = DimSet<
+    MassDim<{{dim.M}}>, LengthDim<{{dim.L}}>, TimeDim<{{dim.T}}>, CurrentDim<{{dim.I}}>, TemperatureDim<{{dim.Th}}>, AmountDim<{{dim.I}}>, LightIntensityDim<{{dim.J}}>
+>;
+
+{% for alias in dim.aliases %}
+using {{ alias }}DimSet = {{dim.name}}DimSet;
+
+{% endfor %}
+{% endfor %}
+
+{% for dim in dims %}
+using {{ dim.name }} = Value<{{ dim.name }}DimSet>;
+
+{% for alias in dim.aliases %}
+using {{ alias }} = {{dim.name}};
+
+{% endfor %}
+{% endfor %}
+}

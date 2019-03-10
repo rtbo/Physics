@@ -1,0 +1,269 @@
+[
+  {
+    "name": "Acceleration",
+    "M": 0, "L": 1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Action",
+    "M": 1, "L": 2, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "AngularAcceleration",
+    "M": 0, "L": 0, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Area",
+    "M": 0, "L": 2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "AreaDensity",
+    "M": 1, "L": -2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "AreaSecondMoment",
+    "M": 0, "L": 4, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Capacitance",
+    "M": -1, "L": -2, "T": 4, "I": 2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "CatalyticActivity",
+    "M": 0, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 1, "J": 0
+  },
+  {
+    "name": "Charge",
+    "M": 0, "L": 0, "T": 1, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "ChargeDensity",
+    "M": 0, "L": -3, "T": 1, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Conductance",
+    "M": -1, "L": -2, "T": 3, "I": 2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Conductivity",
+    "aliases": ["Permittivity"],
+    "M": -1, "L": -3, "T": 3, "I": 2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "CurrentDensity",
+    "M": 0, "L": -2, "T": 0, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Density",
+    "M": 1, "L": -3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "DynamicViscosity",
+    "M": 1, "L": -1, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "ElectricField",
+    "aliases": ["E_Field"],
+    "M": 1, "L": 1, "T": -3, "I": -1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "ElectricFlux",
+    "M": 1, "L": 3, "T": -3, "I": -1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "ElectricResistance",
+    "aliases": ["Resistance"],
+    "M": 1, "L": 2, "T": -3, "I": -2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Energy",
+    "aliases": ["Moment", "Work"],
+    "M": 1, "L": 2, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Entropy",
+    "aliases": ["HeatCapacity"],
+    "M": 1, "L": 2, "T": -2, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "Fluence",
+    "aliases": ["ColumnDensity"],
+    "M": 0, "L": -2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Force",
+    "M": 1, "L": 1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Frequency",
+    "aliases": ["AngularVelocity", "RadioactiveDecay"],
+    "M": 0, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "HeatTransfer",
+    "M": 1, "L": 0, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "Inductance",
+    "M": 1, "L": 2, "T": -2, "I": -2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "InertiaMoment",
+    "M": 1, "L": 2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Irradiance",
+    "M": 1, "L": 0, "T": -3, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "KinematicViscosity",
+    "aliases": ["ThermalDiffusivity"],
+    "M": 0, "L": 2, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "LightEnergy",
+    "M": 0, "L": 0, "T": 1, "I": 0, "Th": 0, "N": 0, "J": 1
+  },
+  {
+    "name": "LightEnergyDensity",
+    "M": 0, "L": -3, "T": 1, "I": 0, "Th": 0, "N": 0, "J": 1
+  },
+  {
+    "name": "LightExposure",
+    "M": 0, "L": -2, "T": 1, "I": 0, "Th": 0, "N": 0, "J": 1
+  },
+  {
+    "name": "LinearDensity",
+    "M": 1, "L": -1, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Luminance",
+    "M": 0, "L": -2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 1
+  },
+  {
+    "name": "MagneticField",
+    "aliases": ["B_Field"],
+    "M": 1, "L": 0, "T": -2, "I": -1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "MagneticFlux",
+    "M": 1, "L": 2, "T": -2, "I": -1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "MagneticMoment",
+    "M": 0, "L": 2, "T": 0, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "MagneticPermeability",
+    "M": 1, "L": 1, "T": -2, "I": -2, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Magnetization",
+    "aliases": ["H_Field"],
+    "M": 0, "L": -1, "T": 0, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "MassFlowRate",
+    "M": 1, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "MolarConcentration",
+    "M": 0, "L": -3, "T": 0, "I": 0, "Th": 0, "N": 1, "J": 0
+  },
+  {
+    "name": "MolarEntropy",
+    "aliases": ["MolarHeatCapacity"],
+    "M": 1, "L": 2, "T": -2, "I": 0, "Th": -1, "N": -1, "J": 0
+  },
+  {
+    "name": "MolarMass",
+    "M": 1, "L": 0, "T": 0, "I": 0, "Th": 0, "N": -1, "J": 0
+  },
+  {
+    "name": "MolarVolume",
+    "M": 0, "L": 3, "T": 0, "I": 0, "Th": 0, "N": -1, "J": 0
+  },
+  {
+    "name": "Momentum",
+    "M": 1, "L": 1, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "PlaneAngle",
+    "aliases": ["SolidAngle", "Coefficient"],
+    "M": 0, "L": 0, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Power",
+    "M": 1, "L": 2, "T": -3, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "PowerDensity",
+    "M": 1, "L": -1, "T": -3, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Pressure",
+    "aliases": ["Stress"],
+    "M": 1, "L": -1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "RadiationDose",
+    "aliases": ["Kerma"],
+    "M": 0, "L": 2, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "RadiationDoseRate",
+    "M": 0, "L": 2, "T": -3, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "RadiationExposure",
+    "M": -1, "L": 0, "T": 1, "I": 1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "SpecificEntropy",
+    "aliases": ["SpecificHeatCapacity"],
+    "M": 0, "L": 2, "T": -2, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "SpecificVolume",
+    "M": -1, "L": 3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "SurfaceTension",
+    "M": 1, "L": 0, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "ThermalConductance",
+    "M": 1, "L": 2, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "ThermalConductivity",
+    "M": 1, "L": 1, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "Velocity",
+    "aliases": ["Speed"],
+    "M": 0, "L": 1, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Voltage",
+    "aliases": ["ElectromotiveForce"],
+    "M": 1, "L": 2, "T": -3, "I": -1, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "Volume",
+    "M": 0, "L": 3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "VolumetricEntropy",
+    "aliases": ["VolumetricHeatCapacity"],
+    "M": 1, "L": -1, "T": -2, "I": 0, "Th": -1, "N": 0, "J": 0
+  },
+  {
+    "name": "VolumetricFlowRate",
+    "aliases": ["FlowRate"],
+    "M": 0, "L": 3, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+  },
+  {
+    "name": "WaveNumber",
+    "M": 0, "L": -1, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+  }
+]

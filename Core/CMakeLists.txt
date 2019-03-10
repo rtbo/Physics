@@ -5,12 +5,22 @@ set(PHYSICS_CORE_SRC
     include/ph/Physics.hpp
     include/ph/Zero.hpp
 
-    templates/Config.hpp.in
     templates/_IncludeAll.hpp.j2
     templates/FwdDecl.hpp.j2
     templates/Item.hpp.j2
     templates/Literals.hpp.j2
+
+    templates/Config.hpp.in
     templates/Version.hpp.in
+)
+
+set(SI_CORE_SRC
+    include/si/BaseDims.hpp
+    include/si/Operations.hpp
+    include/si/Units.hpp
+    include/si/Value.hpp
+
+    templates/DerivedDims.hpp.j2
 )
 
 configure_file(
@@ -39,17 +49,25 @@ physics_item_codegen(
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/@Item@.hpp"
     PHYSICS_CORE_ITEMS
 )
+physics_dims_codegen(
+    templates/DerivedDims.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/DerivedDims.hpp"
+)
 
 # generating an empty static lib instead of an INTERFACE target
 # otherwise code generation is not triggered
 add_library(Core STATIC
     ${PHYSICS_CORE_SRC}
-    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Config.hpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Version.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/_IncludeAll.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/FwdDecl.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Literals.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Config.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/include/ph/Version.hpp"
     ${PHYSICS_CORE_ITEMS}
+
+    ${SI_CORE_SRC}
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/DerivedDims.hpp"
+
     Empty.cpp)
 
 set_target_properties(Core PROPERTIES LINKER_LANGUAGE CXX)

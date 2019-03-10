@@ -62,3 +62,21 @@ function(physics_item_codegen Template OutputPattern Result)
     endforeach()
     set(${Result} ${${Result}} ${OutputList} PARENT_SCOPE)
 endfunction()
+
+function(physics_dims_codegen Template Output)
+    set(Script "${Physics_SOURCE_DIR}/DerivedDims.py")
+    set(Data "${Physics_SOURCE_DIR}/DerivedDims.json")
+
+    if(NOT IS_ABSOLUTE "${Template}")
+        set(Template "${CMAKE_CURRENT_SOURCE_DIR}/${Template}")
+    endif()
+    if(NOT EXISTS "${Template}")
+        message(FATAL_ERROR "File ${Template} does not exist but is required by physics_dims_codegen")
+    endif()
+
+    add_custom_command(
+        OUTPUT "${Output}"
+        COMMAND "${Python_EXECUTABLE}" "${Script}" --input "${Template}" --output "${Output}"
+        DEPENDS "${Template}" "${Script}" "${Data}"
+    )
+endfunction()

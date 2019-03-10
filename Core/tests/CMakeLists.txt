@@ -2,6 +2,7 @@
 add_executable(TestPhysicsCore
     catch.hpp
     main.cpp
+    Energy.cpp
     MolecularMass.cpp
     Temperature.cpp
     Zero.cpp
