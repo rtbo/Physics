@@ -20,6 +20,16 @@ if (NOT PHYSICS_ITEMS_RESULT EQUAL "0")
     message(FATAL_ERROR "Could not list items. Make sure Python 3 is available and that Jinja2 is installed")
 endif()
 
+execute_process(COMMAND "${Python_EXECUTABLE}" Dimensions.py --print-dims
+                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                OUTPUT_VARIABLE PHYSICS_DIMS
+                RESULT_VARIABLE PHYSICS_DIMS_RESULT
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if (NOT PHYSICS_DIMS_RESULT EQUAL "0")
+    message(FATAL_ERROR "Could not list dimensions. Make sure Python 3 is available and that Jinja2 is installed")
+endif()
+
 find_package(Qt5Core)
 set(PHYSICS_HAVE_QT_CORE ${Qt5Core_FOUND})
 

@@ -1,199 +1,173 @@
 
 #pragma once
 
+#include "Dim.hpp"
 #include "Value.hpp"
 
 #include <cmath>
 
 namespace si {
 
-    template<typename LhsD, typename RhsD>
-    struct MulDim
-    {
-        static_assert(LhsD::base_dim == RhsD::base_dim);
+    // operations on base dimension
 
-        // 1/1  +  1/1   =   2/1
-        // 1/2  +  1/2   =   4/4 = 1/1
-        // 1/1  +  1/2   =   3/2
-        // 1/3  +  1/2   =   5/6
+    namespace base {
 
-        static constexpr int num = LhsD::num * RhsD::den + RhsD::num * LhsD::den;
-        static constexpr int den = LhsD::den * RhsD::den;
-        static constexpr int gcd = std::gcd(num, den);
+        template<typename LhsD, typename RhsD>
+        struct EnforceSameName
+        {
+            static_assert(LhsD::name == RhsD::name);
+            static constexpr DimName name = LhsD::name;
+        };
 
-        using type = Dim<
-            LhsD::base_dim,
-            num / gcd,
-            den / gcd
+        template<typename LhsD, typename RhsD>
+        using MulDim = Dim<
+            EnforceSameName<LhsD, RhsD>::name,
+            std::ratio_add<typename LhsD::ratio, typename RhsD::ratio>
         >;
-    };
 
-
-    template<typename LhsDS, typename RhsDS>
-    struct MulDimSet
-    {
-        using type = DimSet<
-            typename MulDim<typename LhsDS::mass, typename RhsDS::mass>::type,
-            typename MulDim<typename LhsDS::length, typename RhsDS::length>::type,
-            typename MulDim<typename LhsDS::time, typename RhsDS::time>::type,
-            typename MulDim<typename LhsDS::current, typename RhsDS::current>::type,
-            typename MulDim<typename LhsDS::temperature, typename RhsDS::temperature>::type,
-            typename MulDim<typename LhsDS::amount, typename RhsDS::amount>::type,
-            typename MulDim<typename LhsDS::light_intensity, typename RhsDS::light_intensity>::type
+        template<typename LhsD, typename RhsD>
+        using DivDim = Dim<
+            EnforceSameName<LhsD, RhsD>::name,
+            std::ratio_subtract<typename LhsD::ratio, typename RhsD::ratio>
         >;
-    };
+
+        template<typename D, int Num, int Den>
+        using PowDim = Dim<
+            D::name,
+            std::ratio_add<typename D::ratio, std::ratio<Num, Den> >
+        >;
+    }
+
+    // operations on dimensions
 
     template<typename LhsD, typename RhsD>
-    struct DivDim
-    {
-        static_assert(LhsD::base_dim == RhsD::base_dim);
+    using MulDim = Dim<
+        typename base::MulDim<typename LhsD::mass, typename RhsD::mass>,
+        typename base::MulDim<typename LhsD::length, typename RhsD::length>,
+        typename base::MulDim<typename LhsD::time, typename RhsD::time>,
+        typename base::MulDim<typename LhsD::current, typename RhsD::current>,
+        typename base::MulDim<typename LhsD::temperature, typename RhsD::temperature>,
+        typename base::MulDim<typename LhsD::amount, typename RhsD::amount>,
+        typename base::MulDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
+    >;
 
-        // 1/1  -  1/1   =   0/1
-        // 1/2  -  1/2   =   0/4 = 0/1
-        // 1/1  -  1/2   =   1/2
-        // 1/3  -  1/2   =   1/6
-
-        static constexpr int num = LhsD::num * RhsD::den - RhsD::num * LhsD::den;
-        static constexpr int den = LhsD::den * RhsD::den;
-        static constexpr int gcd = std::gcd(num, den);
-
-        using type = Dim<
-            LhsD::base_dim,
-            num / gcd,
-            den / gcd
-        >;
-    };
-
-    template<typename LhsDS, typename RhsDS>
-    struct DivDimSet
-    {
-        using type = DimSet<
-            typename DivDim<typename LhsDS::mass, typename RhsDS::mass>::type,
-            typename DivDim<typename LhsDS::length, typename RhsDS::length>::type,
-            typename DivDim<typename LhsDS::time, typename RhsDS::time>::type,
-            typename DivDim<typename LhsDS::current, typename RhsDS::current>::type,
-            typename DivDim<typename LhsDS::temperature, typename RhsDS::temperature>::type,
-            typename DivDim<typename LhsDS::amount, typename RhsDS::amount>::type,
-            typename DivDim<typename LhsDS::light_intensity, typename RhsDS::light_intensity>::type
-        >;
-    };
+    template<typename LhsD, typename RhsD>
+    using DivDim = Dim<
+        typename base::DivDim<typename LhsD::mass, typename RhsD::mass>,
+        typename base::DivDim<typename LhsD::length, typename RhsD::length>,
+        typename base::DivDim<typename LhsD::time, typename RhsD::time>,
+        typename base::DivDim<typename LhsD::current, typename RhsD::current>,
+        typename base::DivDim<typename LhsD::temperature, typename RhsD::temperature>,
+        typename base::DivDim<typename LhsD::amount, typename RhsD::amount>,
+        typename base::DivDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
+    >;
 
     template<typename D, int Num, int Den>
-    struct PowDim
-    {
-        // 1/2  +  3/2   =   8/4 = 2/1
+    using PowDim = Dim<
+        typename base::PowDim<typename D::mass, Num, Den>,
+        typename base::PowDim<typename D::length, Num, Den>,
+        typename base::PowDim<typename D::time, Num, Den>,
+        typename base::PowDim<typename D::current, Num, Den>,
+        typename base::PowDim<typename D::temperature, Num, Den>,
+        typename base::PowDim<typename D::amount, Num, Den>,
+        typename base::PowDim<typename D::light_intensity, Num, Den>
+    >;
 
-        static constexpr int num = D::num * Den + num * D::den;
-        static constexpr int den = D::den * Den;
-        static constexpr int gcd = std::gcd(num, den);
+    // operations on conversions
 
-        using type = Dim<
-            D::base_dim,
-            num / gcd,
-            den / gcd
-        >;
-    };
-
-    template<typename DS, int Num, int Den>
-    struct PowDimSet
-    {
-        using type = DimSet<
-            typename PowDim<typename DS::mass, Num, Den>::type,
-            typename PowDim<typename DS::length, Num, Den>::type,
-            typename PowDim<typename DS::time, Num, Den>::type,
-            typename PowDim<typename DS::current, Num, Den>::type,
-            typename PowDim<typename DS::temperature, Num, Den>::type,
-            typename PowDim<typename DS::amount, Num, Den>::type,
-            typename PowDim<typename DS::light_intensity, Num, Den>::type
-        >;
-    };
-
+    // unit operations
     template<class L, class R>
     auto operator*(const L &lhs, const R &rhs)
     {
-        using dim_set = MulDimSet<L::dim_set, R::dim_set>::type;
-        return Value<dim_set>{lhs.val() * rhs.val()};
+        using dim = MulDim<typename L::dim_type, typename R::dim_type>;
     }
 
-    template<class V>
-    V operator*(const double lhs, const V &rhs)
-    {
-        return V { lhs * rhs.val() };
-    }
+    // template<class L, class R>
+    // auto operator*(const L &lhs, const R &rhs)
+    // {
+    //     using dim = MulDim<typename L::dim_type, typename R::dim_type>;
+    //     return Value<dim>{lhs.val() * rhs.val()};
+    // }
 
-    template<class V>
-    V operator*(const V &lhs, const double rhs)
-    {
-        return V { lhs.val() * rhs };
-    }
+    // template<class V>
+    // V operator*(const double lhs, const V &rhs)
+    // {
+    //     return V { lhs * rhs.val() };
+    // }
 
-    template<class L, class R>
-    auto operator/(const L &lhs, const R &rhs)
-    {
-        using dim_set = DivDimSet<L::dim_set, R::dim_set>::type;
-        return Value<dim_set>{lhs.val() / rhs.val()};
-    }
+    // template<class V>
+    // V operator*(const V &lhs, const double rhs)
+    // {
+    //     return V { lhs.val() * rhs };
+    // }
 
-    template<class V>
-    V operator/(const V &lhs, const double rhs)
-    {
-        return V { lhs.val() / rhs };
-    }
+    // template<class L, class R>
+    // auto operator/(const L &lhs, const R &rhs)
+    // {
+    //     using dim = DivDim<typename L::dim_type, typename R::dim_type>;
+    //     return Value<dim>{lhs.val() / rhs.val()};
+    // }
 
-    template<class V>
-    V operator/(const double lhs, const V &rhs)
-    {
-        using dim_set = DivDimSet<NoDimSet, V::dim_set>::type;
-        return Value<dim_set> { lhs.val() / rhs };
-    }
+    // template<class V>
+    // V operator/(const V &lhs, const double rhs)
+    // {
+    //     return V { lhs.val() / rhs };
+    // }
 
-    template<class V>
-    double operator+(const V &lhs, const V &rhs)
-    {
-        return lhs.val() / rhs.val();
-    }
+    // template<class V>
+    // auto operator/(const double lhs, const V &rhs)
+    // {
+    //     using dim = DivDim<NoDim, typename V::dim_type>;
+    //     return Value<dim_set> { lhs.val() / rhs };
+    // }
 
-    template<class V>
-    V operator+(const V &lhs, const V &rhs)
-    {
-        return V {lhs.val() + rhs.val()};
-    }
+    // template<class V>
+    // double operator+(const V &lhs, const V &rhs)
+    // {
+    //     return lhs.val() / rhs.val();
+    // }
 
-    template<class V>
-    V operator-(const V &lhs, const V &rhs)
-    {
-        return V {lhs.val() - rhs.val()};
-    }
+    // template<class V>
+    // V operator+(const V &lhs, const V &rhs)
+    // {
+    //     return V {lhs.val() + rhs.val()};
+    // }
 
-    template<class V, int Num, int Den=1>
-    auto pow(const V &val)
-    {
-        using dim_set = PowDim<V::dim_set, Num, Den>;
-        return Value<dim_set> { std::pow(val(), Num / static_cast<double>(Den)) };
-    }
+    // template<class V>
+    // V operator-(const V &lhs, const V &rhs)
+    // {
+    //     return V {lhs.val() - rhs.val()};
+    // }
 
-    template<class V>
-    auto square(const V &val)
-    {
-        return pow<V, 2, 1>(val);
-    }
+    // template<class V, int Num, int Den=1>
+    // auto pow(const V &val)
+    // {
+    //     using dim = PowDim<V::dim_type, Num, Den>;
+    //     return Value<dim> { std::pow(val(), Num / static_cast<double>(Den)) };
+    // }
 
-    template<class V>
-    auto cube(const V &val)
-    {
-        return pow<V, 3, 1>(val);
-    }
+    // template<class V>
+    // auto square(const V &val)
+    // {
+    //     return pow<V, 2, 1>(val);
+    // }
 
-    template<class V>
-    auto sqrt(const V &val)
-    {
-        return pow<V, 1, 2>(val);
-    }
+    // template<class V>
+    // auto cube(const V &val)
+    // {
+    //     return pow<V, 3, 1>(val);
+    // }
 
-    template<class V>
-    auto cbrt(const V &val)
-    {
-        return pow<V, 1, 3>(val);
-    }
+    // template<class V>
+    // auto sqrt(const V &val)
+    // {
+    //     return pow<V, 1, 2>(val);
+    // }
+
+    // template<class V>
+    // auto cbrt(const V &val)
+    // {
+    //     return pow<V, 1, 3>(val);
+    // }
 
 }

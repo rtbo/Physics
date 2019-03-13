@@ -1,0 +1,33 @@
+#pragma once
+
+#include "si/Dim.hpp"
+#include "si/Unit.hpp"
+#include "si/Value.hpp"
+
+#include <ratio>
+
+namespace si {
+
+    using {{ dim.name }}Dim = Dim<
+        base::Mass<{{dim.M}}>,
+        base::Length<{{dim.L}}>,
+        base::Time<{{dim.T}}>,
+        base::Current<{{dim.I}}>,
+        base::Temperature<{{dim.Th}}>,
+        base::Amount<{{dim.I}}>,
+        base::LightIntensity<{{dim.J}}>
+    >;
+
+    using {{ dim.name }} = Value<{{ dim.name }}Dim>;
+
+{% for alias in dim.aliases %}
+    using {{ alias.name }}Dim = {{dim.name}}Dim;
+    using {{ alias.name }} = {{dim.name}};
+
+{% endfor %}
+
+{% for unit in dim.units %}
+    using {{ unit.name }}_t = unit< {{ dim.name }}Dim, factor_conv<std::ratio<1>> >;
+
+{% endfor %}
+}

@@ -1,5 +1,8 @@
 
-#include <si/Units.hpp>
+#include <si/Energy.hpp>
+#include <si/Mass.hpp>
+#include <si/Velocity.hpp>
+#include <si/Operations.hpp>
 #include "catch.hpp"
 #include <type_traits>
 
@@ -10,10 +13,11 @@ TEST_CASE("Energy", "[energy]")
 
     SECTION("construction") {
 
-        auto joules = Mass{1.0} * Velocity{1.0} * Velocity{1.0};
+        auto joules = joule_t{12.0};
+        auto energy = Energy{joules};
 
-        static_assert(std::is_same<decltype(joules), Value<EnergyDimSet>>::value);
-        static_assert(std::is_same<decltype(joules), Energy>::value);
+        static_assert(std::is_same<decltype(joules)::dim_type, EnergyDim>::value);
+        //static_assert(std::is_same<decltype(joules), Energy>::value);
     }
 
 }

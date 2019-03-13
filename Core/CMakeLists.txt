@@ -15,12 +15,12 @@ set(PHYSICS_CORE_SRC
 )
 
 set(SI_CORE_SRC
-    include/si/BaseDims.hpp
+    include/si/Dim.hpp
     include/si/Operations.hpp
-    include/si/Units.hpp
+    include/si/Unit.hpp
     include/si/Value.hpp
 
-    templates/DerivedDims.hpp.j2
+    templates/Dimension.hpp.j2
 )
 
 configure_file(
@@ -49,9 +49,10 @@ physics_item_codegen(
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/@Item@.hpp"
     PHYSICS_CORE_ITEMS
 )
-physics_dims_codegen(
-    templates/DerivedDims.hpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/include/si/DerivedDims.hpp"
+physics_dim_codegen(
+    templates/Dimension.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/@Dim@.hpp"
+    PHYSICS_CORE_DIMS
 )
 
 # generating an empty static lib instead of an INTERFACE target
@@ -66,7 +67,7 @@ add_library(Core STATIC
     ${PHYSICS_CORE_ITEMS}
 
     ${SI_CORE_SRC}
-    "${CMAKE_CURRENT_BINARY_DIR}/include/si/DerivedDims.hpp"
+    ${PHYSICS_CORE_DIMS}
 
     Empty.cpp)
 
