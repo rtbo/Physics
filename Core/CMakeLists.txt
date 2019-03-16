@@ -15,6 +15,7 @@ set(PHYSICS_CORE_SRC
 )
 
 set(SI_CORE_SRC
+    include/si/Constants.hpp
     include/si/Dim.hpp
     include/si/Operations.hpp
     include/si/Unit.hpp

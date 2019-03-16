@@ -1,369 +1,793 @@
 [
   {
     "name": "Acceleration",
-    "M": 0, "L": 1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 1,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Action",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["joule"],
+    "M": 1,
+    "L": 2,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Amount",
-    "unit_def": {
-      "name": "mole",
-      "symbol": "mol",
-      "unicode": "mol"
-    },
-    "M": 0, "L": 0, "T": 0, "I": 0, "Th": 0, "N": 1, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "mole",
+        "symbol": "mol",
+        "unicode": "mol"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 1,
+    "J": 0
   },
   {
     "name": "Area",
-    "M": 0, "L": 2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 2,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Capacitance",
-    "unit_def": {
-      "name": "farad",
-      "symbol": "F",
-      "unicode": "F"
-    },
-    "M": -1, "L": -2, "T": 4, "I": 2, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "farad",
+        "symbol": "F",
+        "unicode": "F"
+      }
+    ],
+    "foreign_units": [],
+    "M": -1,
+    "L": -2,
+    "T": 4,
+    "I": 2,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "CatalyticActivity",
-    "unit_def": {
-      "name": "katal",
-      "symbol": "kat",
-      "unicode": "kat"
-    },
-    "M": 0, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 1, "J": 0
-  },
-  {
-    "name": "Conductance",
-    "unit_def": {
-      "name": "siemens",
-      "symbol": "S",
-      "unicode": "S"
-    },
-    "M": -1, "L": -2, "T": 3, "I": 2, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Conductivity",
-    "foreign_unit": "siemens",
-    "M": -1, "L": -3, "T": 3, "I": 2, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Current",
-    "unit_def": {
-      "name": "ampere",
-      "symbol": "A",
-      "unicode": "A"
-    },
-    "M": 0, "L": 0, "T": 0, "I": 1, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Density",
-    "M": 1, "L": -3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "DynamicViscosity",
-    "foreign_unit": "pascal",
-    "M": 1, "L": -1, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "ElectricCharge",
-    "unit_def": {
-      "name": "coulomb",
-      "symbol": "C",
-      "unicode": "C"
-    },
-    "M": 0, "L": 0, "T": 1, "I": 1, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "ElectricField",
-    "foreign_unit": "volt",
-    "M": 1, "L": 1, "T": -3, "I": -1, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "ElectricResistance",
-    "unit_def": {
-      "name": "ohm",
-      "symbol": "ohm",
-      "unicode": "\u03A9"
-    },
-    "M": 1, "L": 2, "T": -3, "I": -2, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Energy",
-    "unit_def": {
-      "name": "joule",
-      "symbol": "J",
-      "unicode": "J"
-    },
-    "aliases": [
+    "aliases": [],
+    "units": [
       {
-        "name": "Moment",
-        "foreignUnit": "newton"
-      },
-      {
-        "name": "Work"
+        "name": "katal",
+        "symbol": "kat",
+        "unicode": "kat"
       }
     ],
-    "M": 1, "L": 2, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Entropy",
-    "foreign_unit": "joule",
-    "M": 1, "L": 2, "T": -2, "I": 0, "Th": -1, "N": 0, "J": 0
-  },
-  {
-    "name": "Force",
-    "unit_def": {
-      "name": "newton",
-      "symbol": "N",
-      "unicode": "N"
-    },
-    "M": 1, "L": 1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Frequency",
-    "unit_def": {
-      "name": "hertz",
-      "symbol": "Hz",
-      "unicode": "Hz"
-    },
-    "aliases": [
-      {
-        "name": "RadioactiveDecay",
-    "unitDef": {
-      "name": "becquerel",
-      "symbol": "Bq",
-      "unicode": "Bq"
-    }
-      },
-      {
-        "name": "AngularVelocity",
-        "foreignUnit": "radian"
-      }
-    ],
-    "M": 0, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "HeatTransfer",
-    "foreign_unit": "watt",
-    "M": 1, "L": 0, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
-  },
-  {
-    "name": "Inductance",
-    "unit_def": {
-      "name": "henry",
-      "symbol": "H",
-      "unicode": "H"
-    },
-    "M": 1, "L": 2, "T": -2, "I": -2, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "KinematicViscosity",
-    "M": 0, "L": 2, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Length",
-    "unit_def": {
-      "name": "meter",
-      "symbol": "m",
-      "unicode": "m"
-    },
-    "M": 0, "L": 1, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "LightEnergy",
-    "M": 0, "L": 0, "T": 1, "I": 0, "Th": 0, "N": 0, "J": 1
-  },
-  {
-    "name": "LightIntensity",
-    "unit_def": {
-      "name": "candela",
-      "symbol": "cd",
-      "unicode": "cd"
-    },
-    "M": 0, "L": 0, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 1
-  },
-  {
-    "name": "Luminance",
-    "unit_def": {
-      "name": "lux",
-      "symbol": "lx",
-      "unicode": "lx"
-    },
-    "M": 0, "L": -2, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 1
-  },
-  {
-    "name": "MagneticField",
-    "unit_def": {
-      "name": "tesla",
-      "symbol": "T",
-      "unicode": "T"
-    },
-    "M": 1, "L": 0, "T": -2, "I": -1, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "MagneticFlux",
-    "unit_def": {
-      "name": "weber",
-      "symbol": "Wb",
-      "unicode": "Wb"
-    },
-    "M": 1, "L": 2, "T": -2, "I": -1, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "Mass",
-    "unit_def": {
-      "name": "kilogram",
-      "symbol": "kg",
-      "unicode": "kg"
-    },
-    "M": 1, "L": 0, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "MassFlowRate",
-    "M": 1, "L": 0, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
-  },
-  {
-    "name": "MolarConcentration",
-    "M": 0, "L": -3, "T": 0, "I": 0, "Th": 0, "N": 1, "J": 0
-  },
-  {
-    "name": "MolarEntropy",
-    "foreign_unit": "joule",
-    "aliases": [
-      {
-        "name": "MolarHeatCapacity"
-      }
-    ],
-    "M": 1, "L": 2, "T": -2, "I": 0, "Th": -1, "N": -1, "J": 0
-  },
-  {
-    "name": "MolarMass",
-    "M": 1, "L": 0, "T": 0, "I": 0, "Th": 0, "N": -1, "J": 0
-  },
-  {
-    "name": "MolarVolume",
-    "M": 0, "L": 3, "T": 0, "I": 0, "Th": 0, "N": -1, "J": 0
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 1,
+    "J": 0
   },
   {
     "name": "Coefficient",
-    "aliases": [
+    "aliases": ["PlaneAngle", "SolidAngle"],
+    "units": [
       {
-        "name": "PlaneAngle",
-    "unitDef": {
-      "name": "radian",
-      "symbol": "rad",
-      "unicode": "rad"
-    }
+        "name": "radian",
+        "symbol": "rad",
+        "unicode": "rad"
       },
       {
-        "name": "SolidAngle",
-    "unitDef": {
-      "name": "steradian",
-      "symbol": "sr",
-      "unicode": "sr"
-    }
+        "name": "steradian",
+        "symbol": "sr",
+        "unicode": "sr"
       }
     ],
-    "M": 0, "L": 0, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Conductance",
+    "aliases": [],
+    "units": [
+      {
+        "name": "siemens",
+        "symbol": "S",
+        "unicode": "S"
+      }
+    ],
+    "foreign_units": [],
+    "M": -1,
+    "L": -2,
+    "T": 3,
+    "I": 2,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Conductivity",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["siemens"],
+    "M": -1,
+    "L": -3,
+    "T": 3,
+    "I": 2,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Current",
+    "aliases": [],
+    "units": [
+      {
+        "name": "ampere",
+        "symbol": "A",
+        "unicode": "A"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 0,
+    "I": 1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Density",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 1,
+    "L": -3,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "DynamicViscosity",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["pascal"],
+    "M": 1,
+    "L": -1,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "ElectricCharge",
+    "aliases": [],
+    "units": [
+      {
+        "name": "coulomb",
+        "symbol": "C",
+        "unicode": "C"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 1,
+    "I": 1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "ElectricField",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["volt"],
+    "M": 1,
+    "L": 1,
+    "T": -3,
+    "I": -1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "ElectricResistance",
+    "aliases": [],
+    "units": [
+      {
+        "name": "ohm",
+        "symbol": "ohm",
+        "unicode": "\u03A9"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 2,
+    "T": -3,
+    "I": -2,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Energy",
+    "aliases": ["Moment", "Work"],
+    "units": [
+      {
+        "name": "joule",
+        "symbol": "J",
+        "unicode": "J"
+      }
+    ],
+    "foreign_units": ["newton"],
+    "M": 1,
+    "L": 2,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Entropy",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["joule"],
+    "M": 1,
+    "L": 2,
+    "T": -2,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Force",
+    "aliases": [],
+    "units": [
+      {
+        "name": "newton",
+        "symbol": "N",
+        "unicode": "N"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 1,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Frequency",
+    "aliases": ["RadioactiveDecay", "AngularVelocity"],
+    "units": [
+      {
+        "name": "hertz",
+        "symbol": "Hz",
+        "unicode": "Hz"
+      },
+      {
+        "name": "becquerel",
+        "symbol": "Bq",
+        "unicode": "Bq"
+      }
+    ],
+    "foreign_units": ["radian"],
+    "M": 0,
+    "L": 0,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "HeatTransfer",
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["watt"],
+    "M": 1,
+    "L": 0,
+    "T": -3,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Inductance",
+    "aliases": [],
+    "units": [
+      {
+        "name": "henry",
+        "symbol": "H",
+        "unicode": "H"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 2,
+    "T": -2,
+    "I": -2,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "KinematicViscosity",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 2,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Length",
+    "aliases": [],
+    "units": [
+      {
+        "name": "meter",
+        "symbol": "m",
+        "unicode": "m"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 1,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "LightEnergy",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "LightIntensity",
+    "aliases": [],
+    "units": [
+      {
+        "name": "candela",
+        "symbol": "cd",
+        "unicode": "cd"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "Luminance",
+    "aliases": [],
+    "units": [
+      {
+        "name": "lux",
+        "symbol": "lx",
+        "unicode": "lx"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": -2,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "MagneticField",
+    "aliases": [],
+    "units": [
+      {
+        "name": "tesla",
+        "symbol": "T",
+        "unicode": "T"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 0,
+    "T": -2,
+    "I": -1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "MagneticFlux",
+    "aliases": [],
+    "units": [
+      {
+        "name": "weber",
+        "symbol": "Wb",
+        "unicode": "Wb"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 2,
+    "T": -2,
+    "I": -1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "Mass",
+    "aliases": [],
+    "units": [
+      {
+        "name": "kilogram",
+        "symbol": "kg",
+        "unicode": "kg"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "MassFlowRate",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 1,
+    "L": 0,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "MolarConcentration",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": -3,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 1,
+    "J": 0
+  },
+  {
+    "name": "MolarEntropy",
+    "aliases": ["MolarHeatCapacity"],
+    "units": [],
+    "foreign_units": ["joule"],
+    "M": 1,
+    "L": 2,
+    "T": -2,
+    "I": 0,
+    "Th": -1,
+    "N": -1,
+    "J": 0
+  },
+  {
+    "name": "MolarMass",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 1,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": -1,
+    "J": 0
+  },
+  {
+    "name": "MolarVolume",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 3,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": -1,
+    "J": 0
   },
   {
     "name": "Power",
-    "unit_def": {
-      "name": "watt",
-      "symbol": "W",
-      "unicode": "W"
-    },
-    "M": 1, "L": 2, "T": -3, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "watt",
+        "symbol": "W",
+        "unicode": "W"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 2,
+    "T": -3,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Pressure",
-    "unit_def": {
-      "name": "pascal",
-      "symbol": "Pa",
-      "unicode": "Pa"
-    },
-    "aliases": [
+    "aliases": ["Stress"],
+    "units": [
       {
-        "name": "Stress"
+        "name": "pascal",
+        "symbol": "Pa",
+        "unicode": "Pa"
       }
     ],
-    "M": 1, "L": -1, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+    "foreign_units": [],
+    "M": 1,
+    "L": -1,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "RadiationDose",
-    "unit_def": {
-      "name": "sievert",
-      "symbol": "Sv",
-      "unicode": "Sv"
-    },
-    "M": 0, "L": 2, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "sievert",
+        "symbol": "Sv",
+        "unicode": "Sv"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 2,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "SpecificHeatCapacity",
-    "foreign_unit": "joule",
-    "M": 0, "L": 2, "T": -2, "I": 0, "Th": -1, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["joule"],
+    "M": 0,
+    "L": 2,
+    "T": -2,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "SpecificVolume",
-    "M": -1, "L": 3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": -1,
+    "L": 3,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "SurfaceTension",
-    "M": 1, "L": 0, "T": -2, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 1,
+    "L": 0,
+    "T": -2,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Temperature",
-    "unit_def": {
-      "name": "kelvin",
-      "symbol": "K",
-      "unicode": "K"
-    },
-    "M": 0, "L": 0, "T": 0, "I": 0, "Th": 1, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "kelvin",
+        "symbol": "K",
+        "unicode": "K"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 0,
+    "I": 0,
+    "Th": 1,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "ThermalConductance",
-    "foreign_unit": "watt",
-    "M": 1, "L": 2, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["watt"],
+    "M": 1,
+    "L": 2,
+    "T": -3,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "ThermalConductivity",
-    "foreign_unit": "watt",
-    "M": 1, "L": 1, "T": -3, "I": 0, "Th": -1, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": ["watt"],
+    "M": 1,
+    "L": 1,
+    "T": -3,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Time",
-    "unit_def": {
-      "name": "second",
-      "symbol": "s",
-      "unicode": "s"
-    },
-    "M": 0, "L": 0, "T": 1, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "second",
+        "symbol": "s",
+        "unicode": "s"
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Velocity",
-    "M": 0, "L": 1, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 1,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Voltage",
-    "unit_def": {
-      "name": "volt",
-      "symbol": "V",
-      "unicode": "V"
-    },
-    "M": 1, "L": 2, "T": -3, "I": -1, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [
+      {
+        "name": "volt",
+        "symbol": "V",
+        "unicode": "V"
+      }
+    ],
+    "foreign_units": [],
+    "M": 1,
+    "L": 2,
+    "T": -3,
+    "I": -1,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "Volume",
-    "M": 0, "L": 3, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 3,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "VolumetricFlowRate",
-    "M": 0, "L": 3, "T": -1, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 3,
+    "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   },
   {
     "name": "WaveNumber",
-    "M": 0, "L": -1, "T": 0, "I": 0, "Th": 0, "N": 0, "J": 0
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": -1,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
   }
 ]

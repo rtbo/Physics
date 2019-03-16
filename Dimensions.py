@@ -8,6 +8,9 @@ from jinja2 import Environment
 unit_defs = {}
 
 class Dim:
+    def has_no_dim(self):
+        return self.M==0 and self.L==0 and self.T==0 and self.I==0 and self.Th==0 and self.N==0 and self.J==0
+
     @staticmethod
     def build_from_dict(dim_dict):
         dim = Dim()
@@ -35,13 +38,13 @@ class Dim:
 # a single unit definition such as meter or volt
 class UnitDef:
     @staticmethod
-    def build_from_dict(dim, dict):
+    def build_from_dict(dict, dim):
         ud = UnitDef()
         ud.dim = dim
         ud.name = dict["name"]
         ud.symbol = dict["symbol"]
         ud.unicode = dict["unicode"]
-        unit_defs[ud.name] = ud
+        return ud
 
 # a general unit definition such as meter, volt,
 # or joule per mole.kelvin
@@ -58,6 +61,8 @@ class Unit:
         self.name = ""
         self.symbol = ""
         self.unicode = ""
+        self.ratio_num = 1
+        self.ratio_den = 1
 
     def check_add_comp(self, order, name):
         if order > 0:
@@ -70,8 +75,8 @@ class Unit:
         self.check_add_comp(dim.L, "meter")
         self.check_add_comp(dim.T, "second")
         self.check_add_comp(dim.I, "ampere")
+        self.check_add_comp(dim.N, "mole")      # moles placed before kelvin
         self.check_add_comp(dim.Th, "kelvin")
-        self.check_add_comp(dim.N, "mole")
         self.check_add_comp(dim.J, "candela")
 
     def compose(self):
@@ -104,10 +109,13 @@ class Unit:
         if len(self.neg_comps):
             if len(self.pos_comps):
                 self.name += "_"
+                self.symbol += "_"
             self.name += "per"
+            self.symbol += "p_"
         for c in self.neg_comps:
             add_comp(c)
-
+        if self.name == "":
+            self.name = "coef"
 
     @staticmethod
     def build_from_single_def(unit_def):
@@ -130,32 +138,48 @@ class Unit:
         unit = Unit()
         unit.check_add_comp(1, foreign)
         foreign_def = unit_defs[foreign]
-        dim = Dim.subtract(foreign_def.dim, dim)
+        dim = Dim.subtract(dim, foreign_def.dim)
         unit.add_dim_comps(dim)
         unit.compose()
         return unit
 
+# set of units for a dimension
+class DimUnits:
+    def __init__(self, dim_dict):
+        self.dim_dict = dim_dict
+        self.dim = Dim.build_from_dict(dim_dict)
+        self.units = []
 
 def check_unit_def(dim_dict):
-    if "unit_def" in dim_dict:
-        def_dict = dim_dict["unit_def"]
+    if len(dim_dict["units"]) > 0:
         dim = Dim.build_from_dict(dim_dict)
-        UnitDef.build_from_dict(dim, def_dict)
-
+        for unit_dict in dim_dict["units"]:
+            ud = UnitDef.build_from_dict(unit_dict, dim)
+            unit_defs[ud.name] = ud
 
 def complete_dim(dim_dict):
-    dim_dict["units"] = []
-    if "unit_def" in dim_dict:
-        dim_dict["units"].append(Unit.build_from_single_def(
-            unit_defs[dim_dict["unit_def"]["name"]]
-        ))
-    elif "foreign_unit" in dim_dict:
-        dim_dict["units"].append(Unit.build_from_dim_and_foreign(
-            Dim.build_from_dict(dim_dict), dim_dict["foreign_unit"]
-        ))
-    else:
-        dim_dict["units"].append(Unit.build_from_dim(Dim.build_from_dict(dim_dict)))
-    pass
+    units = []
+    dim = Dim.build_from_dict(dim_dict)
+
+    if dim.has_no_dim():
+        unit = Unit.build_from_dim(dim)
+        unit.name = "coef"
+        unit.symbol = "coef"
+        unit.unicode = "" # ?
+        units.append(unit)
+
+    for unit_dict in dim_dict["units"]:
+        unit = Unit.build_from_single_def(unit_defs[unit_dict["name"]])
+        units.append( unit )
+
+    for foreign in dim_dict["foreign_units"]:
+        unit = Unit.build_from_dim_and_foreign( dim, foreign )
+        units.append( unit )
+
+    if len(units) == 0:
+        units.append(Unit.build_from_dim(dim))
+
+    dim_dict["units"] = units
 
 
 if __name__ == '__main__':

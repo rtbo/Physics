@@ -24,28 +24,42 @@ namespace si {
     public:
         using dim_type = D;
 
-        template<typename unit>
-        constexpr Value(const unit &val) :
-            _repr {unit::conv_type::conv(val.val())}
+        template<typename Unit>
+        constexpr Value(const Unit &val) :
+            _repr {Unit::conv_type::conv(val.val())}
         {
-            static_assert(std::is_same<dim_type, typename unit::dim_type>::value);
+            static_assert(std::is_same<dim_type, typename Unit::dim_type>::value);
         }
 
         constexpr Value(const Value &val) = default;
         constexpr Value& operator=(const Value &val) = default;
 
-        template<typename unit>
-        constexpr Value& operator=(const unit &val)
+        template<typename Unit>
+        constexpr Value& operator=(const Unit &val)
         {
-            static_assert(std::is_same<dim_type, typename unit::dim_type>::value);
-            _repr = unit::conv_type::conv(val.val());
+            static_assert(std::is_same<dim_type, typename Unit::dim_type>::value);
+            _repr = Unit::conv_type::conv(val.val());
             return *this;
         }
 
-        template<typename unit>
-        unit as() const {
-            static_assert(std::is_same<dim_type, typename unit::dim_type>::value);
-            unit{ *this };
+        template<typename Unit>
+        Unit as() const {
+            static_assert(std::is_same<dim_type, typename Unit::dim_type>::value);
+            return Unit{ *this };
         }
     };
+
+    namespace detail {
+        template<typename T>
+        struct is_value_helper : std::false_type {};
+
+        template<typename D>
+        struct is_value_helper<Value<D> > : std::true_type {};
+    }
+
+    template<typename V>
+    constexpr bool is_value()
+    {
+        return detail::is_value_helper<V>::value;
+    }
 }

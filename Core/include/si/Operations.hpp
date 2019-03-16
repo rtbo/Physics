@@ -3,84 +3,132 @@
 
 #include "Dim.hpp"
 #include "Value.hpp"
+#include "Unit.hpp"
 
 #include <cmath>
 
 namespace si {
 
-    // operations on base dimension
-
     namespace base {
+        // operations on base dimension
 
-        template<typename LhsD, typename RhsD>
-        struct EnforceSameName
-        {
-            static_assert(LhsD::name == RhsD::name);
-            static constexpr DimName name = LhsD::name;
-        };
+        namespace detail {
+
+            template<typename LhsD, typename RhsD>
+            struct EnforceSameName
+            {
+                static_assert(LhsD::name == RhsD::name);
+                static constexpr DimName name = LhsD::name;
+            };
+
+            template<typename LhsD, typename RhsD>
+            using MulDim = Dim<
+                EnforceSameName<LhsD, RhsD>::name,
+                std::ratio_add<typename LhsD::ratio, typename RhsD::ratio>
+            >;
+
+            template<typename LhsD, typename RhsD>
+            using DivDim = Dim<
+                EnforceSameName<LhsD, RhsD>::name,
+                std::ratio_subtract<typename LhsD::ratio, typename RhsD::ratio>
+            >;
+
+            template<typename D, int Num, int Den>
+            using PowDim = Dim<
+                D::name,
+                std::ratio_add<typename D::ratio, std::ratio<Num, Den> >
+            >;
+        }
+    }
+
+    namespace detail {
+        // operations on dimensions
 
         template<typename LhsD, typename RhsD>
         using MulDim = Dim<
-            EnforceSameName<LhsD, RhsD>::name,
-            std::ratio_add<typename LhsD::ratio, typename RhsD::ratio>
+            typename base::detail::MulDim<typename LhsD::mass, typename RhsD::mass>,
+            typename base::detail::MulDim<typename LhsD::length, typename RhsD::length>,
+            typename base::detail::MulDim<typename LhsD::time, typename RhsD::time>,
+            typename base::detail::MulDim<typename LhsD::current, typename RhsD::current>,
+            typename base::detail::MulDim<typename LhsD::temperature, typename RhsD::temperature>,
+            typename base::detail::MulDim<typename LhsD::amount, typename RhsD::amount>,
+            typename base::detail::MulDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
         >;
 
         template<typename LhsD, typename RhsD>
         using DivDim = Dim<
-            EnforceSameName<LhsD, RhsD>::name,
-            std::ratio_subtract<typename LhsD::ratio, typename RhsD::ratio>
+            typename base::detail::DivDim<typename LhsD::mass, typename RhsD::mass>,
+            typename base::detail::DivDim<typename LhsD::length, typename RhsD::length>,
+            typename base::detail::DivDim<typename LhsD::time, typename RhsD::time>,
+            typename base::detail::DivDim<typename LhsD::current, typename RhsD::current>,
+            typename base::detail::DivDim<typename LhsD::temperature, typename RhsD::temperature>,
+            typename base::detail::DivDim<typename LhsD::amount, typename RhsD::amount>,
+            typename base::detail::DivDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
         >;
 
         template<typename D, int Num, int Den>
         using PowDim = Dim<
-            D::name,
-            std::ratio_add<typename D::ratio, std::ratio<Num, Den> >
+            typename base::detail::PowDim<typename D::mass, Num, Den>,
+            typename base::detail::PowDim<typename D::length, Num, Den>,
+            typename base::detail::PowDim<typename D::time, Num, Den>,
+            typename base::detail::PowDim<typename D::current, Num, Den>,
+            typename base::detail::PowDim<typename D::temperature, Num, Den>,
+            typename base::detail::PowDim<typename D::amount, Num, Den>,
+            typename base::detail::PowDim<typename D::light_intensity, Num, Den>
+        >;
+
+        // operations on conversions
+        template<typename Lhs, typename Rhs>
+        struct MulConvHelper
+        {
+            static_assert(is_conv<Lhs>() && is_conv<Rhs>());
+        };
+
+        template<typename LR, typename RR>
+        struct MulConvHelper<factor_conv<LR>, factor_conv<RR>>
+        {
+            using type = factor_conv<std::ratio_multiply<LR, RR>>;
+        };
+
+        template<typename Lhs, typename Rhs>
+        using MulConv = typename MulConvHelper<Lhs, Rhs>::type;
+
+        template<typename Lhs, typename Rhs>
+        using MulUnit = unit<
+            MulDim<typename Lhs::dim_type, typename Rhs::dim_type>,
+            MulConv<typename Lhs::conv_type, typename Rhs::conv_type>
+        >;
+
+        template<typename Lhs, typename Rhs>
+        using MulValue = Value<
+            MulDim<typename Lhs::dim_type, typename Rhs::dim_type>
         >;
     }
 
-    // operations on dimensions
-
-    template<typename LhsD, typename RhsD>
-    using MulDim = Dim<
-        typename base::MulDim<typename LhsD::mass, typename RhsD::mass>,
-        typename base::MulDim<typename LhsD::length, typename RhsD::length>,
-        typename base::MulDim<typename LhsD::time, typename RhsD::time>,
-        typename base::MulDim<typename LhsD::current, typename RhsD::current>,
-        typename base::MulDim<typename LhsD::temperature, typename RhsD::temperature>,
-        typename base::MulDim<typename LhsD::amount, typename RhsD::amount>,
-        typename base::MulDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
-    >;
-
-    template<typename LhsD, typename RhsD>
-    using DivDim = Dim<
-        typename base::DivDim<typename LhsD::mass, typename RhsD::mass>,
-        typename base::DivDim<typename LhsD::length, typename RhsD::length>,
-        typename base::DivDim<typename LhsD::time, typename RhsD::time>,
-        typename base::DivDim<typename LhsD::current, typename RhsD::current>,
-        typename base::DivDim<typename LhsD::temperature, typename RhsD::temperature>,
-        typename base::DivDim<typename LhsD::amount, typename RhsD::amount>,
-        typename base::DivDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
-    >;
-
-    template<typename D, int Num, int Den>
-    using PowDim = Dim<
-        typename base::PowDim<typename D::mass, Num, Den>,
-        typename base::PowDim<typename D::length, Num, Den>,
-        typename base::PowDim<typename D::time, Num, Den>,
-        typename base::PowDim<typename D::current, Num, Den>,
-        typename base::PowDim<typename D::temperature, Num, Den>,
-        typename base::PowDim<typename D::amount, Num, Den>,
-        typename base::PowDim<typename D::light_intensity, Num, Den>
-    >;
-
-    // operations on conversions
-
     // unit operations
-    template<class L, class R>
-    auto operator*(const L &lhs, const R &rhs)
+    template<class Lhs, class Rhs>
+    constexpr
+    typename std::enable_if<is_unit<Lhs>() && is_unit<Rhs>(), detail::MulUnit<Lhs, Rhs>>::type
+    operator*(const Lhs &lhs, const Rhs &rhs)
     {
-        using dim = MulDim<typename L::dim_type, typename R::dim_type>;
+        return detail::MulUnit<Lhs, Rhs> { lhs.val() * rhs.val() };
     }
+
+    // value operations
+    template<class Lhs, class Rhs>
+    constexpr
+    typename std::enable_if<is_value<Lhs>() && is_value<Rhs>(), detail::MulValue<Lhs, Rhs>>::type
+    operator*(const Lhs &lhs, const Rhs &rhs)
+    {
+        // static_assert(is_unit<default_unit<Lhs>>());
+        // static_assert(is_unit<default_unit<Rhs>>());
+        const auto unit1 = value_repr(lhs);
+        const auto unit2 = value_repr(rhs);
+
+        return detail::MulValue<Lhs, Rhs> { unit1 * unit2 };
+        //return detail::MulValue<Lhs, Rhs> { value_repr(lhs) * value_repr(rhs) };
+    }
+
 
     // template<class L, class R>
     // auto operator*(const L &lhs, const R &rhs)

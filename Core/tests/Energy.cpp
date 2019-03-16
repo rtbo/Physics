@@ -3,6 +3,7 @@
 #include <si/Mass.hpp>
 #include <si/Velocity.hpp>
 #include <si/Operations.hpp>
+#include <si/Constants.hpp>
 #include "catch.hpp"
 #include <type_traits>
 

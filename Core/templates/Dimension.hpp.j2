@@ -9,25 +9,42 @@
 namespace si {
 
     using {{ dim.name }}Dim = Dim<
-        base::Mass<{{dim.M}}>,
-        base::Length<{{dim.L}}>,
-        base::Time<{{dim.T}}>,
-        base::Current<{{dim.I}}>,
-        base::Temperature<{{dim.Th}}>,
-        base::Amount<{{dim.I}}>,
-        base::LightIntensity<{{dim.J}}>
+        base::Mass<{{ dim.M }}>,
+        base::Length<{{ dim.L }}>,
+        base::Time<{{ dim.T }}>,
+        base::Current<{{ dim.I }}>,
+        base::Temperature<{{ dim.Th }}>,
+        base::Amount<{{ dim.N }}>,
+        base::LightIntensity<{{ dim.J }}>
     >;
+
+{% for alias in dim.aliases %}
+    using {{ alias }}Dim = {{ dim.name }}Dim;
+{% endfor %}
 
     using {{ dim.name }} = Value<{{ dim.name }}Dim>;
 
 {% for alias in dim.aliases %}
-    using {{ alias.name }}Dim = {{dim.name}}Dim;
-    using {{ alias.name }} = {{dim.name}};
-
+    using {{ alias }} = {{ dim.name }};
 {% endfor %}
 
 {% for unit in dim.units %}
     using {{ unit.name }}_t = unit< {{ dim.name }}Dim, factor_conv<std::ratio<1>> >;
+{% endfor %}
+
+    namespace literals {
+
+{% for unit in dim.units %}
+        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}(long double val)
+        {
+            return {{ unit.name }}_t { static_cast<double>(val) };
+        }
+        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}(unsigned long long int val)
+        {
+            return {{ unit.name }}_t { static_cast<double>(val) };
+        }
 
 {% endfor %}
+    }
 }
+
