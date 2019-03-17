@@ -143,13 +143,6 @@ class Unit:
         unit.compose()
         return unit
 
-# set of units for a dimension
-class DimUnits:
-    def __init__(self, dim_dict):
-        self.dim_dict = dim_dict
-        self.dim = Dim.build_from_dict(dim_dict)
-        self.units = []
-
 def check_unit_def(dim_dict):
     if len(dim_dict["units"]) > 0:
         dim = Dim.build_from_dict(dim_dict)
@@ -179,6 +172,7 @@ def complete_dim(dim_dict):
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
 
+    dim_dict["default_unit"] = units[0]
     dim_dict["units"] = units
 
 

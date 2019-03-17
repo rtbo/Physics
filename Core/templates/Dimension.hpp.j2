@@ -5,6 +5,7 @@
 #include "si/Value.hpp"
 
 #include <ratio>
+#include <ostream>
 
 namespace si {
 
@@ -27,6 +28,12 @@ namespace si {
 {% for alias in dim.aliases %}
     using {{ alias }} = {{ dim.name }};
 {% endfor %}
+
+    std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
+    {
+        out << "{{ dim.name }}{ " << value_repr(val).val() << " {{ dim.default_unit.unicode }} }";
+        return out;
+    }
 
 {% for unit in dim.units %}
     using {{ unit.name }}_t = unit<
