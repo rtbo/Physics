@@ -106,15 +106,67 @@ namespace si {
     }
 
     // unit operations
+
+    // comparison
     template<class Lhs, class Rhs>
     constexpr
-    typename std::enable_if<is_unit<Lhs>() && is_unit<Rhs>(), detail::MulUnit<Lhs, Rhs>>::type
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator==(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() == rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator==(const U &lhs, const U &rhs)
+    {
+        return lhs.val() == rhs.val();
+    }
+
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator!=(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() != rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator!=(const U &lhs, const U &rhs)
+    {
+        return lhs.val() != rhs.val();
+    }
+
+
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<is_unit<Lhs>() && is_unit<Rhs>(), detail::MulUnit<Lhs, Rhs>>
     operator*(const Lhs &lhs, const Rhs &rhs)
     {
         return detail::MulUnit<Lhs, Rhs> { lhs.val() * rhs.val() };
     }
 
     // value operations
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator==(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) == value_repr(rhs);
+    }
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator!=(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) != value_repr(rhs);
+    }
+
     template<class Lhs, class Rhs>
     constexpr
     typename std::enable_if<is_value<Lhs>() && is_value<Rhs>(), detail::MulValue<Lhs, Rhs>>::type

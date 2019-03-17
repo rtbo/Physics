@@ -3,6 +3,8 @@
 #include "Dim.hpp"
 #include "Value.hpp"
 
+#include <type_traits>
+
 namespace si {
 
     template<typename R>
@@ -90,6 +92,11 @@ namespace si {
         {
             return _val;
         }
+
+        constexpr double repr() const
+        {
+            return Conv::conv(_val);
+        }
     };
 
     namespace detail {
@@ -120,6 +127,20 @@ namespace si {
     constexpr bool is_unit(const Unit &)
     {
         return detail::is_unit_helper<Unit>::value;
+    }
+
+    template<typename U1, typename U2>
+    constexpr bool are_units()
+    {
+        return is_unit<U1>() && is_unit<U2>();
+    }
+
+    template<typename U1, typename U2>
+    constexpr
+    std::enable_if_t<are_units<U1, U2>(), bool>
+    are_compatible_units()
+    {
+        return std::is_same_v<typename U1::dim_type, typename U2::dim_type>;
     }
 
     template<typename V>
