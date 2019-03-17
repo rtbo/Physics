@@ -164,6 +164,15 @@ def complete_dim(dim_dict):
     for unit_dict in dim_dict["units"]:
         unit = Unit.build_from_single_def(unit_defs[unit_dict["name"]])
         units.append( unit )
+        if unit.name == "kilogram":
+            gram_def = UnitDef.build_from_dict({
+                "name": "gram",
+                "symbol": "g",
+                "unicode": "g"
+            }, dim)
+            gram = Unit.build_from_single_def(gram_def)
+            gram.ratio_den = 1000
+            units.append(gram)
 
     for foreign in dim_dict["foreign_units"]:
         unit = Unit.build_from_dim_and_foreign( dim, foreign )

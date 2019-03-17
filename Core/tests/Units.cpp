@@ -8,8 +8,9 @@
 #include <type_traits>
 
 using namespace si;
+using namespace si::literals;
 
-TEST_CASE("Energy", "[energy]")
+TEST_CASE("Units", "[units]")
 {
 
     SECTION("construction") {
@@ -18,7 +19,14 @@ TEST_CASE("Energy", "[energy]")
         auto energy = Energy{joules};
 
         static_assert(std::is_same<decltype(joules)::dim_type, EnergyDim>::value);
-        //static_assert(std::is_same<decltype(joules), Energy>::value);
+    }
+
+    SECTION("conversion") {
+
+        auto kgs = 10_kg;
+        auto gs = 10000_g;
+
+        REQUIRE(Mass{gs} == Mass{kgs});
     }
 
 }
