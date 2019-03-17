@@ -29,7 +29,10 @@ namespace si {
 {% endfor %}
 
 {% for unit in dim.units %}
-    using {{ unit.name }}_t = unit< {{ dim.name }}Dim, factor_conv<std::ratio<1>> >;
+    using {{ unit.name }}_t = unit<
+        {{ dim.name }}Dim,
+        factor_conv<std::ratio<{{ unit.ratio_num }}{%if unit.ratio_den != 1 %}, {{ unit.ratio_den }}{% endif %}>>
+    >;
 {% endfor %}
 
     namespace literals {
