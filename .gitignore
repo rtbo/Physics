@@ -2,6 +2,10 @@
 CMakeFiles/
 build/
 
+# libreoffice doc related
+*.ods#
+*.bkp
+
 # vscode
 .vscode/
 
