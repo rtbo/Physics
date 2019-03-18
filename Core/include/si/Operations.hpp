@@ -107,7 +107,7 @@ namespace si {
 
     // unit operations
 
-    // comparison
+    // equality
     template<class Lhs, class Rhs>
     constexpr
     std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
@@ -124,6 +124,7 @@ namespace si {
         return lhs.val() == rhs.val();
     }
 
+    // inequality
     template<class Lhs, class Rhs>
     constexpr
     std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
@@ -140,6 +141,83 @@ namespace si {
         return lhs.val() != rhs.val();
     }
 
+    // lower or equal
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator<=(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() <= rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator<=(const U &lhs, const U &rhs)
+    {
+        return lhs.val() <= rhs.val();
+    }
+
+    // greater or equal
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator>=(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() >= rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator>=(const U &lhs, const U &rhs)
+    {
+        return lhs.val() >= rhs.val();
+    }
+
+    // lower
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator<(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() < rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator<(const U &lhs, const U &rhs)
+    {
+        return lhs.val() < rhs.val();
+    }
+
+    // greater
+    template<class Lhs, class Rhs>
+    constexpr
+    std::enable_if_t<are_compatible_units<Lhs, Rhs>(), bool>
+    operator>(const Lhs &lhs, const Rhs &rhs)
+    {
+        return lhs.repr() > rhs.repr();
+    }
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), bool>
+    operator>(const U &lhs, const U &rhs)
+    {
+        return lhs.val() > rhs.val();
+    }
+
+    // unary
+
+    template<class U>
+    constexpr
+    std::enable_if_t<is_unit<U>(), U>
+    operator-(const U &u)
+    {
+        return U { -u.val() };
+    }
 
     template<class Lhs, class Rhs>
     constexpr
@@ -151,6 +229,7 @@ namespace si {
 
     // value operations
 
+    // comparison
     template<class V>
     constexpr
     std::enable_if_t<is_value<V>(), bool>
@@ -167,18 +246,55 @@ namespace si {
         return value_repr(lhs) != value_repr(rhs);
     }
 
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator<=(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) <= value_repr(rhs);
+    }
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator>=(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) >= value_repr(rhs);
+    }
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator<(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) < value_repr(rhs);
+    }
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), bool>
+    operator>(const V &lhs, const V &rhs)
+    {
+        return value_repr(lhs) > value_repr(rhs);
+    }
+
+    // operations
+
+    template<class V>
+    constexpr
+    std::enable_if_t<is_value<V>(), V>
+    operator-(const V &v)
+    {
+        return V { -value_repr(v) };
+    }
+
+
     template<class Lhs, class Rhs>
     constexpr
     typename std::enable_if<is_value<Lhs>() && is_value<Rhs>(), detail::MulValue<Lhs, Rhs>>::type
     operator*(const Lhs &lhs, const Rhs &rhs)
     {
-        // static_assert(is_unit<default_unit<Lhs>>());
-        // static_assert(is_unit<default_unit<Rhs>>());
-        const auto unit1 = value_repr(lhs);
-        const auto unit2 = value_repr(rhs);
-
-        return detail::MulValue<Lhs, Rhs> { unit1 * unit2 };
-        //return detail::MulValue<Lhs, Rhs> { value_repr(lhs) * value_repr(rhs) };
+        return detail::MulValue<Lhs, Rhs> { value_repr(lhs) * value_repr(rhs) };
     }
 
 

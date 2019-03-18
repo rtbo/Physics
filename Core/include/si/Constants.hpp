@@ -26,14 +26,14 @@ namespace si {
             return 6.62607015e-34_Js;
         }
 
-        constexpr ElectricCharge e()
+        constexpr ElectricCharge elementary_charge()
         {
             using namespace si::literals;
             return 1.602176634e-19_C;
         }
 
         namespace detail {
-            using AvogadroDim = Dim<
+            using PerMole = Dim<
                 base::Mass<0>,
                 base::Length<0>,
                 base::Time<0>,
@@ -42,15 +42,15 @@ namespace si {
                 base::Amount<-1>,
                 base::LightIntensity<0>
             >;
-            using per_mole_t = unit<AvogadroDim, factor_conv<std::ratio<1> > >;
+            using per_mole_t = unit<PerMole, factor_conv<std::ratio<1> > >;
         }
 
         constexpr auto avogadro()
         {
-            return Value<detail::AvogadroDim>{ detail::per_mole_t { 6.02214076e23 } };
+            return Value<detail::PerMole>{ detail::per_mole_t { 6.02214076e23 } };
         }
 
-        constexpr MolarEntropy R ()
+        constexpr MolarEntropy gas ()
         {
             return avogadro() * boltzmann();
         }

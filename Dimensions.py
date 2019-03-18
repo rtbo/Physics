@@ -93,7 +93,7 @@ class Unit:
                 self.symbol += "2"
                 self.unicode += "\\u00B2" # exp 2
             elif order == -1:
-                self.unicode += "\\u207B\\u00B9" # exp minus 1
+                self.unicode += "\\u00B9" # exp minus 1
 
         def add_comp(comp):
             if len(self.name):
@@ -158,7 +158,7 @@ def complete_dim(dim_dict):
         unit = Unit.build_from_dim(dim)
         unit.name = "coef"
         unit.symbol = "coef"
-        unit.unicode = "" # ?
+        unit.unicode = "(coef)"
         units.append(unit)
 
     for unit_dict in dim_dict["units"]:
@@ -180,6 +180,9 @@ def complete_dim(dim_dict):
 
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
+
+    for unit in units:
+        unit.is_default = unit.ratio_num == 1 and unit.ratio_den == 1
 
     dim_dict["default_unit"] = units[0]
     dim_dict["units"] = units

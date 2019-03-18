@@ -29,18 +29,32 @@ namespace si {
     using {{ alias }} = {{ dim.name }};
 {% endfor %}
 
-    std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
-    {
-        out << "{{ dim.name }}{ " << value_repr(val).val() << " {{ dim.default_unit.unicode }} }";
-        return out;
-    }
-
 {% for unit in dim.units %}
     using {{ unit.name }}_t = unit<
         {{ dim.name }}Dim,
         factor_conv<std::ratio<{{ unit.ratio_num }}{%if unit.ratio_den != 1 %}, {{ unit.ratio_den }}{% endif %}>>
     >;
 {% endfor %}
+
+    inline std::ostream &operator<<(std::ostream& out, const {{ dim.default_unit.name }}_t &val)
+    {
+        out << val.val() << " {{ dim.default_unit.unicode }}";
+        return out;
+    }
+
+{% for unit in dim.units if not unit.is_default %}
+    inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
+    {
+        out << val.val() << " {{ unit.unicode }}";
+        return out;
+    }
+
+{% endfor %}
+    inline std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
+    {
+        out << "{{ dim.name }}{ " << value_repr(val) << " }";
+        return out;
+    }
 
     namespace literals {
 
