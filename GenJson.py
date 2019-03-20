@@ -8,27 +8,52 @@
 
 import os
 
-SkipCol = 0
-NameCol = 1
-MCol = 2
-LCol = 3
-TCol = 4
-ICol = 5
-ThCol = 6
-NCol = 7
-JCol = 8
-UnitCol = 9
+from enum import IntEnum
 
-SkipAliasCol = 0
-FromAliasCol = 1
-NameAliasCol = 2
-UnitAliasCol = 3
+class Col(IntEnum):
+    SKIP    = 0
+    NAME    = 1
+    M       = 2
+    L       = 3
+    T       = 4
+    I       = 5
+    TH      = 6
+    N       = 7
+    J       = 8
+    UNIT    = 9
+
+class AliasCol(IntEnum):
+    SKIP    = 0
+    FROM    = 1
+    NAME    = 2
+    UNIT    = 3
+    FACTOR  = 8
+    OFFSET  = 9
+    PI_EXP  = 10
+
+class NonSiCol(IntEnum):
+    SKIP    = 0
+    NAME    = 1
+    UNIT    = 2
+    SYM     = 3
+    UNICODE = 4
+    FACTOR  = 5
+    OFFSET  = 6
+    PI_EXP  = 7
+
+class UnitCol(IntEnum):
+    NAME    = 0
+    SYM     = 1
+    UNICODE = 2
+    PREFIX  = 3
+    FOREIGN = 4
 
 class UnitDef:
     def __init__(self, name):
         self.name = name
         self.symbol = ""
         self.unicode = ""
+        self.prefixes = []
 
 class Dimension:
     def __init__(self, name):
@@ -45,45 +70,48 @@ class Dimension:
         self.foreign_units = []
 
 def completeUnitDef(ws, col, row, dim):
-    name = ws.getCellByPosition(col, row).String
-    foreign = ws.getCellByPosition(col+3, row).String
+    name = ws.getCellByPosition(col + UnitCol.NAME, row).String
+    foreign = ws.getCellByPosition(col + UnitCol.FOREIGN, row).String
     if name != "":
         unit = UnitDef(name)
-        unit.symbol = ws.getCellByPosition(col+1, row).String
-        unit.unicode = ws.getCellByPosition(col+2, row).String
+        unit.symbol = ws.getCellByPosition(col + UnitCol.SYM, row).String
+        unit.unicode = ws.getCellByPosition(col + UnitCol.UNICODE, row).String
+        prefixes = ws.getCellByPosition(col + UnitCol.PREFIX, row).String
+        if prefixes != "":
+            unit.prefixes = prefixes.split(", ")
         dim.units.append(unit)
     elif foreign != "":
         dim.foreign_units.append(foreign)
 
 def completeAliases(ws, dim):
     for row in range(1, 10000):
-        dimName = ws.getCellByPosition(FromAliasCol, row).String
+        dimName = ws.getCellByPosition(AliasCol.FROM, row).String
         if dimName == "":
             break
-        elif dimName == dim.name and ws.getCellByPosition(SkipCol, row).Value != 1:
+        elif dimName == dim.name and ws.getCellByPosition(AliasCol.SKIP, row).Value != 1:
             dim.aliases.append(
-                ws.getCellByPosition(NameAliasCol, row).String
+                ws.getCellByPosition(AliasCol.NAME, row).String
             )
-            completeUnitDef(ws, UnitAliasCol, row, dim)
+            completeUnitDef(ws, AliasCol.UNIT, row, dim)
 
 def readDimensions(calc):
     ws = calc.Sheets.getByName("DimTable")
     aliasWs = calc.Sheets.getByName("Aliases")
     dims = []
     for row in range(1, 10000):
-        name = ws.getCellByPosition(NameCol, row).String
+        name = ws.getCellByPosition(Col.NAME, row).String
         if name == "":
             break
-        elif ws.getCellByPosition(SkipCol, row).Value != 1:
+        elif ws.getCellByPosition(Col.SKIP, row).Value != 1:
             dim = Dimension(name)
-            dim.M = int(ws.getCellByPosition(MCol, row).Value)
-            dim.L = int(ws.getCellByPosition(LCol, row).Value)
-            dim.T = int(ws.getCellByPosition(TCol, row).Value)
-            dim.I = int(ws.getCellByPosition(ICol, row).Value)
-            dim.Th = int(ws.getCellByPosition(ThCol, row).Value)
-            dim.N = int(ws.getCellByPosition(NCol, row).Value)
-            dim.J = int(ws.getCellByPosition(JCol, row).Value)
-            completeUnitDef(ws, UnitCol, row, dim)
+            dim.M = int(ws.getCellByPosition(Col.M, row).Value)
+            dim.L = int(ws.getCellByPosition(Col.L, row).Value)
+            dim.T = int(ws.getCellByPosition(Col.T, row).Value)
+            dim.I = int(ws.getCellByPosition(Col.I, row).Value)
+            dim.Th = int(ws.getCellByPosition(Col.TH, row).Value)
+            dim.N = int(ws.getCellByPosition(Col.N, row).Value)
+            dim.J = int(ws.getCellByPosition(Col.J, row).Value)
+            completeUnitDef(ws, Col.UNIT, row, dim)
             completeAliases(aliasWs, dim)
             dims.append(dim)
     return dims
@@ -109,7 +137,14 @@ def printDimensionsJson(dims, path):
                 f.write('      {\n')
                 f.write('        "name": "{}",\n'.format(unit.name))
                 f.write('        "symbol": "{}",\n'.format(unit.symbol))
-                f.write('        "unicode": "{}"\n'.format(unit.unicode))
+                f.write('        "unicode": "{}",\n'.format(unit.unicode))
+                f.write('        "prefixes": [')
+                for i, prefix in enumerate(unit.prefixes):
+                    f.write('"{}"'.format(prefix))
+                    if i < len(unit.prefixes)-1:
+                        f.write(', ')
+                f.write(']\n')
+
                 if i < len(dim.units)-1:
                     f.write('      },\n')
                 else:
@@ -144,9 +179,9 @@ def driver(calc, jsonPath):
     printDimensionsJson(dims, jsonPath)
 
 def gen_json(event):
+    import uno
     calc = XSCRIPTCONTEXT.getDocument()
-    cell = calc.Sheets[0]['O8']
-    srcDir = os.path.dirname(calc.URL.replace("file://", ""))
+    srcDir = os.path.dirname(uno.fileUrlToSystemPath(calc.URL))
     jsonPath = os.path.join(srcDir, "Dimensions.json")
     driver(calc, jsonPath)
 

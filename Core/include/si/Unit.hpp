@@ -24,6 +24,8 @@ namespace si {
         }
     };
 
+    using identity_conv = factor_conv<std::ratio<1> >;
+
     template<typename FR, typename OR>
     struct factor_offset_conv
     {
@@ -47,6 +49,9 @@ namespace si {
     namespace detail {
         template<typename T>
         struct is_conv_helper : std::false_type {};
+
+        template<>
+        struct is_conv_helper<identity_conv> : std::true_type {};
 
         template<typename FR>
         struct is_conv_helper<factor_conv<FR> > : std::true_type {};
@@ -113,7 +118,7 @@ namespace si {
         template<typename D>
         struct default_unit_helper<Value<D> >
         {
-            using type = unit<D, factor_conv< std::ratio<1>>>;
+            using type = unit<D, identity_conv>;
         };
     }
 

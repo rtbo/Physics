@@ -46,7 +46,10 @@ TEST_CASE("Units", "[units]")
     //     const auto duration = 12_s;
     // }
 
-    SECTION("conversion/equality") {
+    SECTION("prefixes/conversion/equality") {
+        REQUIRE(1013.25_hPa == 101325_Pa);
+        REQUIRE(12000_mg == 12_g);
+        REQUIRE(12000_mg == 0.012_kg);
         REQUIRE(10000_g == 10_kg);
     }
 
@@ -59,7 +62,7 @@ TEST_CASE("Units", "[units]")
     SECTION("printing") {
         std::ostringstream out;
         out << 1350_J_p_molK;
-        REQUIRE(out.str() == "1350 J.mol\u207B\u00B9.K\u207B\u00B9");
+        REQUIRE(out.str() == u8"1350 J.mol\u207B\u00B9.K\u207B\u00B9");
     }
 
     SECTION("unary minus") {

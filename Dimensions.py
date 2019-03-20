@@ -5,7 +5,60 @@ import argparse
 import json
 from jinja2 import Environment
 
-unit_defs = {}
+class IdentConv:
+    @property
+    def cpp(self):
+        return "identity_conv"
+
+class FactorConv:
+    def __init__(self, num, den=1):
+        self.num = num
+        self.den = den
+
+    @property
+    def cpp(self):
+        if self.den == 1:
+            return "factor_conv<std::ratio<{}>>".format(self.num)
+        else:
+            return "factor_conv<std::ratio<{}, {}>>".format(self.num, self.den)
+
+
+class Prefix:
+    def __init__(self, name, symbol, unicode, pow10):
+        self.name = name
+        self.symbol = symbol
+        self.unicode = unicode
+        self.pow10 = pow10
+
+    def conv(self):
+        if self.pow10 > 0:
+            return FactorConv(10 ** self.pow10)
+        else:
+            return FactorConv(1, 10 ** (-self.pow10))
+
+
+prefixes = {
+    #"y": Prefix("yocto", "y", "y", -24),
+    #"z": Prefix("zepto", "z", "z", -21),
+    "a": Prefix("atto", "a", "a", -18),
+    "f": Prefix("femto", "f", "f", -15),
+    "p": Prefix("pico", "p", "p", -12),
+    "n": Prefix("nano", "n", "n", -9),
+    "u": Prefix("micro", "u", "\u00B5", -6),
+    "m": Prefix("milli", "m", "m", -3),
+    "c": Prefix("centi", "c", "c", -2),
+    "d": Prefix("deci", "d", "d", -1),
+    "da": Prefix("deca", "da", "da", 1),
+    "h": Prefix("hecto", "h", "h", 2),
+    "k": Prefix("kilo", "k", "k", 3),
+    "M": Prefix("mega", "M", "M", 6),
+    "G": Prefix("giga", "G", "G", 9),
+    "T": Prefix("tera", "T", "T", 12),
+    "P": Prefix("peta", "P", "P", 15),
+    "E": Prefix("exa", "E", "E", 18),
+    #"Z": Prefix("zetta", "Z", "Z", 21),
+    #"Y": Prefix("yotta", "Y", "Y", 24),
+}
 
 class Dim:
     def has_no_dim(self):
@@ -44,16 +97,20 @@ class UnitDef:
         ud.name = dict["name"]
         ud.symbol = dict["symbol"]
         ud.unicode = dict["unicode"]
+        ud.prefixes = list(map(lambda p: prefixes[p], dict["prefixes"]))
         return ud
 
-# a general unit definition such as meter, volt,
+unit_defs = {}
+
+# a unit instance definition such as millimeter, volt,
 # or joule per mole.kelvin
 class Unit:
 
     class Comp:
-        def __init__(self, order, unit_def):
+        def __init__(self, order, unit_def, prefix=None):
             self.order = order
             self.unit_def = unit_def
+            self.prefix = prefix
 
     def __init__(self):
         self.pos_comps = []
@@ -61,8 +118,7 @@ class Unit:
         self.name = ""
         self.symbol = ""
         self.unicode = ""
-        self.ratio_num = 1
-        self.ratio_den = 1
+        self.conv = IdentConv()
 
     def check_add_comp(self, order, name):
         if order > 0:
@@ -118,12 +174,17 @@ class Unit:
             self.name = "coef"
 
     @staticmethod
-    def build_from_single_def(unit_def):
+    def build_from_def(unit_def, prefix=None):
         unit = Unit()
         unit.name = unit_def.name
         unit.symbol = unit_def.symbol
         unit.unicode = unit_def.unicode
-        unit.pos_comps.append(Unit.Comp(1, unit_def))
+        unit.pos_comps.append(Unit.Comp(1, unit_def, prefix))
+        if prefix:
+            unit.name = prefix.name + unit.name
+            unit.symbol = prefix.symbol + unit.symbol
+            unit.unicode = prefix.unicode + unit.unicode
+            unit.conv = prefix.conv()
         return unit
 
     @staticmethod
@@ -162,17 +223,32 @@ def complete_dim(dim_dict):
         units.append(unit)
 
     for unit_dict in dim_dict["units"]:
-        unit = Unit.build_from_single_def(unit_defs[unit_dict["name"]])
+        unit_def = unit_defs[unit_dict["name"]]
+        unit = Unit.build_from_def(unit_def)
         units.append( unit )
         if unit.name == "kilogram":
-            gram_def = UnitDef.build_from_dict({
+            gdef = UnitDef.build_from_dict({
                 "name": "gram",
                 "symbol": "g",
-                "unicode": "g"
+                "unicode": "g",
+                "prefixes": []
             }, dim)
-            gram = Unit.build_from_single_def(gram_def)
-            gram.ratio_den = 1000
-            units.append(gram)
+            g = Unit.build_from_def(gdef)
+            g.conv = FactorConv(1, 1000)
+            units.append(g)
+            mgdef = UnitDef.build_from_dict({
+                "name": "milligram",
+                "symbol": "mg",
+                "unicode": "mg",
+                "prefixes": []
+            }, dim)
+            mg = Unit.build_from_def(mgdef)
+            mg.conv = FactorConv(1, 1000000)
+            units.append(mg)
+        else:
+            for p in unit_dict["prefixes"]:
+                prefix = prefixes[p]
+                units.append(Unit.build_from_def(unit_def, prefix))
 
     for foreign in dim_dict["foreign_units"]:
         unit = Unit.build_from_dim_and_foreign( dim, foreign )
@@ -182,7 +258,7 @@ def complete_dim(dim_dict):
         units.append(Unit.build_from_dim(dim))
 
     for unit in units:
-        unit.is_default = unit.ratio_num == 1 and unit.ratio_den == 1
+        unit.is_default = isinstance(unit.conv, IdentConv)
 
     dim_dict["default_unit"] = units[0]
     dim_dict["units"] = units

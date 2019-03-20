@@ -32,7 +32,8 @@
       {
         "name": "mole",
         "symbol": "mol",
-        "unicode": "mol"
+        "unicode": "mol",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -64,7 +65,8 @@
       {
         "name": "farad",
         "symbol": "F",
-        "unicode": "F"
+        "unicode": "F",
+        "prefixes": ["p", "u", "m"]
       }
     ],
     "foreign_units": [],
@@ -83,7 +85,8 @@
       {
         "name": "katal",
         "symbol": "kat",
-        "unicode": "kat"
+        "unicode": "kat",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -97,17 +100,13 @@
   },
   {
     "name": "Coefficient",
-    "aliases": ["PlaneAngle", "SolidAngle"],
+    "aliases": ["PlaneAngle"],
     "units": [
       {
         "name": "radian",
         "symbol": "rad",
-        "unicode": "rad"
-      },
-      {
-        "name": "steradian",
-        "symbol": "sr",
-        "unicode": "sr"
+        "unicode": "rad",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -126,7 +125,8 @@
       {
         "name": "siemens",
         "symbol": "S",
-        "unicode": "S"
+        "unicode": "S",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -158,7 +158,8 @@
       {
         "name": "ampere",
         "symbol": "A",
-        "unicode": "A"
+        "unicode": "A",
+        "prefixes": ["m"]
       }
     ],
     "foreign_units": [],
@@ -203,7 +204,8 @@
       {
         "name": "coulomb",
         "symbol": "C",
-        "unicode": "C"
+        "unicode": "C",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -235,7 +237,8 @@
       {
         "name": "ohm",
         "symbol": "ohm",
-        "unicode": "\u03A9"
+        "unicode": "\u03A9",
+        "prefixes": ["k", "M"]
       }
     ],
     "foreign_units": [],
@@ -254,7 +257,8 @@
       {
         "name": "joule",
         "symbol": "J",
-        "unicode": "J"
+        "unicode": "J",
+        "prefixes": ["k", "M"]
       }
     ],
     "foreign_units": ["newton"],
@@ -286,7 +290,8 @@
       {
         "name": "newton",
         "symbol": "N",
-        "unicode": "N"
+        "unicode": "N",
+        "prefixes": ["m", "da"]
       }
     ],
     "foreign_units": [],
@@ -300,17 +305,19 @@
   },
   {
     "name": "Frequency",
-    "aliases": ["RadioactiveDecay", "AngularVelocity"],
+    "aliases": ["AngularVelocity", "RadioactiveDecay"],
     "units": [
       {
         "name": "hertz",
         "symbol": "Hz",
-        "unicode": "Hz"
+        "unicode": "Hz",
+        "prefixes": ["G"]
       },
       {
         "name": "becquerel",
         "symbol": "Bq",
-        "unicode": "Bq"
+        "unicode": "Bq",
+        "prefixes": ["G", "T"]
       }
     ],
     "foreign_units": ["radian"],
@@ -342,7 +349,8 @@
       {
         "name": "henry",
         "symbol": "H",
-        "unicode": "H"
+        "unicode": "H",
+        "prefixes": ["u", "m", "c", "d", "da", "h", "k"]
       }
     ],
     "foreign_units": [],
@@ -374,7 +382,8 @@
       {
         "name": "meter",
         "symbol": "m",
-        "unicode": "m"
+        "unicode": "m",
+        "prefixes": ["n", "u", "m", "c", "d", "da", "k"]
       }
     ],
     "foreign_units": [],
@@ -406,7 +415,8 @@
       {
         "name": "candela",
         "symbol": "cd",
-        "unicode": "cd"
+        "unicode": "cd",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -425,7 +435,8 @@
       {
         "name": "lux",
         "symbol": "lx",
-        "unicode": "lx"
+        "unicode": "lx",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -444,7 +455,8 @@
       {
         "name": "tesla",
         "symbol": "T",
-        "unicode": "T"
+        "unicode": "T",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -463,7 +475,8 @@
       {
         "name": "weber",
         "symbol": "Wb",
-        "unicode": "Wb"
+        "unicode": "Wb",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -482,7 +495,8 @@
       {
         "name": "kilogram",
         "symbol": "kg",
-        "unicode": "kg"
+        "unicode": "kg",
+        "prefixes": ["m"]
       }
     ],
     "foreign_units": [],
@@ -566,7 +580,8 @@
       {
         "name": "watt",
         "symbol": "W",
-        "unicode": "W"
+        "unicode": "W",
+        "prefixes": ["k", "M"]
       }
     ],
     "foreign_units": [],
@@ -585,7 +600,8 @@
       {
         "name": "pascal",
         "symbol": "Pa",
-        "unicode": "Pa"
+        "unicode": "Pa",
+        "prefixes": ["h", "k", "M"]
       }
     ],
     "foreign_units": [],
@@ -602,9 +618,10 @@
     "aliases": [],
     "units": [
       {
-        "name": "sievert",
-        "symbol": "Sv",
-        "unicode": "Sv"
+        "name": "gray",
+        "symbol": "Gy",
+        "unicode": "Gy",
+        "prefixes": ["G", "T"]
       }
     ],
     "foreign_units": [],
@@ -662,7 +679,8 @@
       {
         "name": "kelvin",
         "symbol": "K",
-        "unicode": "K"
+        "unicode": "K",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -707,7 +725,8 @@
       {
         "name": "second",
         "symbol": "s",
-        "unicode": "s"
+        "unicode": "s",
+        "prefixes": ["n", "u", "m"]
       }
     ],
     "foreign_units": [],
@@ -739,7 +758,8 @@
       {
         "name": "volt",
         "symbol": "V",
-        "unicode": "V"
+        "unicode": "V",
+        "prefixes": ["m", "k", "M"]
       }
     ],
     "foreign_units": [],

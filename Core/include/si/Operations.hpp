@@ -84,6 +84,24 @@ namespace si {
             static_assert(is_conv<Lhs>() && is_conv<Rhs>());
         };
 
+        template<>
+        struct MulConvHelper<identity_conv, identity_conv>
+        {
+            using type = identity_conv;
+        };
+
+        template<typename R>
+        struct MulConvHelper<factor_conv<R>, identity_conv>
+        {
+            using type = factor_conv<R>;
+        };
+
+        template<typename R>
+        struct MulConvHelper<identity_conv, factor_conv<R>>
+        {
+            using type = factor_conv<R>;
+        };
+
         template<typename LR, typename RR>
         struct MulConvHelper<factor_conv<LR>, factor_conv<RR>>
         {
