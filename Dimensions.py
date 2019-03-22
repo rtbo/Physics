@@ -5,22 +5,34 @@ import argparse
 import json
 from jinja2 import Environment
 
-class IdentConv:
-    @property
-    def cpp(self):
-        return "identity_conv"
+class Conversion:
+    def __init__(self, fact, offset, pi_exp):
+        self.fact = Conversion._num_den(fact, (1, 1))
+        self.offset = Conversion._num_den(offset, (0, 1))
+        self.pi_exp = int(pi_exp) if pi_exp != "" else 0
 
-class FactorConv:
-    def __init__(self, num, den=1):
-        self.num = num
-        self.den = den
-
-    @property
-    def cpp(self):
-        if self.den == 1:
-            return "factor_conv<std::ratio<{}>>".format(self.num)
+    @staticmethod
+    def _num_den(numstr, default):
+        if numstr == "":
+            return default
+        if "." in numstr:
+            splt = numstr.split(".")
+            return (int(splt[0] + splt[1]), 10 ** len(splt[1]))
+        elif "/" in numstr:
+            splt = numstr.split("/")
+            return (int(splt[0]), int(splt[1]))
         else:
-            return "factor_conv<std::ratio<{}, {}>>".format(self.num, self.den)
+            return (int(numstr), 1)
+
+    @property
+    def cpp(self):
+        return "conversion<std::ratio<{}, {}>, std::ratio<{}, {}>, {}>".format(
+            self.fact[0], self.fact[1], self.offset[0], self.offset[1], self.pi_exp
+        )
+
+    @property
+    def is_default(self):
+        return self.fact == (1, 1) and self.offset == (0, 1) and self.pi_exp == 0
 
 
 class Prefix:
@@ -30,12 +42,11 @@ class Prefix:
         self.unicode = unicode
         self.pow10 = pow10
 
-    def conv(self):
+    def adapt_conv(self, conv):
         if self.pow10 > 0:
-            return FactorConv(10 ** self.pow10)
+            conv.fact = (conv.fact[0] * (10 ** self.pow10), conv.fact[1])
         else:
-            return FactorConv(1, 10 ** (-self.pow10))
-
+            conv.fact = (conv.fact[0], conv.fact[1] * (10 ** (-self.pow10)))
 
 prefixes = {
     #"y": Prefix("yocto", "y", "y", -24),
@@ -97,7 +108,11 @@ class UnitDef:
         ud.name = dict["name"]
         ud.symbol = dict["symbol"]
         ud.unicode = dict["unicode"]
+        ud.factor = dict["factor"]
+        ud.offset = dict["offset"]
+        ud.pi_exp = dict["pi_exp"]
         ud.prefixes = list(map(lambda p: prefixes[p], dict["prefixes"]))
+        ud.def_pref = dict["def_pref"]
         return ud
 
 unit_defs = {}
@@ -118,7 +133,7 @@ class Unit:
         self.name = ""
         self.symbol = ""
         self.unicode = ""
-        self.conv = IdentConv()
+        self.conv = None
 
     def check_add_comp(self, order, name):
         if order > 0:
@@ -173,18 +188,23 @@ class Unit:
         if self.name == "":
             self.name = "coef"
 
+    @property
+    def is_default(self):
+        return self.conv and self.conv.is_default
+
     @staticmethod
     def build_from_def(unit_def, prefix=None):
         unit = Unit()
         unit.name = unit_def.name
         unit.symbol = unit_def.symbol
         unit.unicode = unit_def.unicode
+        unit.conv = Conversion(unit_def.factor, unit_def.offset, unit_def.pi_exp)
         unit.pos_comps.append(Unit.Comp(1, unit_def, prefix))
         if prefix:
             unit.name = prefix.name + unit.name
             unit.symbol = prefix.symbol + unit.symbol
             unit.unicode = prefix.unicode + unit.unicode
-            unit.conv = prefix.conv()
+            prefix.adapt_conv(unit.conv)
         return unit
 
     @staticmethod
@@ -192,6 +212,7 @@ class Unit:
         unit = Unit()
         unit.add_dim_comps(dim)
         unit.compose()
+        unit.conv = Conversion("", "", "")
         return unit
 
     @staticmethod
@@ -202,6 +223,7 @@ class Unit:
         dim = Dim.subtract(dim, foreign_def.dim)
         unit.add_dim_comps(dim)
         unit.compose()
+        unit.conv = Conversion(foreign_def.factor, foreign_def.offset, foreign_def.pi_exp)
         return unit
 
 def check_unit_def(dim_dict):
@@ -210,6 +232,9 @@ def check_unit_def(dim_dict):
         for unit_dict in dim_dict["units"]:
             ud = UnitDef.build_from_dict(unit_dict, dim)
             unit_defs[ud.name] = ud
+            if ud.def_pref != "":
+                p = prefixes[ud.def_pref]
+                unit_defs[p.name + ud.name] = ud
 
 def complete_dim(dim_dict):
     units = []
@@ -226,29 +251,9 @@ def complete_dim(dim_dict):
         unit_def = unit_defs[unit_dict["name"]]
         unit = Unit.build_from_def(unit_def)
         units.append( unit )
-        if unit.name == "kilogram":
-            gdef = UnitDef.build_from_dict({
-                "name": "gram",
-                "symbol": "g",
-                "unicode": "g",
-                "prefixes": []
-            }, dim)
-            g = Unit.build_from_def(gdef)
-            g.conv = FactorConv(1, 1000)
-            units.append(g)
-            mgdef = UnitDef.build_from_dict({
-                "name": "milligram",
-                "symbol": "mg",
-                "unicode": "mg",
-                "prefixes": []
-            }, dim)
-            mg = Unit.build_from_def(mgdef)
-            mg.conv = FactorConv(1, 1000000)
-            units.append(mg)
-        else:
-            for p in unit_dict["prefixes"]:
-                prefix = prefixes[p]
-                units.append(Unit.build_from_def(unit_def, prefix))
+        for p in unit_dict["prefixes"]:
+            prefix = prefixes[p]
+            units.append(Unit.build_from_def(unit_def, prefix))
 
     for foreign in dim_dict["foreign_units"]:
         unit = Unit.build_from_dim_and_foreign( dim, foreign )
@@ -256,9 +261,6 @@ def complete_dim(dim_dict):
 
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
-
-    for unit in units:
-        unit.is_default = isinstance(unit.conv, IdentConv)
 
     dim_dict["default_unit"] = units[0]
     dim_dict["units"] = units

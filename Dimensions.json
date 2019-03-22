@@ -33,6 +33,10 @@
         "name": "mole",
         "symbol": "mol",
         "unicode": "mol",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -66,6 +70,10 @@
         "name": "farad",
         "symbol": "F",
         "unicode": "F",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["p", "u", "m"]
       }
     ],
@@ -86,6 +94,10 @@
         "name": "katal",
         "symbol": "kat",
         "unicode": "kat",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -100,12 +112,36 @@
   },
   {
     "name": "Coefficient",
-    "aliases": ["PlaneAngle"],
+    "aliases": ["PlaneAngle", "SolidAngle"],
     "units": [
       {
         "name": "radian",
         "symbol": "rad",
         "unicode": "rad",
+        "factor": "1/2",
+        "offset": "",
+        "pi_exp": "-1",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "steradian",
+        "symbol": "sr",
+        "unicode": "sr",
+        "factor": "1/4",
+        "offset": "",
+        "pi_exp": "-1",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "degree",
+        "symbol": "deg",
+        "unicode": "\u00B0",
+        "factor": "1/360",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -126,6 +162,10 @@
         "name": "siemens",
         "symbol": "S",
         "unicode": "S",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -159,6 +199,10 @@
         "name": "ampere",
         "symbol": "A",
         "unicode": "A",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["m"]
       }
     ],
@@ -205,6 +249,10 @@
         "name": "coulomb",
         "symbol": "C",
         "unicode": "C",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -238,6 +286,10 @@
         "name": "ohm",
         "symbol": "ohm",
         "unicode": "\u03A9",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["k", "M"]
       }
     ],
@@ -258,6 +310,10 @@
         "name": "joule",
         "symbol": "J",
         "unicode": "J",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["k", "M"]
       }
     ],
@@ -291,6 +347,10 @@
         "name": "newton",
         "symbol": "N",
         "unicode": "N",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["m", "da"]
       }
     ],
@@ -311,12 +371,20 @@
         "name": "hertz",
         "symbol": "Hz",
         "unicode": "Hz",
-        "prefixes": ["G"]
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": ["k", "M", "G"]
       },
       {
         "name": "becquerel",
         "symbol": "Bq",
         "unicode": "Bq",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["G", "T"]
       }
     ],
@@ -350,6 +418,10 @@
         "name": "henry",
         "symbol": "H",
         "unicode": "H",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["u", "m", "c", "d", "da", "h", "k"]
       }
     ],
@@ -383,7 +455,41 @@
         "name": "meter",
         "symbol": "m",
         "unicode": "m",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["n", "u", "m", "c", "d", "da", "k"]
+      },
+      {
+        "name": "inch",
+        "symbol": "in",
+        "unicode": "in",
+        "factor": "0.0254",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "foot",
+        "symbol": "ft",
+        "unicode": "ft",
+        "factor": "0.3048",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "yard",
+        "symbol": "yd",
+        "unicode": "yd",
+        "factor": "0.9144",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -416,6 +522,10 @@
         "name": "candela",
         "symbol": "cd",
         "unicode": "cd",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -436,6 +546,10 @@
         "name": "lux",
         "symbol": "lx",
         "unicode": "lx",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -456,6 +570,10 @@
         "name": "tesla",
         "symbol": "T",
         "unicode": "T",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -476,6 +594,10 @@
         "name": "weber",
         "symbol": "Wb",
         "unicode": "Wb",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -493,10 +615,24 @@
     "aliases": [],
     "units": [
       {
-        "name": "kilogram",
-        "symbol": "kg",
-        "unicode": "kg",
-        "prefixes": ["m"]
+        "name": "gram",
+        "symbol": "g",
+        "unicode": "g",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "k",
+        "prefixes": ["m", "k"]
+      },
+      {
+        "name": "pound",
+        "symbol": "lb",
+        "unicode": "lb",
+        "factor": "0.45359237",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -581,6 +717,10 @@
         "name": "watt",
         "symbol": "W",
         "unicode": "W",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["k", "M"]
       }
     ],
@@ -601,7 +741,31 @@
         "name": "pascal",
         "symbol": "Pa",
         "unicode": "Pa",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["h", "k", "M"]
+      },
+      {
+        "name": "pound_per_inch2",
+        "symbol": "PSI",
+        "unicode": "PSI",
+        "factor": "6894.75729",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "inch_of_water",
+        "symbol": "inAq",
+        "unicode": "inAq",
+        "factor": "249.0889",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -621,6 +785,10 @@
         "name": "gray",
         "symbol": "Gy",
         "unicode": "Gy",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["G", "T"]
       }
     ],
@@ -680,6 +848,30 @@
         "name": "kelvin",
         "symbol": "K",
         "unicode": "K",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "degree_celsius",
+        "symbol": "degC",
+        "unicode": "\u00B0C",
+        "factor": "1.0",
+        "offset": "273.15",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "degree_farenheit",
+        "symbol": "degF",
+        "unicode": "\u00B0F",
+        "factor": "5/9",
+        "offset": "459.67",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": []
       }
     ],
@@ -726,7 +918,41 @@
         "name": "second",
         "symbol": "s",
         "unicode": "s",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["n", "u", "m"]
+      },
+      {
+        "name": "minute",
+        "symbol": "min",
+        "unicode": "min",
+        "factor": "60",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "hour",
+        "symbol": "h",
+        "unicode": "h",
+        "factor": "3600",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "day",
+        "symbol": "day",
+        "unicode": "day",
+        "factor": "86400",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
       }
     ],
     "foreign_units": [],
@@ -759,6 +985,10 @@
         "name": "volt",
         "symbol": "V",
         "unicode": "V",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
         "prefixes": ["m", "k", "M"]
       }
     ],

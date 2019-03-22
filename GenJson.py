@@ -11,48 +11,42 @@ import os
 from enum import IntEnum
 
 class Col(IntEnum):
-    SKIP    = 0
-    NAME    = 1
-    M       = 2
-    L       = 3
-    T       = 4
-    I       = 5
-    TH      = 6
-    N       = 7
-    J       = 8
-    UNIT    = 9
-
-class AliasCol(IntEnum):
-    SKIP    = 0
-    FROM    = 1
-    NAME    = 2
-    UNIT    = 3
-    FACTOR  = 8
-    OFFSET  = 9
-    PI_EXP  = 10
-
-class NonSiCol(IntEnum):
-    SKIP    = 0
-    NAME    = 1
-    UNIT    = 2
-    SYM     = 3
-    UNICODE = 4
-    FACTOR  = 5
-    OFFSET  = 6
-    PI_EXP  = 7
+    SKIP        = 0
+    NAME        = 1
+    M           = 2
+    L           = 3
+    T           = 4
+    I           = 5
+    TH          = 6
+    N           = 7
+    J           = 8
 
 class UnitCol(IntEnum):
-    NAME    = 0
-    SYM     = 1
-    UNICODE = 2
-    PREFIX  = 3
-    FOREIGN = 4
+    SKIP        = 0
+    DIM         = 1
+    NAME        = 2
+    SYM         = 3
+    UNICODE     = 4
+    FACTOR      = 5
+    OFFSET      = 6
+    PI_EXP      = 7
+    PREFIX      = 8
+    DEF_PREF    = 9
+    FOREIGN     = 10
+
+class AliasCol(IntEnum):
+    SKIP        = 0
+    DIM         = 1
+    NAME        = 2
 
 class UnitDef:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
+        self.name = ""
         self.symbol = ""
         self.unicode = ""
+        self.factor = ""
+        self.offset = ""
+        self.pi_exp = ""
         self.prefixes = []
 
 class Dimension:
@@ -65,37 +59,48 @@ class Dimension:
         self.Th = 0
         self.N = 0
         self.J = 0
-        self.aliases = []
         self.units = []
         self.foreign_units = []
+        self.aliases = []
 
-def completeUnitDef(ws, col, row, dim):
-    name = ws.getCellByPosition(col + UnitCol.NAME, row).String
-    foreign = ws.getCellByPosition(col + UnitCol.FOREIGN, row).String
-    if name != "":
-        unit = UnitDef(name)
-        unit.symbol = ws.getCellByPosition(col + UnitCol.SYM, row).String
-        unit.unicode = ws.getCellByPosition(col + UnitCol.UNICODE, row).String
-        prefixes = ws.getCellByPosition(col + UnitCol.PREFIX, row).String
-        if prefixes != "":
-            unit.prefixes = prefixes.split(", ")
-        dim.units.append(unit)
-    elif foreign != "":
-        dim.foreign_units.append(foreign)
+def completeUnits(ws, dim):
+    for row in range(1, 10000):
+        dim_name = ws.getCellByPosition(UnitCol.DIM, row).String
+        if dim_name == "":
+            break
+        elif dim_name == dim.name and ws.getCellByPosition(UnitCol.SKIP, row).String != "1":
+            name = ws.getCellByPosition(UnitCol.NAME, row).String
+            foreign = ws.getCellByPosition(UnitCol.FOREIGN, row).String
+            if name != "":
+                unit = UnitDef()
+                unit.name = name
+                unit.symbol = ws.getCellByPosition(UnitCol.SYM, row).String
+                unit.unicode = ws.getCellByPosition(UnitCol.UNICODE, row).String
+                unit.factor = ws.getCellByPosition(UnitCol.FACTOR, row).String
+                unit.offset = ws.getCellByPosition(UnitCol.OFFSET, row).String
+                unit.pi_exp = ws.getCellByPosition(UnitCol.PI_EXP, row).String
+                unit.def_pref = ws.getCellByPosition(UnitCol.DEF_PREF, row).String
+                prefixes = ws.getCellByPosition(UnitCol.PREFIX, row).String
+                if prefixes != "":
+                    unit.prefixes = prefixes.split(", ")
+                dim.units.append(unit)
+            else:
+                assert foreign != ""
+                dim.foreign_units.append(foreign)
 
 def completeAliases(ws, dim):
     for row in range(1, 10000):
-        dimName = ws.getCellByPosition(AliasCol.FROM, row).String
+        dimName = ws.getCellByPosition(AliasCol.DIM, row).String
         if dimName == "":
             break
         elif dimName == dim.name and ws.getCellByPosition(AliasCol.SKIP, row).Value != 1:
             dim.aliases.append(
                 ws.getCellByPosition(AliasCol.NAME, row).String
             )
-            completeUnitDef(ws, AliasCol.UNIT, row, dim)
 
 def readDimensions(calc):
     ws = calc.Sheets.getByName("DimTable")
+    unitWs = calc.Sheets.getByName("Units")
     aliasWs = calc.Sheets.getByName("Aliases")
     dims = []
     for row in range(1, 10000):
@@ -111,7 +116,7 @@ def readDimensions(calc):
             dim.Th = int(ws.getCellByPosition(Col.TH, row).Value)
             dim.N = int(ws.getCellByPosition(Col.N, row).Value)
             dim.J = int(ws.getCellByPosition(Col.J, row).Value)
-            completeUnitDef(ws, Col.UNIT, row, dim)
+            completeUnits(unitWs, dim)
             completeAliases(aliasWs, dim)
             dims.append(dim)
     return dims
@@ -124,28 +129,33 @@ def printDimensionsJson(dims, path):
             f.write('    "name": "{}",\n'.format(dim.name))
 
             f.write('    "aliases": [')
-            for i, alias in enumerate(dim.aliases):
+            for ai, alias in enumerate(dim.aliases):
                 f.write('"{}"'.format(alias))
-                if i < len(dim.aliases)-1:
+                if ai < len(dim.aliases)-1:
                     f.write(', ')
             f.write('],\n')
 
             f.write('    "units": [')
-            for i, unit in enumerate(dim.units):
-                if i == 0:
+            for ui, unit in enumerate(dim.units):
+                if ui == 0:
                     f.write('\n')
                 f.write('      {\n')
                 f.write('        "name": "{}",\n'.format(unit.name))
                 f.write('        "symbol": "{}",\n'.format(unit.symbol))
                 f.write('        "unicode": "{}",\n'.format(unit.unicode))
+                f.write('        "factor": "{}",\n'.format(unit.factor))
+                f.write('        "offset": "{}",\n'.format(unit.offset))
+                f.write('        "pi_exp": "{}",\n'.format(unit.pi_exp))
+                f.write('        "def_pref": "{}",\n'.format(unit.def_pref))
+
                 f.write('        "prefixes": [')
-                for i, prefix in enumerate(unit.prefixes):
+                for pi, prefix in enumerate(unit.prefixes):
                     f.write('"{}"'.format(prefix))
-                    if i < len(unit.prefixes)-1:
+                    if pi < len(unit.prefixes)-1:
                         f.write(', ')
                 f.write(']\n')
 
-                if i < len(dim.units)-1:
+                if ui < len(dim.units)-1:
                     f.write('      },\n')
                 else:
                     f.write('      }\n')

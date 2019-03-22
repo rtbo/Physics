@@ -4,60 +4,73 @@
 #include "Value.hpp"
 
 #include <type_traits>
+#include <cmath>
 
 namespace si {
 
-    template<typename R>
-    struct factor_conv
-    {
-        static_assert(detail::is_ratio<R>(), "factor_conv must be used with std::ratio");
-        using factor = R;
+    namespace detail {
+        template<int PiExp>
+        struct pow_pi
+        {};
 
-        static constexpr double conv(double val)
+        template<>
+        struct pow_pi<-1>
         {
-            return val * detail::ratio_double<factor>();
-        }
+            static constexpr double value = 1.0 / M_PI;
+        };
 
-        static constexpr double reverse_conv(double val)
+        template<>
+        struct pow_pi<0>
         {
-            return val / detail::ratio_double<factor>();
-        }
-    };
+            static constexpr double value = 1.0;
+        };
 
-    using identity_conv = factor_conv<std::ratio<1> >;
+        template<>
+        struct pow_pi<1>
+        {
+            static constexpr double value = M_PI;
+        };
+    }
 
-    template<typename FR, typename OR>
-    struct factor_offset_conv
+    template<typename FR=std::ratio<1>, typename OR=std::ratio<0>, int PiExp=0>
+    struct conversion
     {
-        static_assert(detail::is_ratio<FR>(), "factor_offset_conv must be used with std::ratio");
-        static_assert(detail::is_ratio<OR>(), "factor_offset_conv must be used with std::ratio");
+        static_assert(detail::is_ratio<FR>(), "conversion must be used with std::ratio");
+        static_assert(detail::is_ratio<OR>(), "conversion must be used with std::ratio");
 
         using factor = FR;
         using offset = OR;
+        static constexpr int pi_exp = PiExp;
 
         static constexpr double conv(double val)
         {
-            return (val + detail::ratio_double<offset>()) * detail::ratio_double<factor>();
+            return val
+                * detail::ratio_double<FR>()
+                * detail::pow_pi<PiExp>::value
+                + detail::ratio_double<OR>();
         }
 
         static constexpr double reverse_conv(double val)
         {
-            return (val / detail::ratio_double<factor>()) - detail::ratio_double<offset>();
+            return (val - detail::ratio_double<OR>()) /
+                (detail::ratio_double<FR>() * detail::pow_pi<PiExp>::value);
         }
     };
+
+    using identity_conv = conversion<std::ratio<1>, std::ratio<0>, 0>;
+
+    template<typename FR>
+    using factor_conv = conversion<FR, std::ratio<0>, 0>;
+
+    template<typename FR, typename OR>
+    using factor_offset_conv = conversion<FR, OR, 0>;
 
     namespace detail {
         template<typename T>
         struct is_conv_helper : std::false_type {};
 
-        template<>
-        struct is_conv_helper<identity_conv> : std::true_type {};
-
-        template<typename FR>
-        struct is_conv_helper<factor_conv<FR> > : std::true_type {};
-
-        template<typename FR, typename OR>
-        struct is_conv_helper<factor_offset_conv<FR, OR> > : std::true_type {};
+        template<typename FR, typename OR, int PiExp>
+        struct is_conv_helper<conversion<FR, OR, PiExp> > : std::true_type {};
     }
 
     template<typename Conv>
