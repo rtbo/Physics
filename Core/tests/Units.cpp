@@ -8,6 +8,7 @@
 #include <si/Pressure.hpp>
 #include <si/Time.hpp>
 #include <si/Velocity.hpp>
+#include <si/Volume.hpp>
 #include <si/Operations.hpp>
 #include <si/Constants.hpp>
 
@@ -42,27 +43,29 @@ TEST_CASE("Units", "[units]")
         REQUIRE(joules.val() == 230.0);
     }
 
-    // SECTION("composition") {
-    //     const auto distance = 240_m;
-    //     const auto duration = 12_s;
-    // }
+    SECTION("composition") {
+        REQUIRE( 240_m / 12_s == 20_m_p_s );
+        REQUIRE( 240_km / 12_s == 20000_m_p_s );
 
-    SECTION("prefixes/conversion/equality") {
-        REQUIRE(1013.25_hPa == 101325_Pa);
-        REQUIRE(12000_mg == 12_g);
-        REQUIRE(12000_mg == 0.012_kg);
-        REQUIRE(10000_g == 10_kg);
+        REQUIRE( 12_m3 * 40_hPa == 48000_J );
+    }
 
-        REQUIRE(360_deg == 1_coef);
-        REQUIRE(radian_t{ detail::pi } == 0.5_coef);
-        REQUIRE(radian_t{ detail::pi } == 180_deg);
-        REQUIRE(55_percent == 0.55_coef);
+    SECTION("prefixes/conversion") {
+        REQUIRE( 1013.25_hPa == 101325_Pa );
+        REQUIRE( 12000_mg == 12_g );
+        REQUIRE( 12000_mg == 0.012_kg );
+        REQUIRE( 10000_g == 10_kg );
+
+        REQUIRE( 360_deg == 1_coef );
+        REQUIRE( radian_t{ detail::pi } == 0.5_coef );
+        REQUIRE( radian_t{ detail::pi } == 180_deg );
+        REQUIRE( 55_percent == 0.55_coef );
     }
 
     SECTION("comparison") {
-        REQUIRE(1400_Pa > 1300_Pa);
-        REQUIRE(1000_ohm < 1400_ohm);
-        REQUIRE(1e6_J != 1400_J);
+        REQUIRE( 1400_Pa > 1300_Pa );
+        REQUIRE( 1000_ohm < 1400_ohm );
+        REQUIRE( 1e6_J != 1400_J );
     }
 
     SECTION("printing") {

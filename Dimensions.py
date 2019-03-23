@@ -244,20 +244,16 @@ def complete_dim(dim_dict):
     units = []
     dim = Dim.build_from_dict(dim_dict)
 
-    if dim.has_no_dim():
-        unit = Unit.build_from_dim(dim)
-        unit.name = "coef"
-        unit.symbol = "coef"
-        unit.unicode = ""
-        units.append(unit)
-
     for unit_dict in dim_dict["units"]:
-        unit_def = unit_defs[unit_dict["name"]]
-        unit = Unit.build_from_def(unit_def)
-        units.append( unit )
-        for p in unit_dict["prefixes"]:
-            prefix = prefixes[p]
-            units.append(Unit.build_from_def(unit_def, prefix))
+        if unit_dict["name"] == "":
+            units.append(Unit.build_from_dim(dim))
+        else:
+            unit_def = unit_defs[unit_dict["name"]]
+            unit = Unit.build_from_def(unit_def)
+            units.append( unit )
+            for p in unit_dict["prefixes"]:
+                prefix = prefixes[p]
+                units.append(Unit.build_from_def(unit_def, prefix))
 
     for foreign in dim_dict["foreign_units"]:
         unit = Unit.build_from_dim_and_foreign( dim, foreign )

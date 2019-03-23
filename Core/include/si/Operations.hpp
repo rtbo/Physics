@@ -8,66 +8,19 @@
 #include <cmath>
 
 namespace si {
-    namespace detail {
-
-        // operations on conversions
-        template<typename Lhs, typename Rhs>
-        struct MulConvHelper
-        {
-            static_assert(is_conv<Lhs>() && is_conv<Rhs>());
-        };
-
-        template<>
-        struct MulConvHelper<identity_conv, identity_conv>
-        {
-            using type = identity_conv;
-        };
-
-        template<typename R>
-        struct MulConvHelper<factor_conv<R>, identity_conv>
-        {
-            using type = factor_conv<R>;
-        };
-
-        template<typename R>
-        struct MulConvHelper<identity_conv, factor_conv<R>>
-        {
-            using type = factor_conv<R>;
-        };
-
-        template<typename LR, typename RR>
-        struct MulConvHelper<factor_conv<LR>, factor_conv<RR>>
-        {
-            using type = factor_conv<std::ratio_multiply<LR, RR>>;
-        };
-
-        template<typename Lhs, typename Rhs>
-        using MulConv = typename MulConvHelper<Lhs, Rhs>::type;
-
-        template<typename Lhs, typename Rhs>
-        using MulUnit = unit<
-            MulDim<typename Lhs::dim_type, typename Rhs::dim_type>,
-            MulConv<typename Lhs::conv_type, typename Rhs::conv_type>
-        >;
-
-        template<typename Lhs, typename Rhs>
-        using MulValue = Value<
-            MulDim<typename Lhs::dim_type, typename Rhs::dim_type>
-        >;
-    }
 
     // unit operations
 
     // equality
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator==(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() == rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator==(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() == rhs.val();
@@ -75,14 +28,14 @@ namespace si {
 
     // inequality
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator!=(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() != rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator!=(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() != rhs.val();
@@ -90,14 +43,14 @@ namespace si {
 
     // lower or equal
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator<=(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() <= rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator<=(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() <= rhs.val();
@@ -105,14 +58,14 @@ namespace si {
 
     // greater or equal
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator>=(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() >= rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator>=(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() >= rhs.val();
@@ -120,14 +73,14 @@ namespace si {
 
     // lower
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator<(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() < rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator<(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() < rhs.val();
@@ -135,76 +88,127 @@ namespace si {
 
     // greater
     template<typename D, typename LhsC, typename RhsC>
-    constexpr bool
+    inline constexpr bool
     operator>(const unit<D, LhsC> &lhs, const unit<D, RhsC> &rhs)
     {
         return lhs.repr() > rhs.repr();
     }
 
     template<typename D, typename C>
-    constexpr bool
+    inline constexpr bool
     operator>(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return lhs.val() > rhs.val();
     }
 
     // unary
-    template<class U>
-    constexpr
-    std::enable_if_t<is_unit<U>(), U>
-    operator-(const U &u)
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator-(const unit<D, C> &u)
     {
-        return U { -u.val() };
+        return unit<D, C> { -u.val() };
     }
 
-    template<class Lhs, class Rhs>
-    constexpr
-    std::enable_if_t<is_unit<Lhs>() && is_unit<Rhs>(), detail::MulUnit<Lhs, Rhs>>
-    operator*(const Lhs &lhs, const Rhs &rhs)
+    // mul
+    template<typename LD, typename LC, typename RD, typename RC>
+    inline constexpr unit<MulDim<LD, RD>, MulConv<LC, RC>>
+    operator*(const unit<LD, LC> &lhs, const unit<RD, RC> &rhs)
     {
-        return detail::MulUnit<Lhs, Rhs> { lhs.val() * rhs.val() };
+        return unit<MulDim<LD, RD>, MulConv<LC, RC>> { lhs.val() * rhs.val() };
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator*(const double &lhs, const unit<D, C> &rhs)
+    {
+        return unit<D, C> { lhs * rhs.val() };
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator*(const unit<C, D> &lhs, const double &rhs)
+    {
+        return unit<D, C> { lhs.val() * rhs };
+    }
+
+    // div
+    template<typename LD, typename LC, typename RD, typename RC>
+    inline constexpr unit<DivDim<LD, RD>, DivConv<LC, RC>>
+    operator/(const unit<LD, LC> &lhs, const unit<RD, RC> &rhs)
+    {
+        return unit<DivDim<LD, RD>, DivConv<LC, RC>> { lhs.val() / rhs.val() };
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<DivDim<NoDim, D>, C>
+    operator/(const double &lhs, const unit<D, C> &rhs)
+    {
+        return unit<DivDim<NoDim, D>, C> { lhs * rhs.val() };
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator/(const unit<C, D> &lhs, const double &rhs)
+    {
+        return unit<D, C> { lhs.val() / rhs };
+    }
+
+    // add
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator+(const unit<D, C> &lhs, const unit<D, C> &rhs)
+    {
+        return unit<D, C> { lhs.val() + rhs.val() };
+    }
+
+    // sub
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    operator-(const unit<D, C> &lhs, const unit<D, C> &rhs)
+    {
+        return unit<D, C> { lhs.val() - rhs.val() };
     }
 
     // value operations
 
     // comparison
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator==(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) == value_repr(rhs);
     }
 
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator!=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) != value_repr(rhs);
     }
 
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator<=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) <= value_repr(rhs);
     }
 
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator>=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) >= value_repr(rhs);
     }
 
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator<(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) < value_repr(rhs);
     }
 
     template<class D>
-    constexpr bool
+    inline constexpr bool
     operator>(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) > value_repr(rhs);
@@ -213,18 +217,18 @@ namespace si {
     // operations
 
     template<class D>
-    constexpr Value<D>
+    inline constexpr Value<D>
     operator-(const Value<D> &v)
     {
         return Value<D> { -value_repr(v) };
     }
 
 
-    template<typename LhsD, typename RhsD>
-    constexpr Value<MulDim<LhsD, RhsD>>
-    operator*(const Value<LhsD> &lhs, const Value<RhsD> &rhs)
+    template<typename LD, typename RD>
+    inline constexpr Value<MulDim<LD, RD>>
+    operator*(const Value<LD> &lhs, const Value<RD> &rhs)
     {
-        return Value<MulDim<LhsD, RhsD>> { value_repr(lhs) * value_repr(rhs) };
+        return Value<MulDim<LD, RD>> { value_repr(lhs) * value_repr(rhs) };
     }
 
 

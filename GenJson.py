@@ -71,7 +71,9 @@ def completeUnits(ws, dim):
         elif dim_name == dim.name and ws.getCellByPosition(UnitCol.SKIP, row).String != "1":
             name = ws.getCellByPosition(UnitCol.NAME, row).String
             foreign = ws.getCellByPosition(UnitCol.FOREIGN, row).String
-            if name != "":
+            if foreign != "":
+                dim.foreign_units.append(foreign)
+            else:
                 unit = UnitDef()
                 unit.name = name
                 unit.symbol = ws.getCellByPosition(UnitCol.SYM, row).String
@@ -84,9 +86,6 @@ def completeUnits(ws, dim):
                 if prefixes != "":
                     unit.prefixes = prefixes.split(", ")
                 dim.units.append(unit)
-            else:
-                assert foreign != ""
-                dim.foreign_units.append(foreign)
 
 def completeAliases(ws, dim):
     for row in range(1, 10000):

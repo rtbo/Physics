@@ -115,6 +115,16 @@
     "aliases": ["PlaneAngle", "SolidAngle"],
     "units": [
       {
+        "name": "coef",
+        "symbol": "coef",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
         "name": "percent",
         "symbol": "percent",
         "unicode": "%",
@@ -868,7 +878,7 @@
         "name": "degree_celsius",
         "symbol": "degC",
         "unicode": "\\u00B0C",
-        "factor": "1.0",
+        "factor": "",
         "offset": "273.15",
         "pi_exp": "",
         "def_pref": "",
@@ -1014,7 +1024,38 @@
   {
     "name": "Volume",
     "aliases": [],
-    "units": [],
+    "units": [
+      {
+        "name": "",
+        "symbol": "",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "liter",
+        "symbol": "L",
+        "unicode": "L",
+        "factor": "1/1000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": ["m", "c", "da", "h"]
+      },
+      {
+        "name": "centimeter3",
+        "symbol": "cc",
+        "unicode": "cc",
+        "factor": "1/1000000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
     "foreign_units": [],
     "M": 0,
     "L": 3,
@@ -1027,7 +1068,28 @@
   {
     "name": "VolumetricFlowRate",
     "aliases": [],
-    "units": [],
+    "units": [
+      {
+        "name": "",
+        "symbol": "",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "cc_per_minute",
+        "symbol": "ccm",
+        "unicode": "ccm",
+        "factor": "1/60000000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
     "foreign_units": [],
     "M": 0,
     "L": 3,
