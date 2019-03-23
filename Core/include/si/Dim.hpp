@@ -183,4 +183,71 @@ namespace si {
     {
         return detail::is_dim_helper<D>::value;
     }
+
+
+    namespace base {
+        // operations on base dimension
+
+        namespace detail {
+
+            template<typename LhsD, typename RhsD>
+            struct EnforceSameName
+            {
+                static_assert(LhsD::name == RhsD::name);
+                static constexpr DimName name = LhsD::name;
+            };
+
+            template<typename LhsD, typename RhsD>
+            using MulDim = Dim<
+                EnforceSameName<LhsD, RhsD>::name,
+                std::ratio_add<typename LhsD::ratio, typename RhsD::ratio>
+            >;
+
+            template<typename LhsD, typename RhsD>
+            using DivDim = Dim<
+                EnforceSameName<LhsD, RhsD>::name,
+                std::ratio_subtract<typename LhsD::ratio, typename RhsD::ratio>
+            >;
+
+            template<typename D, int Num, int Den>
+            using PowDim = Dim<
+                D::name,
+                std::ratio_add<typename D::ratio, std::ratio<Num, Den> >
+            >;
+        }
+    }
+
+    template<typename LhsD, typename RhsD>
+    using MulDim = Dim<
+        typename base::detail::MulDim<typename LhsD::mass, typename RhsD::mass>,
+        typename base::detail::MulDim<typename LhsD::length, typename RhsD::length>,
+        typename base::detail::MulDim<typename LhsD::time, typename RhsD::time>,
+        typename base::detail::MulDim<typename LhsD::current, typename RhsD::current>,
+        typename base::detail::MulDim<typename LhsD::temperature, typename RhsD::temperature>,
+        typename base::detail::MulDim<typename LhsD::amount, typename RhsD::amount>,
+        typename base::detail::MulDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
+    >;
+
+    template<typename LhsD, typename RhsD>
+    using DivDim = Dim<
+        typename base::detail::DivDim<typename LhsD::mass, typename RhsD::mass>,
+        typename base::detail::DivDim<typename LhsD::length, typename RhsD::length>,
+        typename base::detail::DivDim<typename LhsD::time, typename RhsD::time>,
+        typename base::detail::DivDim<typename LhsD::current, typename RhsD::current>,
+        typename base::detail::DivDim<typename LhsD::temperature, typename RhsD::temperature>,
+        typename base::detail::DivDim<typename LhsD::amount, typename RhsD::amount>,
+        typename base::detail::DivDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
+    >;
+
+    template<typename D, int Num, int Den>
+    using PowDim = Dim<
+        typename base::detail::PowDim<typename D::mass, Num, Den>,
+        typename base::detail::PowDim<typename D::length, Num, Den>,
+        typename base::detail::PowDim<typename D::time, Num, Den>,
+        typename base::detail::PowDim<typename D::current, Num, Den>,
+        typename base::detail::PowDim<typename D::temperature, Num, Den>,
+        typename base::detail::PowDim<typename D::amount, Num, Den>,
+        typename base::detail::PowDim<typename D::light_intensity, Num, Den>
+    >;
+
 }

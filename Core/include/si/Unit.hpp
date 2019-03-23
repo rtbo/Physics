@@ -4,11 +4,13 @@
 #include "Value.hpp"
 
 #include <type_traits>
-#include <cmath>
 
 namespace si {
 
     namespace detail {
+
+        constexpr double pi = 3.141592653589793;
+
         template<int PiExp>
         struct pow_pi
         {};
@@ -16,7 +18,7 @@ namespace si {
         template<>
         struct pow_pi<-1>
         {
-            static constexpr double value = 1.0 / M_PI;
+            static constexpr double value = 1.0 / pi;
         };
 
         template<>
@@ -28,7 +30,7 @@ namespace si {
         template<>
         struct pow_pi<1>
         {
-            static constexpr double value = M_PI;
+            static constexpr double value = pi;
         };
     }
 
