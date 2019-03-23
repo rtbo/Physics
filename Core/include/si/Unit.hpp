@@ -81,20 +81,20 @@ namespace si {
         return detail::is_conv_helper<Conv>::value;
     }
 
-    template<typename D, typename Conv>
+    template<typename D, typename C>
     class unit
     {
     private:
 
         static_assert(is_dim<D>());
-        static_assert(is_conv<Conv>());
+        static_assert(is_conv<C>());
 
         double _val;
 
     public:
 
         using dim_type = D;
-        using conv_type = Conv;
+        using conv_type = C;
         using value_type = Value<D>;
 
         constexpr explicit unit(const double val) :
@@ -102,7 +102,7 @@ namespace si {
         {}
 
         constexpr unit(const Value<D> &val) :
-            _val { Conv::reverse_conv(val._repr) }
+            _val { C::reverse_conv(val._repr) }
         {}
 
         constexpr unit(const unit &val) = default;
@@ -115,7 +115,7 @@ namespace si {
 
         constexpr double repr() const
         {
-            return Conv::conv(_val);
+            return C::conv(_val);
         }
     };
 
