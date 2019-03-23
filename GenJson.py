@@ -142,7 +142,7 @@ def printDimensionsJson(dims, path):
                 f.write('      {\n')
                 f.write('        "name": "{}",\n'.format(unit.name))
                 f.write('        "symbol": "{}",\n'.format(unit.symbol))
-                f.write('        "unicode": "{}",\n'.format(unit.unicode))
+                f.write('        "unicode": "{}",\n'.format(unit.unicode.replace(r'\u', r'\\u')))
                 f.write('        "factor": "{}",\n'.format(unit.factor))
                 f.write('        "offset": "{}",\n'.format(unit.offset))
                 f.write('        "pi_exp": "{}",\n'.format(unit.pi_exp))

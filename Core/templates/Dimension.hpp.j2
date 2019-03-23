@@ -38,14 +38,14 @@ namespace si {
 
     inline std::ostream &operator<<(std::ostream& out, const {{ dim.default_unit.name }}_t &val)
     {
-        out << val.val() << " {{ dim.default_unit.unicode }}";
+        out << val.val() << u8" {{ dim.default_unit.unicode }}";
         return out;
     }
 
 {% for unit in dim.units if not unit.is_default %}
     inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
     {
-        out << val.val() << " {{ unit.unicode }}";
+        out << val.val() << u8" {{ unit.unicode }}";
         return out;
     }
 
