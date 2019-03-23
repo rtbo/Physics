@@ -192,6 +192,10 @@ class Unit:
     def is_default(self):
         return self.conv and self.conv.is_default
 
+    @property
+    def unicode_cpp(self):
+        return 'u8"{}{}"'.format(' ' if len(self.unicode)>0 else '', self.unicode)
+
     @staticmethod
     def build_from_def(unit_def, prefix=None):
         unit = Unit()
@@ -244,7 +248,7 @@ def complete_dim(dim_dict):
         unit = Unit.build_from_dim(dim)
         unit.name = "coef"
         unit.symbol = "coef"
-        unit.unicode = "(coef)"
+        unit.unicode = ""
         units.append(unit)
 
     for unit_dict in dim_dict["units"]:

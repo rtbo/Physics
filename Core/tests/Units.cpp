@@ -1,4 +1,5 @@
 
+#include <si/Coefficient.hpp>
 #include <si/ElectricResistance.hpp>
 #include <si/Energy.hpp>
 #include <si/Length.hpp>
@@ -51,6 +52,11 @@ TEST_CASE("Units", "[units]")
         REQUIRE(12000_mg == 12_g);
         REQUIRE(12000_mg == 0.012_kg);
         REQUIRE(10000_g == 10_kg);
+
+        REQUIRE(360_deg == 1_coef);
+        REQUIRE(radian_t{ detail::pi } == 0.5_coef);
+        REQUIRE(radian_t{ detail::pi } == 180_deg);
+        REQUIRE(55_percent == 0.55_coef);
     }
 
     SECTION("comparison") {

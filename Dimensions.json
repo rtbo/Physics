@@ -115,6 +115,16 @@
     "aliases": ["PlaneAngle", "SolidAngle"],
     "units": [
       {
+        "name": "percent",
+        "symbol": "percent",
+        "unicode": "%",
+        "factor": "1/100",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
         "name": "radian",
         "symbol": "rad",
         "unicode": "rad",
