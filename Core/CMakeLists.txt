@@ -21,6 +21,7 @@ set(SI_CORE_SRC
     include/si/Unit.hpp
     include/si/Value.hpp
 
+    templates/SiConfig.hpp.j2
     templates/Dimension.hpp.j2
 )
 
@@ -50,6 +51,10 @@ physics_item_codegen(
     "${CMAKE_CURRENT_BINARY_DIR}/include/ph/@Item@.hpp"
     PHYSICS_CORE_ITEMS
 )
+physics_dims_codegen(
+    templates/SiConfig.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/Config.hpp"
+)
 physics_dim_codegen(
     templates/Dimension.hpp.j2
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/@Dim@.hpp"
@@ -68,6 +73,7 @@ add_library(Core STATIC
     ${PHYSICS_CORE_ITEMS}
 
     ${SI_CORE_SRC}
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/Config.hpp"
     ${PHYSICS_CORE_DIMS}
 
     Empty.cpp)

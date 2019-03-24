@@ -1,7 +1,6 @@
 
 #include <si/Area.hpp>
 #include <si/Coefficient.hpp>
-#include <si/ElectricResistance.hpp>
 #include <si/Energy.hpp>
 #include <si/Length.hpp>
 #include <si/Mass.hpp>
@@ -77,7 +76,6 @@ TEST_CASE("Units", "[units]")
 
     SECTION("comparison") {
         REQUIRE( 1400_Pa > 1300_Pa );
-        REQUIRE( 1000_ohm < 1400_ohm );
         REQUIRE( 1e6_J != 1400_J );
     }
 

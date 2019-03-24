@@ -318,6 +318,24 @@ def complete_dim(dim_dict):
     conv1 = lambda u: u.conv1
     dim_dict["unit_set"] = [ next(g) for k, g in groupby(sorted(units, key=conv1), key=conv1) ]
 
+def filter_dims(dims, excluded_base_dims, excluded_dims):
+    base_excludes = excluded_base_dims.split(':') if excluded_base_dims else []
+    excludes = []
+    if excluded_dims:
+        with open(excluded_dims, 'r') as f:
+            for line in [line.strip() for line in f]:
+                if not line.startswith("#"):
+                    excludes.append(line)
+    for d in dims:
+        if d["name"] in excludes:
+            continue
+        found = False
+        for e in base_excludes:
+            if d[e] != 0:
+                found = True
+                break
+        if not found:
+            yield d
 
 if __name__ == '__main__':
 
@@ -328,7 +346,12 @@ if __name__ == '__main__':
             default=sys.stdout, help="Output file")
     ap.add_argument("--print-dims", dest="print_dims", action="store_true", default=False,
             help="print the list of dimensions (one per line) and exit")
-    ap.add_argument("--dim", help="The dimension to generate code for. Toggles to single dimension mode.")
+    ap.add_argument("--excluded-base-dims", dest="excluded_base_dims", default="",
+            help='":" separated list of base dimension exclusion.')
+    ap.add_argument("--excluded-dims", dest="excluded_dims", default="",
+            help='file containing list of dimensions to exclude.')
+    ap.add_argument("--dim",
+            help="The dimension to generate code for. Toggles to single dimension mode.")
     # todo - exclusion/inclusion
     args = ap.parse_args()
 
@@ -341,19 +364,22 @@ if __name__ == '__main__':
     for dim in dims:
         check_unit_def(dim)
 
-    if args.print_dims:
-        for dim in dims:
-            args.output.write(dim["name"] + ";")
-        sys.exit(0)
-
-
-    tplt = Environment(trim_blocks=True).from_string(args.input.read())
-
-    if len(args.dim):
-        dim = [dim for dim in dims if dim["name"] == args.dim][0]
+    if args.dim:
+        tplt = Environment(trim_blocks=True).from_string(args.input.read())
+        dim = next(filter(lambda d: d["name"] == args.dim, dims))
         complete_dim(dim)
         args.output.write(tplt.render(dim=dim))
+
     else:
+        dims = list(filter_dims(dims, args.excluded_base_dims, args.excluded_dims))
+
+        if args.print_dims:
+            for dim in dims:
+                args.output.write(dim["name"] + ";")
+            sys.exit(0)
+
+        tplt = Environment(trim_blocks=True).from_string(args.input.read())
+
         for dim in dims:
             complete_dim(dim)
         args.output.write(tplt.render(dims=dims))

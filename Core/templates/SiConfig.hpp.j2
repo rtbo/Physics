@@ -1,0 +1,6 @@
+
+#pragma once
+
+{% for dim in dims %}
+#define HAVE_{{ dim.name | upper }}_HPP 1
+{% endfor %}
