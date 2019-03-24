@@ -143,7 +143,7 @@ namespace si {
     inline constexpr unit<DivDim<NoDim, D>, C>
     operator/(const double &lhs, const unit<D, C> &rhs)
     {
-        return unit<DivDim<NoDim, D>, C> { lhs * rhs.val() };
+        return unit<DivDim<NoDim, D>, C> { lhs / rhs.val() };
     }
 
     template<typename D, typename C>
@@ -167,6 +167,30 @@ namespace si {
     operator-(const unit<D, C> &lhs, const unit<D, C> &rhs)
     {
         return unit<D, C> { lhs.val() - rhs.val() };
+    }
+
+    // pow
+    template<typename D, typename C, int Exp>
+    inline constexpr auto
+    pow(const unit<D, C> &val)
+    {
+        using dim = PowDim<D, Exp, 1>;
+        using conv = PowConv<C, Exp>;
+        return unit<dim, conv> { std::pow(val.val(), Exp) };
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    square(const unit<D, C> &val)
+    {
+        return pow<D, C, 2>(val);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    cube(const unit<D, C> &val)
+    {
+        return pow<D, C, 3>(val);
     }
 
     // value operations
@@ -223,7 +247,6 @@ namespace si {
         return Value<D> { -value_repr(v) };
     }
 
-
     template<typename LD, typename RD>
     inline constexpr Value<MulDim<LD, RD>>
     operator*(const Value<LD> &lhs, const Value<RD> &rhs)
@@ -231,93 +254,92 @@ namespace si {
         return Value<MulDim<LD, RD>> { value_repr(lhs) * value_repr(rhs) };
     }
 
+    template<typename D>
+    inline constexpr Value<D>
+    operator*(const double &lhs, const Value<D> &rhs)
+    {
+        return Value<D> { lhs * value_repr(rhs) };
+    }
 
-    // template<class L, class R>
-    // auto operator*(const L &lhs, const R &rhs)
-    // {
-    //     using dim = MulDim<typename L::dim_type, typename R::dim_type>;
-    //     return Value<dim>{lhs.val() * rhs.val()};
-    // }
+    template<typename D>
+    inline constexpr Value<D>
+    operator*(const Value<D> &lhs, const double &rhs)
+    {
+        return Value<D> { value_repr(lhs) * rhs };
+    }
 
-    // template<class V>
-    // V operator*(const double lhs, const V &rhs)
-    // {
-    //     return V { lhs * rhs.val() };
-    // }
+    template<typename LD, typename RD>
+    inline constexpr Value<DivDim<LD, RD>>
+    operator/(const Value<LD> &lhs, const Value<RD> &rhs)
+    {
+        return Value<DivDim<LD, RD>> { value_repr(lhs) / value_repr(rhs) };
+    }
 
-    // template<class V>
-    // V operator*(const V &lhs, const double rhs)
-    // {
-    //     return V { lhs.val() * rhs };
-    // }
+    template<typename D>
+    inline constexpr Value<DivDim<NoDim, D>>
+    operator/(const double &lhs, const Value<D> &rhs)
+    {
+        return Value<DivDim<NoDim, D>> { lhs / value_repr(rhs) };
+    }
 
-    // template<class L, class R>
-    // auto operator/(const L &lhs, const R &rhs)
-    // {
-    //     using dim = DivDim<typename L::dim_type, typename R::dim_type>;
-    //     return Value<dim>{lhs.val() / rhs.val()};
-    // }
+    template<typename D>
+    inline constexpr Value<D>
+    operator/(const Value<D> &lhs, const double &rhs)
+    {
+        return Value<D> { value_repr(lhs) / rhs };
+    }
 
-    // template<class V>
-    // V operator/(const V &lhs, const double rhs)
-    // {
-    //     return V { lhs.val() / rhs };
-    // }
+    template<typename D>
+    inline constexpr Value<D>
+    operator+(const Value<D> &lhs, const Value<D> &rhs)
+    {
+        return Value<D> { value_repr(lhs) + value_repr(rhs) };
+    }
 
-    // template<class V>
-    // auto operator/(const double lhs, const V &rhs)
-    // {
-    //     using dim = DivDim<NoDim, typename V::dim_type>;
-    //     return Value<dim_set> { lhs.val() / rhs };
-    // }
+    template<typename D>
+    inline constexpr Value<D>
+    operator-(const Value<D> &lhs, const Value<D> &rhs)
+    {
+        return Value<D> { value_repr(lhs) - value_repr(rhs) };
+    }
 
-    // template<class V>
-    // double operator+(const V &lhs, const V &rhs)
-    // {
-    //     return lhs.val() / rhs.val();
-    // }
+    template<typename D, int Num, int Den=1>
+    inline constexpr auto
+    pow(const Value<D> &val)
+    {
+        using dim = PowDim<D, Num, Den>;
+        return Value<dim> {
+            default_unit<Value<dim>> {
+                std::pow(value_repr().val(), Num / static_cast<double>(Den))
+            }
+        };
+    }
 
-    // template<class V>
-    // V operator+(const V &lhs, const V &rhs)
-    // {
-    //     return V {lhs.val() + rhs.val()};
-    // }
+    template<class D>
+    inline constexpr auto
+    square(const Value<D> &val)
+    {
+        return pow<D, 2, 1>(val);
+    }
 
-    // template<class V>
-    // V operator-(const V &lhs, const V &rhs)
-    // {
-    //     return V {lhs.val() - rhs.val()};
-    // }
+    template<class D>
+    inline constexpr auto
+    cube(const Value<D> &val)
+    {
+        return pow<D, 3, 1>(val);
+    }
 
-    // template<class V, int Num, int Den=1>
-    // auto pow(const V &val)
-    // {
-    //     using dim = PowDim<V::dim_type, Num, Den>;
-    //     return Value<dim> { std::pow(val(), Num / static_cast<double>(Den)) };
-    // }
+    template<class D>
+    inline constexpr auto
+    sqrt(const Value<D> &val)
+    {
+        return pow<D, 1, 2>(val);
+    }
 
-    // template<class V>
-    // auto square(const V &val)
-    // {
-    //     return pow<V, 2, 1>(val);
-    // }
-
-    // template<class V>
-    // auto cube(const V &val)
-    // {
-    //     return pow<V, 3, 1>(val);
-    // }
-
-    // template<class V>
-    // auto sqrt(const V &val)
-    // {
-    //     return pow<V, 1, 2>(val);
-    // }
-
-    // template<class V>
-    // auto cbrt(const V &val)
-    // {
-    //     return pow<V, 1, 3>(val);
-    // }
-
+    template<class D>
+    inline constexpr auto
+    cbrt(const Value<D> &val)
+    {
+        return pow<D, 1, 3>(val);
+    }
 }

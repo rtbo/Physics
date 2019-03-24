@@ -9,7 +9,18 @@ class Conversion:
     def __init__(self, fact, offset, pi_exp):
         self.fact = Conversion._num_den(fact, (1, 1))
         self.offset = Conversion._num_den(offset, (0, 1))
-        self.pi_exp = int(pi_exp) if pi_exp != "" else 0
+        self.pi_exp = pi_exp if pi_exp != "" else 0
+        self.norm()
+
+    def norm(self):
+        def _norm(num, den):
+            if num % den == 0:
+                num = num / den
+                den = 1
+            return (int(num), int(den))
+        self.fact = _norm(self.fact[0], self.fact[1])
+        self.offset = _norm(self.offset[0], self.offset[1])
+        self.pi_exp = int(self.pi_exp)
 
     @staticmethod
     def _num_den(numstr, default):
@@ -32,7 +43,19 @@ class Conversion:
 
     @property
     def is_default(self):
-        return self.fact == (1, 1) and self.offset == (0, 1) and self.pi_exp == 0
+        return self.conv(1) == 1
+
+    @property
+    def f_fact(self):
+        return self.fact[0] / self.fact[1]
+
+    @property
+    def f_offset(self):
+        return self.offset[0] / self.offset[1]
+
+    def conv(self, val):
+        from math import pi
+        return self.f_fact * val * (pi ** self.pi_exp) + self.f_offset
 
 
 class Prefix:
@@ -47,6 +70,7 @@ class Prefix:
             conv.fact = (conv.fact[0] * (10 ** self.pow10), conv.fact[1])
         else:
             conv.fact = (conv.fact[0], conv.fact[1] * (10 ** (-self.pow10)))
+        conv.norm()
 
 prefixes = {
     #"y": Prefix("yocto", "y", "y", -24),
@@ -55,7 +79,7 @@ prefixes = {
     "f": Prefix("femto", "f", "f", -15),
     "p": Prefix("pico", "p", "p", -12),
     "n": Prefix("nano", "n", "n", -9),
-    "u": Prefix("micro", "u", "\u00B5", -6),
+    "u": Prefix("micro", "u", "\\u00B5", -6),
     "m": Prefix("milli", "m", "m", -3),
     "c": Prefix("centi", "c", "c", -2),
     "d": Prefix("deci", "d", "d", -1),
@@ -196,6 +220,10 @@ class Unit:
     def unicode_cpp(self):
         return 'u8"{}{}"'.format(' ' if len(self.unicode)>0 else '', self.unicode)
 
+    @property
+    def conv1(self):
+        return self.conv.conv(1) if self.conv else 0
+
     @staticmethod
     def build_from_def(unit_def, prefix=None):
         unit = Unit()
@@ -262,8 +290,12 @@ def complete_dim(dim_dict):
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
 
-    dim_dict["default_unit"] = units[0]
+    dim_dict["default_unit"] = next(u for u in units if u.is_default)
     dim_dict["units"] = units
+
+    from itertools import groupby
+    conv1 = lambda u: u.conv1
+    dim_dict["unit_set"] = [ next(g) for k, g in groupby(sorted(units, key=conv1), key=conv1) ]
 
 
 if __name__ == '__main__':

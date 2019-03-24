@@ -36,13 +36,7 @@ namespace si {
     >;
 {% endfor %}
 
-    inline std::ostream &operator<<(std::ostream& out, const {{ dim.default_unit.name }}_t &val)
-    {
-        out << val.val() << {{ dim.default_unit.unicode_cpp }};
-        return out;
-    }
-
-{% for unit in dim.units if not unit.is_default %}
+{% for unit in dim.unit_set %}
     inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
     {
         out << val.val() << {{ unit.unicode_cpp }};

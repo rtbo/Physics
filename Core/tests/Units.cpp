@@ -1,4 +1,5 @@
 
+#include <si/Area.hpp>
 #include <si/Coefficient.hpp>
 #include <si/ElectricResistance.hpp>
 #include <si/Energy.hpp>
@@ -47,7 +48,19 @@ TEST_CASE("Units", "[units]")
         REQUIRE( 240_m / 12_s == 20_m_p_s );
         REQUIRE( 240_km / 12_s == 20000_m_p_s );
 
-        REQUIRE( 12_m3 * 40_hPa == 48000_J );
+        REQUIRE( 12_m3 * 40_hPa == 48_kJ );
+
+        //PowDim<LengthDim, 2, 1> val = "";
+        static_assert( std::is_same_v<PowDim<LengthDim, 2, 1>, AreaDim> );
+        static_assert( std::is_same_v<PowConv<identity_conv, 2>, identity_conv> );
+        //static_assert( std::is_same_v<PowConv<factor_conv<std::ratio<10, 36>>, 2>)
+
+        REQUIRE( square(5_m) == 25_m2 );
+        REQUIRE( square(1_km) == 1000000_m2 );
+        REQUIRE( 1_h == 3600_s );
+        REQUIRE( (36_km / 1_h).repr() == 10.0 );
+        REQUIRE( square(36_km / 1_h).repr() == 100.0 );
+        REQUIRE( (0.5 * 1000_kg * square(36_km / 1_h)).repr() == 50_kJ.repr() );
     }
 
     SECTION("prefixes/conversion") {
