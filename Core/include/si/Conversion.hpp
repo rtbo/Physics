@@ -106,7 +106,7 @@ namespace si {
             using type = factor_piexp_conv<std::ratio_divide<LF, RF>, LP-RP>;
         };
 
-        constexpr int ipow(int base, int exp, int result = 1)
+        constexpr intmax_t ipow(intmax_t base, intmax_t exp, intmax_t result = 1)
         {
             return exp < 1 ? result : ipow(base*base, exp/2, (exp % 2) ? result*base : result);
         }
@@ -115,10 +115,10 @@ namespace si {
         struct PowConvHelper
         {};
 
-        template<intmax_t FN, intmax_t FD, int P, int Exp>
+        template<intmax_t FN, intmax_t FD, intmax_t P, intmax_t Exp>
         struct PowConvHelper<factor_piexp_conv<::std::ratio<FN, FD>, P>, Exp>
         {
-            using type = factor_piexp_conv<std::ratio<ipow(FN, Exp), FD>, P*Exp>;
+            using type = factor_piexp_conv<std::ratio<ipow(FN, Exp), ipow(FD, Exp)>, P*Exp>;
         };
 
     }
@@ -127,7 +127,7 @@ namespace si {
     using MulConv = typename detail::MulConvHelper<Lhs, Rhs>::type;
 
     template<typename Lhs, typename Rhs>
-    using DivConv = typename detail::MulConvHelper<Lhs, Rhs>::type;
+    using DivConv = typename detail::DivConvHelper<Lhs, Rhs>::type;
 
     template<typename C, int Exp>
     using PowConv = typename detail::PowConvHelper<C, Exp>::type;

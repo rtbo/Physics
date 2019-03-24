@@ -212,7 +212,7 @@ namespace si {
             template<typename D, int Num, int Den>
             using PowDim = Dim<
                 D::name,
-                std::ratio_add<typename D::ratio, std::ratio<Num, Den> >
+                std::ratio_multiply<typename D::ratio, std::ratio<Num, Den> >
             >;
         }
     }
