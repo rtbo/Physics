@@ -4,8 +4,11 @@
 #include "si/Unit.hpp"
 #include "si/Value.hpp"
 
-#include <ratio>
+#include <array>
+#include <limits>
 #include <ostream>
+#include <ratio>
+#include <string_view>
 
 namespace si {
 
@@ -21,34 +24,24 @@ namespace si {
 
 {% for alias in dim.aliases %}
     using {{ alias }}Dim = {{ dim.name }}Dim;
-{% endfor %}
+    {% if loop.last %}
 
+    {% endif %}
+{% endfor %}
     using {{ dim.name }} = Value<{{ dim.name }}Dim>;
 
 {% for alias in dim.aliases %}
     using {{ alias }} = {{ dim.name }};
-{% endfor %}
+    {% if loop.last %}
 
+    {% endif %}
+{% endfor %}
 {% for unit in dim.units %}
     using {{ unit.name }}_t = unit<
         {{ dim.name }}Dim,
         {{ unit.conv.cpp }}
     >;
 {% endfor %}
-
-{% for unit in dim.unit_set %}
-    inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
-    {
-        out << val.val() << {{ unit.unicode_cpp }};
-        return out;
-    }
-
-{% endfor %}
-    inline std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
-    {
-        out << "{{ dim.name }}{ " << value_repr(val) << " }";
-        return out;
-    }
 
     namespace literals {
 
@@ -62,7 +55,146 @@ namespace si {
             return {{ unit.name }}_t { static_cast<double>(val) };
         }
 
+        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}_val(long double val)
+        {
+            return {{ dim.name }}{ {{ unit.name }}_t { static_cast<double>(val) } };
+        }
+        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}_val(unsigned long long int val)
+        {
+            return {{ dim.name }}{ {{ unit.name }}_t { static_cast<double>(val) } };
+        }
+
 {% endfor %}
+    }
+
+    namespace {{ dim.name | lower }} {
+
+        enum class Unit {
+{% for unit in dim.units %}
+            {{ unit.name }},
+{% endfor %}
+        };
+
+        constexpr std::array<Unit, {{ dim.units | length }}> all_units = {
+{% for unit in dim.units %}
+            Unit::{{ unit.name }},
+{% endfor %}
+        };
+
+        {{dim.name}} value_from(const Unit unit, const double value)
+        {
+            switch (unit) {
+{% for unit in dim.units %}
+            case Unit::{{ unit.name }}:
+                return {{ dim.name }}{ {{ unit.name }}_t{ value } };
+{% endfor %}
+            }
+            return {{ dim.name }}{};
+        }
+
+        double value_to(const Unit unit, const {{ dim.name }} &value)
+        {
+            switch (unit) {
+{% for unit in dim.units %}
+            case Unit::{{ unit.name }}:
+                return value.as<{{ unit.name }}_t>().val();
+{% endfor %}
+            }
+            return std::numeric_limits<double>::quiet_NaN();
+        }
+
+        namespace u8 {
+
+#if __cplusplus > 201703L
+            using char8 = char8_t;
+#else
+            using char8 = char;
+#endif
+            using string_view = std::basic_string_view<char8>;
+
+{% for unit in dim.units %}
+            constexpr string_view {{ unit.symbol }} = string_view { u8"{{ unit.unicode }}", {{ unit.u8_len }} };
+{% endfor %}
+
+            constexpr std::array<string_view, {{ dim.units | length }}> all_units = {
+{% for unit in dim.units %}
+                {{ unit.symbol }},
+{% endfor %}
+            };
+
+            const char8 *str(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.name }}:
+                    return {{ unit.symbol }}.data();
+{% endfor %}
+                }
+                return nullptr;
+            }
+
+            constexpr string_view str_view(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.name }}:
+                    return {{ unit.symbol }};
+{% endfor %}
+                }
+                return string_view{};
+            }
+        }
+
+        namespace u16 {
+
+            using string_view = std::u16string_view;
+
+{% for unit in dim.units %}
+            constexpr string_view {{ unit.symbol }} = string_view { u"{{ unit.unicode }}", {{ unit.u16_len }} };
+{% endfor %}
+
+            constexpr std::array<string_view, {{ dim.units | length }}> all_units = {
+{% for unit in dim.units %}
+                {{ unit.symbol }},
+{% endfor %}
+            };
+
+            const char16_t *str(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.name }}:
+                    return {{ unit.symbol }}.data();
+{% endfor %}
+                }
+                return nullptr;
+            }
+
+            constexpr string_view str_view(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.name }}:
+                    return {{ unit.symbol }};
+{% endfor %}
+                }
+                return string_view{};
+            }
+        }
+    }
+
+{% for unit in dim.unit_set %}
+    inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
+    {
+        out << val.val() << {{ unit.unicode_cpp }};
+        return out;
+    }
+
+{% endfor %}
+    inline std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
+    {
+        out << "{{ dim.name }}{ " << value_repr(val) << " }";
+        return out;
     }
 }
 

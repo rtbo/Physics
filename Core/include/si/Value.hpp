@@ -24,6 +24,10 @@ namespace si {
     public:
         using dim_type = D;
 
+        constexpr explicit Value() :
+            _repr { 0.0 }
+        {}
+
         template<typename Unit>
         constexpr Value(const Unit &val) :
             _repr {Unit::conv_type::conv(val.val())}

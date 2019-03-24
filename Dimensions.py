@@ -141,6 +141,19 @@ class UnitDef:
 
 unit_defs = {}
 
+def unicode_repr(s):
+    res = ''
+    i = 0
+    while i < len(s):
+        if s[i] == '\\':
+            point = int(s[i+2:i+6], base=16)
+            res += chr(point)
+            i += 6
+        else:
+            res += s[i]
+            i += 1
+    return res
+
 # a unit instance definition such as millimeter, volt,
 # or joule per mole.kelvin
 class Unit:
@@ -219,6 +232,14 @@ class Unit:
     @property
     def unicode_cpp(self):
         return 'u8"{}{}"'.format(' ' if len(self.unicode)>0 else '', self.unicode)
+
+    @property
+    def u8_len(self):
+        return len(unicode_repr(self.unicode).encode('utf-8'))
+
+    @property
+    def u16_len(self):
+        return len(unicode_repr(self.unicode).encode('utf-16-le')) // 2
 
     @property
     def conv1(self):
