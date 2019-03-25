@@ -1,0 +1,140 @@
+/*
+    Copyright (C) 2013-2014 Remi Thebault
+    All rights reserved.
+
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
+*/
+
+#include "QtPlugin"
+
+#include "PhysicsDesignerPlugin.hpp"
+
+{% for dim in dims %}
+#include <siui/{{ dim.name }}Label.hpp>
+#include <siui/{{ dim.name }}SpinBox.hpp>
+{% endfor %}
+
+
+using namespace siui;
+
+
+DesignerInterfaceCollection::DesignerInterfaceCollection(QObject *parent) :
+    QObject(parent)
+{
+{% for dim in dims %}
+    plugs_.append(new {{ dim.name }}LabelDesignerInterface(this));
+    plugs_.append(new {{ dim.name }}SpinBoxDesignerInterface(this));
+{% endfor %}
+}
+
+
+DesignerInterfaceCollection::~DesignerInterfaceCollection()
+{
+}
+
+
+QList<QDesignerCustomWidgetInterface*>
+    DesignerInterfaceCollection::customWidgets() const
+{
+    return plugs_;
+}
+
+
+
+
+DesignerInterface::DesignerInterface(QObject *parent)
+    : QObject(parent)
+{
+    m_initialized = false;
+}
+
+DesignerInterface::~DesignerInterface()
+{}
+
+void DesignerInterface::initialize(QDesignerFormEditorInterface * /* core */)
+{
+    if (m_initialized)
+        return;
+
+    // Add extension registrations, etc. here
+
+    m_initialized = true;
+}
+
+bool DesignerInterface::isInitialized() const
+{
+    return m_initialized;
+}
+
+
+{% for dim in dims %}
+
+{{ dim.name }}LabelDesignerInterface::{{ dim.name }}LabelDesignerInterface(QObject *parent) :
+    DesignerInterface(parent)
+{}
+
+{{ dim.name }}LabelDesignerInterface::~{{ dim.name }}LabelDesignerInterface()
+{}
+
+QIcon {{ dim.name }}LabelDesignerInterface::icon() const
+{
+    return QIcon(":/{{ dim.name }}Spin.png");
+}
+
+QString {{ dim.name }}LabelDesignerInterface::whatsThis() const
+{
+    return QLatin1String("");
+}
+
+QString {{ dim.name }}LabelDesignerInterface::domXml() const
+{
+    return QLatin1String(
+        "<widget "
+            "class=\"{{ dim.name }}Label\" "
+            "name=\"{{ dim.snake_name }}Label\">\n"
+        "</widget>\n"
+    );
+}
+
+QWidget *{{ dim.name }}LabelDesignerInterface::createWidget(QWidget *parent)
+{
+    return new {{ dim.name }}Label(parent);
+}
+
+
+
+
+{{ dim.name }}SpinBoxDesignerInterface::{{ dim.name }}SpinBoxDesignerInterface(QObject *parent) :
+    DesignerInterface(parent)
+{}
+
+{{ dim.name }}SpinBoxDesignerInterface::~{{ dim.name }}SpinBoxDesignerInterface()
+{}
+
+QIcon {{ dim.name }}SpinBoxDesignerInterface::icon() const
+{
+    return QIcon(":/{{ dim.name }}Spin.png");
+}
+
+QString {{ dim.name }}SpinBoxDesignerInterface::whatsThis() const
+{
+    return QLatin1String("");
+}
+
+QString {{ dim.name }}SpinBoxDesignerInterface::domXml() const
+{
+    return QLatin1String(
+        "<widget "
+            "class=\"{{ dim.name }}SpinBox\" "
+            "name=\"{{ dim.snake_name }}SpinBox\">\n"
+        "</widget>\n"
+    );
+}
+
+QWidget *{{ dim.name }}SpinBoxDesignerInterface::createWidget(QWidget *parent)
+{
+    return new {{ dim.name }}SpinBox(parent);
+}
+{% endfor %}

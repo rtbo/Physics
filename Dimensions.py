@@ -325,7 +325,6 @@ def complete_dim(dim_dict):
 
 def filter_dims(dims, included_dims, excluded_base_dims, excluded_dims):
     if included_dims:
-        print(included_dims)
         includes = included_dims.split(';')
     else:
         includes = list(map(lambda d: d["name"], dims))

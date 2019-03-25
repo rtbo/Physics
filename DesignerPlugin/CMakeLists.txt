@@ -1,16 +1,16 @@
 
-physics_glob_codegen(
-    templates/QPhysicsDesignerPlugin.hpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/QPhysicsDesignerPlugin.hpp"
+physics_dims_codegen(
+    templates/PhysicsDesignerPlugin.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/PhysicsDesignerPlugin.hpp"
 )
-physics_glob_codegen(
-    templates/QPhysicsDesignerPlugin.cpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/QPhysicsDesignerPlugin.cpp"
+physics_dims_codegen(
+    templates/PhysicsDesignerPlugin.cpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/PhysicsDesignerPlugin.cpp"
 )
 
 add_library(PhysicsDesigner SHARED
-    "${CMAKE_CURRENT_BINARY_DIR}/QPhysicsDesignerPlugin.hpp"
-    "${CMAKE_CURRENT_BINARY_DIR}/QPhysicsDesignerPlugin.cpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/PhysicsDesignerPlugin.hpp"
+    "${CMAKE_CURRENT_BINARY_DIR}/PhysicsDesignerPlugin.cpp"
     icons.qrc)
 
 target_link_libraries(PhysicsDesigner Physics::Widgets Qt5::Designer)

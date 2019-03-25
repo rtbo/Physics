@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Remi Thebault
+    Copyright (C) 2013-2019 Remi Thebault
     All rights reserved.
 
     This program and its source code are distributed under the
@@ -7,12 +7,11 @@
     License.txt file at project root.
 */
 
-#ifndef QPHYSICS_DESIGNERPLUGIN_HPP
-#define QPHYSICS_DESIGNERPLUGIN_HPP
+#pragma once
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-namespace QPhysics {
+namespace siui {
 
 
     class DesignerInterface;
@@ -64,25 +63,23 @@ namespace QPhysics {
         bool m_initialized;
     };
 
-    {% for item in items %}
+{% for dim in dims %}
 
-
-
-    class {{item.titleName}}LabelDesignerInterface : public DesignerInterface
+    class {{ dim.name }}LabelDesignerInterface : public DesignerInterface
     {
         Q_OBJECT
         Q_INTERFACES(QDesignerCustomWidgetInterface)
 
     public:
-        {{item.titleName}}LabelDesignerInterface(QObject *parent = 0);
-        virtual ~{{item.titleName}}LabelDesignerInterface();
+        {{ dim.name }}LabelDesignerInterface(QObject *parent = 0);
+        virtual ~{{ dim.name }}LabelDesignerInterface();
 
         virtual QString name() const override {
-            return "Q{{item.titleName}}Label";
+            return "{{ dim.name }}Label";
         }
 
         virtual QString includeFile() const override {
-            return "Q{{item.titleName}}Label.hpp";
+            return "{{ dim.name }}Label.hpp";
         }
 
         virtual QString group() const override {
@@ -90,7 +87,7 @@ namespace QPhysics {
         }
 
         virtual QString toolTip() const override {
-            return "a label to display ph::{{item.titleName}} object";
+            return "a label to display ph::{{ dim.name }} object";
         }
 
         virtual QString domXml() const override;
@@ -102,21 +99,21 @@ namespace QPhysics {
     };
 
 
-    class {{item.titleName}}SpinBoxDesignerInterface : public DesignerInterface
+    class {{ dim.name }}SpinBoxDesignerInterface : public DesignerInterface
     {
         Q_OBJECT
         Q_INTERFACES(QDesignerCustomWidgetInterface)
 
     public:
-        {{item.titleName}}SpinBoxDesignerInterface(QObject *parent = 0);
-        virtual ~{{item.titleName}}SpinBoxDesignerInterface();
+        {{ dim.name }}SpinBoxDesignerInterface(QObject *parent = 0);
+        virtual ~{{ dim.name }}SpinBoxDesignerInterface();
 
         virtual QString name() const override {
-            return "Q{{item.titleName}}SpinBox";
+            return "{{ dim.name }}SpinBox";
         }
 
         virtual QString includeFile() const override {
-            return "Q{{item.titleName}}SpinBox.hpp";
+            return "{{ dim.name }}SpinBox.hpp";
         }
 
         virtual QString group() const override {
@@ -124,7 +121,7 @@ namespace QPhysics {
         }
 
         virtual QString toolTip() const override {
-            return "a spin box to edit ph::{{item.titleName}} object";
+            return "a spin box to edit ph::{{ dim.name }} object";
         }
 
         virtual QString domXml() const override;
@@ -133,9 +130,7 @@ namespace QPhysics {
 
         virtual QWidget *createWidget(QWidget *parent) override;
     };
-    {% endfor %}
+{% endfor %}
 
 
 }
-
-#endif // QPHYSICS_DESIGNERPLUGIN_HPP
