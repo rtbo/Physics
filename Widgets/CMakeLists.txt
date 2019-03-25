@@ -1,31 +1,31 @@
 
-physics_item_codegen(
-    templates/QItemLabel.hpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/include/Q@Item@Label.hpp"
+physics_dim_codegen(
+    templates/DimLabel.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/siui/@Dim@Label.hpp"
     PHYSICS_WIDGETS_ITEMS
 )
-physics_item_codegen(
-    templates/QItemLabel.cpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/Q@Item@Label.cpp"
+physics_dim_codegen(
+    templates/DimLabel.cpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/@Dim@Label.cpp"
     PHYSICS_WIDGETS_ITEMS
 )
-physics_item_codegen(
-    templates/QItemSpinBox.hpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/include/Q@Item@SpinBox.hpp"
-    PHYSICS_WIDGETS_ITEMS
-)
-physics_item_codegen(
-    templates/QItemSpinBox.cpp.j2
-    "${CMAKE_CURRENT_BINARY_DIR}/Q@Item@SpinBox.cpp"
-    PHYSICS_WIDGETS_ITEMS
-)
+# physics_item_codegen(
+#     templates/ItemSpinBox.hpp.j2
+#     "${CMAKE_CURRENT_BINARY_DIR}/include/siui/@Dim@SpinBox.hpp"
+#     PHYSICS_WIDGETS_ITEMS
+# )
+# physics_item_codegen(
+#     templates/ItemSpinBox.cpp.j2
+#     "${CMAKE_CURRENT_BINARY_DIR}/@Dim@SpinBox.cpp"
+#     PHYSICS_WIDGETS_ITEMS
+# )
+#     "templates/ItemSpinBox.hpp.j2"
+#     "templates/ItemSpinBox.cpp.j2"
 
 add_library(PhysicsWidgets STATIC
-    "include/QPhysicsUI_API.hpp"
-    "templates/QItemLabel.hpp.j2"
-    "templates/QItemSpinBox.hpp.j2"
-    "templates/QItemLabel.cpp.j2"
-    "templates/QItemSpinBox.cpp.j2"
+    "include/siui/API.hpp"
+    "templates/DimLabel.hpp.j2"
+    "templates/DimLabel.cpp.j2"
     ${PHYSICS_WIDGETS_ITEMS})
 
 target_include_directories(PhysicsWidgets PUBLIC include "${CMAKE_CURRENT_BINARY_DIR}/include")

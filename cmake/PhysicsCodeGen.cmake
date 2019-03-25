@@ -83,7 +83,7 @@ function(physics_dims_codegen Template Output)
     add_custom_command(
         OUTPUT "${Output}"
         COMMAND "${Python_EXECUTABLE}" "${Script}" --input "${Template}" --output "${Output}"
-                --excluded-base-dims "${EXCLUDED_BASE_DIMS}" --excluded-dims "${EXCLUDED_DIMS}"
+                --dims "${PHYSICS_DIMS}"
         DEPENDS "${Template}" "${Script}" "${Data}"
     )
 endfunction()

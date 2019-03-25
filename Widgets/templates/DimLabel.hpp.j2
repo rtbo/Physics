@@ -1,0 +1,83 @@
+/*
+    Copyright (C) 2013-2019 Remi Thebault
+    All rights reserved.
+
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
+*/
+
+#pragma once
+
+#include <si/{{ dim.name }}.hpp>
+
+#include <QLabel>
+
+namespace siui {
+
+class {{ dim.name }}Label : public QLabel
+{
+    Q_OBJECT
+
+    Q_PROPERTY({{ dim.name }}Unit unit READ unit WRITE setUnit)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
+    Q_ENUMS({{ dim.name }}Unit)
+
+public:
+
+    enum {{ dim.name }}Unit {
+{% for unit in dim.units %}
+        {{ unit.name }},
+{% endfor %}
+    };
+
+
+    {{ dim.name }}Label(QWidget *parent);
+
+    virtual ~{{ dim.name }}Label();
+
+
+    si::{{ dim.name }} {{ dim.snake_name }}() const;
+
+    {{ dim.name }}Unit unit() const {
+        return unit_;
+    }
+
+    void setUnit({{ dim.name }}Unit unit);
+
+
+    int precision() const {
+        return precision_;
+    }
+
+    void setPrecision(int precision);
+
+
+public slots:
+
+    void set{{ dim.name }}(si::{{ dim.name }} value);
+
+
+signals:
+
+    void {{ dim.snake_name }}Changed(si::{{ dim.name }} value);
+
+private slots:
+
+    void handleCustomMenu(const QPoint& globalPos);
+
+    void updateValue();
+
+protected:
+
+    virtual bool eventFilter(QObject *obj, QEvent *ev) override;
+
+private:
+
+    si::{{ dim.name }} value_;
+    {{ dim.name }}Unit unit_;
+    double precision_;
+
+};
+
+} // namespace siui
