@@ -6,7 +6,7 @@
 namespace si {
 
     namespace detail {
-        constexpr double pi = 3.141592653589793;
+        constexpr double pi = 3.14159265358979323846;
 
         template<int PiExp>
         struct pow_pi

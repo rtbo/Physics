@@ -2,7 +2,28 @@
   {
     "name": "Acceleration",
     "aliases": [],
-    "units": [],
+    "units": [
+      {
+        "name": "",
+        "symbol": "",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "earth_gravity",
+        "symbol": "G",
+        "unicode": "G",
+        "factor": "9.80665",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
     "foreign_units": [],
     "M": 0,
     "L": 1,

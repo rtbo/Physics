@@ -25,6 +25,8 @@ namespace si {
 
     namespace consts {
 
+        constexpr double pi = 3.14159265358979323846;
+
 #ifdef HAVE_ENTROPY_HPP
         constexpr Entropy boltzmann()
         {
