@@ -81,7 +81,7 @@ namespace si {
 {% endfor %}
         };
 
-        {{dim.name}} value_from(const Unit unit, const double value)
+        constexpr {{dim.name}} value_from(const Unit unit, const double value)
         {
             switch (unit) {
 {% for unit in dim.units %}
@@ -92,7 +92,7 @@ namespace si {
             return {{ dim.name }}{};
         }
 
-        double value_to(const Unit unit, const {{ dim.name }} &value)
+        constexpr double value_to(const Unit unit, const {{ dim.name }} &value)
         {
             switch (unit) {
 {% for unit in dim.units %}
@@ -122,7 +122,7 @@ namespace si {
 {% endfor %}
             };
 
-            const char8 *str(const Unit unit)
+            constexpr const char8 *str(const Unit unit)
             {
                 switch (unit) {
 {% for unit in dim.units %}
@@ -159,7 +159,7 @@ namespace si {
 {% endfor %}
             };
 
-            const char16_t *str(const Unit unit)
+            constexpr const char16_t *str(const Unit unit)
             {
                 switch (unit) {
 {% for unit in dim.units %}
