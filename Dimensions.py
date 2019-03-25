@@ -289,9 +289,14 @@ def check_unit_def(dim_dict):
                 p = prefixes[ud.def_pref]
                 unit_defs[p.name + ud.name] = ud
 
+def snake_name(camel_name):
+    return camel_name[0].lower() + camel_name[1:]
+
 def complete_dim(dim_dict):
     units = []
     dim = Dim.build_from_dict(dim_dict)
+
+    dim_dict["snake_name"] = snake_name(dim_dict["name"])
 
     for unit_dict in dim_dict["units"]:
         if unit_dict["name"] == "":
@@ -318,17 +323,20 @@ def complete_dim(dim_dict):
     conv1 = lambda u: u.conv1
     dim_dict["unit_set"] = [ next(g) for k, g in groupby(sorted(units, key=conv1), key=conv1) ]
 
-def filter_dims(dims, excluded_base_dims, excluded_dims):
-    base_excludes = excluded_base_dims.split(':') if excluded_base_dims else []
+def filter_dims(dims, included_dims, excluded_base_dims, excluded_dims):
+    if included_dims:
+        print(included_dims)
+        includes = included_dims.split(';')
+    else:
+        includes = list(map(lambda d: d["name"], dims))
     excludes = []
     if excluded_dims:
         with open(excluded_dims, 'r') as f:
             for line in [line.strip() for line in f]:
                 if not line.startswith("#"):
                     excludes.append(line)
-    for d in dims:
-        if d["name"] in excludes:
-            continue
+    base_excludes = excluded_base_dims.split(':') if excluded_base_dims else []
+    for d in filter(lambda d: d["name"] in includes and not d["name"] in excludes, dims):
         found = False
         for e in base_excludes:
             if d[e] != 0:
@@ -346,11 +354,13 @@ if __name__ == '__main__':
             default=sys.stdout, help="Output file")
     ap.add_argument("--print-dims", dest="print_dims", action="store_true", default=False,
             help="print the list of dimensions (one per line) and exit")
-    ap.add_argument("--excluded-base-dims", dest="excluded_base_dims", default="",
+    ap.add_argument("--excluded-base-dims", dest="excluded_base_dims", default=None,
             help='":" separated list of base dimension exclusion.')
-    ap.add_argument("--excluded-dims", dest="excluded_dims", default="",
+    ap.add_argument("--excluded-dims", dest="excluded_dims", default=None,
             help='file containing list of dimensions to exclude.')
-    ap.add_argument("--dim",
+    ap.add_argument("--dims", dest="dims", default=None,
+            help='list of dimensions to include.')
+    ap.add_argument("--dim", dest="dim", default=None,
             help="The dimension to generate code for. Toggles to single dimension mode.")
     # todo - exclusion/inclusion
     args = ap.parse_args()
@@ -371,7 +381,7 @@ if __name__ == '__main__':
         args.output.write(tplt.render(dim=dim))
 
     else:
-        dims = list(filter_dims(dims, args.excluded_base_dims, args.excluded_dims))
+        dims = list(filter_dims(dims, args.dims, args.excluded_base_dims, args.excluded_dims))
 
         if args.print_dims:
             for dim in dims:
