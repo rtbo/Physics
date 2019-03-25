@@ -13,16 +13,6 @@ include(PhysicsCodeGen)
 
 find_package(Python REQUIRED)
 
-execute_process(COMMAND "${Python_EXECUTABLE}" PhysicsCodeGen.py --print-items
-                WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                OUTPUT_VARIABLE PHYSICS_ITEMS
-                RESULT_VARIABLE PHYSICS_ITEMS_RESULT
-                OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-if (NOT PHYSICS_ITEMS_RESULT EQUAL "0")
-    message(FATAL_ERROR "Could not list items. Make sure Python 3 is available and that Jinja2 is installed")
-endif()
-
 execute_process(COMMAND "${Python_EXECUTABLE}" Dimensions.py
                     --print-dims --excluded-base-dims=${EXCLUDED_BASE_DIMS} --excluded-dims=${EXCLUDED_DIMS}
                 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
