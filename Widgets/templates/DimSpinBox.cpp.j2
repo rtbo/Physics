@@ -1,0 +1,199 @@
+/*
+    Copyright (C) 2013, 2014, 2017 Remi Thebault
+    All rights reserved.
+
+    This program and its source code are distributed under the
+    terms of the BSD-style license, that can be found in the
+    License.txt file at project root.
+*/
+
+#include "siui/{{ dim.name }}SpinBox.hpp"
+#include <si/Operations.hpp>
+
+#include <QMenu>
+#include <QMetaType>
+#include <QContextMenuEvent>
+
+#include <cassert>
+
+namespace siui {
+
+static int _ = qRegisterMetaType<si::{{ dim.name }}>("si::{{ dim.name }}");
+
+{% for unit in dim.units %}
+inline QString {{ unit.name }}str()
+{
+    const auto view = si::{{ dim.name | lower }}::u16::{{ unit.symbol }};
+    return QString::fromUtf16(
+        view.data(), static_cast<int>(view.length())
+    );
+}
+{% endfor %}
+
+inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+{
+    switch (unit) {
+{% for unit in dim.units %}
+    case {{ dim.name }}SpinBox::{{ unit.name }}:
+        return {{ unit.name }}str();
+{% endfor %}
+    }
+
+    assert(!"the passed unit is wrong");
+    return "";
+}
+
+inline {{ dim.name }}SpinBox::{{ dim.name }}Unit {{ dim.snake_name }}UnitFromString(QString s)
+{
+{% for unit in dim.units %}
+    if (s == {{ unit.name }}str()) return {{ dim.name }}SpinBox::{{ unit.name }};
+{% endfor %}
+
+    assert(!"the passed string is wrong");
+    return {{ dim.name }}SpinBox::{{ dim.default_unit.name }};
+}
+
+inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, {{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+{
+    return si::{{ dim.name | lower }}::value_to(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
+}
+
+inline si::{{ dim.name }} unit{{ dim.name }}(double value, {{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+{
+    return si::{{ dim.name | lower }}::value_from(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
+}
+
+{{ dim.name }}SpinBox::{{ dim.name }}SpinBox(QWidget *parent) :
+    QDoubleSpinBox(parent),
+    unit_({{ dim.default_unit.name }}),
+    changeUnitFlag_(false)
+{
+    updateSuffix();
+
+    QObject::connect(this, SIGNAL(valueChanged(double)),
+                     this, SLOT(handleValueChange(double)));
+
+    installEventFilter(this);
+}
+
+{{ dim.name }}SpinBox::~{{ dim.name }}SpinBox()
+{}
+
+si::{{ dim.name }} {{ dim.name }}SpinBox::{{ dim.snake_name }}() const
+{
+    return unit{{ dim.name }}(value(), unit());
+}
+
+void {{ dim.name }}SpinBox::set{{ dim.name }}(si::{{ dim.name }} val)
+{
+    if (val != {{ dim.snake_name }}() && val >= mini() && val <= maxi()) {
+        setValue({{ dim.snake_name }}UnitValue(val, unit()));
+    }
+}
+
+si::{{ dim.name }} {{ dim.name }}SpinBox::step() const
+{
+    return unit{{ dim.name }}(singleStep(), unit());
+}
+
+void {{ dim.name }}SpinBox::setStep(si::{{ dim.name }} val)
+{
+    setSingleStep({{ dim.snake_name }}UnitValue(val, unit()));
+}
+
+si::{{ dim.name }} {{ dim.name }}SpinBox::mini() const
+{
+    return unit{{ dim.name }}(minimum(), unit());
+}
+
+void {{ dim.name }}SpinBox::setMini(si::{{ dim.name }} val)
+{
+    setMinimum({{ dim.snake_name }}UnitValue(val, unit()));
+}
+
+si::{{ dim.name }} {{ dim.name }}SpinBox::maxi() const
+{
+    return unit{{ dim.name }}(maximum(), unit());
+}
+
+void {{ dim.name }}SpinBox::setMaxi(si::{{ dim.name }} val)
+{
+    setMaximum({{ dim.snake_name }}UnitValue(val, unit()));
+}
+
+void {{ dim.name }}SpinBox::updateSuffix()
+{
+    setSuffix(QString(" %1").arg({{ dim.snake_name }}UnitToString(unit_)));
+}
+
+void {{ dim.name }}SpinBox::handleValueChange(double value)
+{
+    if (changeUnitFlag_) return;
+    emit {{ dim.snake_name }}Changed(unit{{ dim.name }}(value, unit()));
+}
+
+void {{ dim.name }}SpinBox::setUnit({{ dim.name }}Unit unit, bool trackBounds)
+{
+    if (unit != unit_) {
+        if (trackBounds) {
+            si::{{ dim.name }} t = {{ dim.snake_name }}();
+            si::{{ dim.name }} stp = step();
+            si::{{ dim.name }} min = mini();
+            si::{{ dim.name }} max = maxi();
+
+            changeUnitFlag_ = true;
+
+            unit_ = unit;
+            updateSuffix();
+
+            setMaxi(max);
+            setMini(min);
+            setStep(stp);
+            set{{ dim.name }}(t);
+
+            changeUnitFlag_ = false;
+        }
+        else {
+            changeUnitFlag_ = true;
+
+            unit_ = unit;
+            updateSuffix();
+
+            changeUnitFlag_ = false;
+        }
+    }
+}
+
+void {{ dim.name }}SpinBox::handleCustomMenu(const QPoint &globalPos)
+{
+    QMenu menu;
+
+{% for unit in dim.units %}
+    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.name }}));
+{% endfor %}
+
+    QAction *a = menu.exec(globalPos);
+
+    if (a) {
+        setUnit({{ dim.snake_name }}UnitFromString(a->text()), true);
+    }
+}
+
+bool {{ dim.name }}SpinBox::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == this) {
+        if (event->type() == QEvent::ContextMenu) {
+            QContextMenuEvent *mEv = static_cast<QContextMenuEvent*>(event);
+            if (mEv->modifiers() & Qt::ControlModifier) {
+                handleCustomMenu(mEv->globalPos());
+                return true;
+            }
+        }
+        return false;
+    }
+    else {
+        return QDoubleSpinBox::eventFilter(obj, event);
+    }
+}
+
+} // namespace siui
