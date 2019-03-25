@@ -46,7 +46,7 @@ if(${Qt5Core_FOUND} AND ${Qt5Widgets_FOUND})
 
     find_package(Qt5Designer)
     if(${Qt5Designer_FOUND})
-        add_subdirectory(DesignerPlugin)
+        #add_subdirectory(DesignerPlugin)
     endif()
 
 endif()
