@@ -139,6 +139,20 @@ class UnitDef:
         ud.def_pref = dict["def_pref"]
         return ud
 
+    @staticmethod
+    def build_default_from_def_and_prefix(unit_def, prefix):
+        # used to build kilogram from gram
+        ud = UnitDef()
+        ud.dim = dim
+        ud.name = prefix.name + unit_def.name
+        ud.symbol = prefix.symbol + unit_def.symbol
+        ud.unicode = prefix.unicode + unit_def.unicode
+        ud.factor = ""
+        ud.offset = ""
+        ud.pi_exp = ""
+        ud.def_pref = ""
+        return ud
+
 unit_defs = {}
 
 def unicode_repr(s):
@@ -287,7 +301,8 @@ def check_unit_def(dim_dict):
             unit_defs[ud.name] = ud
             if ud.def_pref != "":
                 p = prefixes[ud.def_pref]
-                unit_defs[p.name + ud.name] = ud
+                def_ud = UnitDef.build_default_from_def_and_prefix(ud, p)
+                unit_defs[def_ud.name] = def_ud
 
 def snake_name(camel_name):
     return camel_name[0].lower() + camel_name[1:]
