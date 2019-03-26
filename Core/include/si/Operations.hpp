@@ -126,7 +126,7 @@ namespace si {
 
     template<typename D, typename C>
     inline constexpr unit<D, C>
-    operator*(const unit<C, D> &lhs, const double &rhs)
+    operator*(const unit<D, C> &lhs, const double &rhs)
     {
         return unit<D, C> { lhs.val() * rhs };
     }
@@ -148,7 +148,7 @@ namespace si {
 
     template<typename D, typename C>
     inline constexpr unit<D, C>
-    operator/(const unit<C, D> &lhs, const double &rhs)
+    operator/(const unit<D, C> &lhs, const double &rhs)
     {
         return unit<D, C> { lhs.val() / rhs };
     }
@@ -310,7 +310,7 @@ namespace si {
         using dim = PowDim<D, Num, Den>;
         return Value<dim> {
             default_unit<Value<dim>> {
-                std::pow(value_repr().val(), Num / static_cast<double>(Den))
+                std::pow(value_repr(val).val(), Num / static_cast<double>(Den))
             }
         };
     }
