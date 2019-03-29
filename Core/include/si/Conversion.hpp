@@ -43,16 +43,15 @@ namespace si {
 
         static constexpr double conv(double val)
         {
-            return val
+            return (val + detail::ratio_double<OR>())
                 * detail::ratio_double<FR>()
-                * detail::pow_pi<PiExp>::value
-                + detail::ratio_double<OR>();
+                * detail::pow_pi<PiExp>::value;
         }
 
         static constexpr double reverse_conv(double val)
         {
-            return (val - detail::ratio_double<OR>()) /
-                (detail::ratio_double<FR>() * detail::pow_pi<PiExp>::value);
+            return (val / (detail::ratio_double<FR>() * detail::pow_pi<PiExp>::value))
+                - detail::ratio_double<OR>();
         }
     };
 
