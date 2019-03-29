@@ -1094,7 +1094,7 @@
         "offset": "",
         "pi_exp": "",
         "def_pref": "",
-        "prefixes": ["m", "c", "da", "h"]
+        "prefixes": ["u", "m", "c", "da", "h"]
       }
     ],
     "foreign_units": [],
@@ -1115,6 +1115,36 @@
         "symbol": "",
         "unicode": "",
         "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "liter_per_second",
+        "symbol": "L_p_s",
+        "unicode": "L.s\\u00B9",
+        "factor": "1/1000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "liter_per_minute",
+        "symbol": "L_p_min",
+        "unicode": "L.min\\u00B9",
+        "factor": "1/60000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "liter_per_hour",
+        "symbol": "L_p_h",
+        "unicode": "L.h\\u00B9",
+        "factor": "1/3600000",
         "offset": "",
         "pi_exp": "",
         "def_pref": "",
