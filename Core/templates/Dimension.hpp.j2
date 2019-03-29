@@ -10,6 +10,13 @@
 #include <ratio>
 #include <string_view>
 
+{% if dim.name == "Pressure" %}
+#ifdef pascal
+#undef pascal
+#pragma message ("Warning: deactivating pascal preprocessor definition")
+#endif
+{% endif %}
+
 namespace si {
 
     using {{ dim.name }}Dim = Dim<
