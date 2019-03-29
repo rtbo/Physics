@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Remi Thebault
+    Copyright (C) 2013-2019 Remi Thebault
     All rights reserved.
 
     This program and its source code are distributed under the
@@ -7,26 +7,30 @@
     License.txt file at project root.
 */
 
-#include "ph/Temperature.hpp"
+#include <si/Operations.hpp>
+#include <si/Temperature.hpp>
 
 #include "catch.hpp"
 
-using namespace ph;
+using namespace si::literals;
 
-TEST_CASE("Temperature", "[temperature]")
-{
+TEST_CASE("Temperature", "[temperature]") {
 
     SECTION("default construct") {
-
-        REQUIRE(Temperature() == Temperature::fromK(0.0));
-
+        REQUIRE(si::Temperature{} == 0_K);
+        REQUIRE(si::Temperature{} == si::kelvin_t{ 0 });
     }
 
     SECTION("conversion") {
-
-        REQUIRE(Temperature() == Temperature::fromDegC(-273.15));
-
+        REQUIRE(0_K == -273.15_degC);
+        REQUIRE(20_degC == 293.15_K);
     }
 
+    SECTION("farenheit") {
+        REQUIRE(0_degF > -18_degC);
+        REQUIRE(0_degF < -17.5_degC);
 
+        REQUIRE(100_degF > 37.5_degC);
+        REQUIRE(100_degF < 38_degC);
+    }
 }

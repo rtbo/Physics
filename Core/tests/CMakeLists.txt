@@ -4,6 +4,8 @@ add_executable(TestPhysicsCore
 
     main.cpp
 
+    MolarMass.cpp
+    Temperature.cpp
     Units.cpp
 )
 target_link_libraries(TestPhysicsCore PRIVATE Physics::Core)

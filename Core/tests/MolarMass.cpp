@@ -8,19 +8,20 @@
 */
 
 
-#include "ph/Physics.hpp"
+#include <si/Operations.hpp>
+#include <si/MolarMass.hpp>
 
 #include "catch.hpp"
 
-using namespace ph;
+using namespace si::literals;
 
-TEST_CASE("Molecular Mass", "[molecularMass][quantity][mass]")
+TEST_CASE("Molar Mass", "[molarMass][quantity][mass]")
 {
 
     SECTION("conversion") {
 
-        // molecular mass of carbon
-        REQUIRE(MolecularMass::fromKgpmol(0.012) == MolecularMass::fromGpmol(12.0));
+        // molar mass of carbon
+        REQUIRE(0.012_kg_p_mol == 12_g_p_mol);
 
     }
 
