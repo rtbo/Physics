@@ -55,11 +55,11 @@ namespace si {
             return {{ unit.name }}_t { static_cast<double>(val) };
         }
 
-        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}_val(long double val)
+        constexpr {{ dim.name }} operator"" _{{ unit.symbol }}_val(long double val)
         {
             return {{ dim.name }}{ {{ unit.name }}_t { static_cast<double>(val) } };
         }
-        constexpr {{ unit.name }}_t operator"" _{{ unit.symbol }}_val(unsigned long long int val)
+        constexpr {{ dim.name }} operator"" _{{ unit.symbol }}_val(unsigned long long int val)
         {
             return {{ dim.name }}{ {{ unit.name }}_t { static_cast<double>(val) } };
         }
