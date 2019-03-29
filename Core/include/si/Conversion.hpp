@@ -13,6 +13,16 @@ namespace si {
         {};
 
         template<>
+        struct pow_pi<-3>
+        {
+            static constexpr double value = 1.0 / (pi*pi*pi);
+        };
+        template<>
+        struct pow_pi<-2>
+        {
+            static constexpr double value = 1.0 / (pi*pi);
+        };
+        template<>
         struct pow_pi<-1>
         {
             static constexpr double value = 1.0 / pi;
@@ -28,6 +38,16 @@ namespace si {
         struct pow_pi<1>
         {
             static constexpr double value = pi;
+        };
+        template<>
+        struct pow_pi<2>
+        {
+            static constexpr double value = pi*pi;
+        };
+        template<>
+        struct pow_pi<3>
+        {
+            static constexpr double value = pi*pi*pi;
         };
     }
 
