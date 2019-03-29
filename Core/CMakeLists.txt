@@ -6,6 +6,7 @@ set(PHYSICS_CORE_SRC
     include/si/Unit.hpp
     include/si/Value.hpp
 
+    templates/AllDims.hpp.j2
     templates/Config.hpp.j2
     templates/Dimension.hpp.j2
 )
@@ -13,6 +14,10 @@ set(PHYSICS_CORE_SRC
 configure_file(
     templates/Version.hpp.in
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Version.hpp"
+)
+physics_dims_codegen(
+    templates/AllDims.hpp.j2
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/AllDims.hpp"
 )
 physics_dims_codegen(
     templates/Config.hpp.j2
@@ -28,6 +33,7 @@ physics_dim_codegen(
 # otherwise code generation is not triggered
 add_library(Core STATIC
     ${PHYSICS_CORE_SRC}
+    "${CMAKE_CURRENT_BINARY_DIR}/include/si/AllDims.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Config.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Version.hpp"
     ${PHYSICS_CORE_DIMS}

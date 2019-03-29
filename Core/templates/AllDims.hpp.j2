@@ -1,0 +1,5 @@
+#pragma once
+
+{% for dim in dims %}
+#include "si/{{ dim.name }}.hpp"
+{% endfor %}
