@@ -31,17 +31,17 @@ namespace si {
 
 {% for alias in dim.aliases %}
     using {{ alias }}Dim = {{ dim.name }}Dim;
-    {% if loop.last %}
+{% if loop.last %}
 
-    {% endif %}
+{% endif %}
 {% endfor %}
     using {{ dim.name }} = Value<{{ dim.name }}Dim>;
 
 {% for alias in dim.aliases %}
     using {{ alias }} = {{ dim.name }};
-    {% if loop.last %}
+{% if loop.last %}
 
-    {% endif %}
+{% endif %}
 {% endfor %}
 {% for unit in dim.units %}
     using {{ unit.name }}_t = unit<
