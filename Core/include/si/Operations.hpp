@@ -101,6 +101,35 @@ namespace si {
         return lhs.val() > rhs.val();
     }
 
+    // other comparisons
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    abs(const unit<D, C> &v)
+    {
+        return v < unit<D, C>{} ? -v : v;
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    min(const unit<D, C> &v1, const unit<D, C> &v2)
+    {
+        return v1 < v2 ? v1 : v2;
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    max(const unit<D, C> &v1, const unit<D, C> &v2)
+    {
+        return v1 > v2 ? v1 : v2;
+    }
+
+    template<typename D, typename C>
+    inline constexpr unit<D, C>
+    clamp(const unit<D, C> &u, const unit<D, C> &umin, const unit<D, C> &umax)
+    {
+        return max(min(u, umax), umin);
+    }
+
     // unary
     template<typename D, typename C>
     inline constexpr unit<D, C>
@@ -196,51 +225,79 @@ namespace si {
     // value operations
 
     // comparison
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator==(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) == value_repr(rhs);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator!=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) != value_repr(rhs);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator<=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) <= value_repr(rhs);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator>=(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) >= value_repr(rhs);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator<(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) < value_repr(rhs);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr bool
     operator>(const Value<D> &lhs, const Value<D> &rhs)
     {
         return value_repr(lhs) > value_repr(rhs);
     }
 
+    template<typename D>
+    inline constexpr Value<D>
+    abs(const Value<D> &v)
+    {
+        return v < Value<D>{} ? -v : v;
+    }
+
+    template<typename D>
+    inline constexpr Value<D>
+    min(const Value<D> &v1, const Value<D> &v2)
+    {
+        return v1 < v2 ? v1 : v2;
+    }
+
+    template<typename D>
+    inline constexpr Value<D>
+    max(const Value<D> &v1, const Value<D> &v2)
+    {
+        return v1 > v2 ? v1 : v2;
+    }
+
+    template<typename D>
+    inline constexpr Value<D>
+    clamp(const Value<D> &val, const Value<D> &minVal, const Value<D> &maxVal)
+    {
+        return max(min(val, maxVal), minVal);
+    }
+
     // operations
 
-    template<class D>
+    template<typename D>
     inline constexpr Value<D>
     operator-(const Value<D> &v)
     {
@@ -315,31 +372,173 @@ namespace si {
         };
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr auto
     square(const Value<D> &val)
     {
         return pow<D, 2, 1>(val);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr auto
     cube(const Value<D> &val)
     {
         return pow<D, 3, 1>(val);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr auto
     sqrt(const Value<D> &val)
     {
         return pow<D, 1, 2>(val);
     }
 
-    template<class D>
+    template<typename D>
     inline constexpr auto
     cbrt(const Value<D> &val)
     {
         return pow<D, 1, 3>(val);
+    }
+
+    // mixed operations (units and value)
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator==(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs == value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator==(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) == rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator!=(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs != value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator!=(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) != rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator<(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs < value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator<(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) < rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator>(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs > value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator>(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) > rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator<=(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs <= value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator<=(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) <= rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator>=(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs >= value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator>=(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) >= rhs;
+    }
+
+    template<typename DL, typename DR, typename C>
+    inline constexpr auto
+    operator*(const Value<DL> &lhs, const unit<DR, C> &rhs)
+    {
+        return lhs * value(rhs);
+    }
+
+    template<typename DL, typename DR, typename C>
+    inline constexpr auto
+    operator*(const unit<DL, C> &lhs, const Value<DR> &rhs)
+    {
+        return value(lhs) * rhs;
+    }
+
+    template<typename DL, typename DR, typename C>
+    inline constexpr auto
+    operator/(const Value<DL> &lhs, const unit<DR, C> &rhs)
+    {
+        return lhs / value(rhs);
+    }
+
+    template<typename DL, typename DR, typename C>
+    inline constexpr auto
+    operator/(const unit<DL, C> &lhs, const Value<DR> &rhs)
+    {
+        return value(lhs) / rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator+(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs + value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator+(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) + rhs;
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator-(const Value<D> &lhs, const unit<D, C> &rhs)
+    {
+        return lhs - value(rhs);
+    }
+
+    template<typename D, typename C>
+    inline constexpr auto
+    operator-(const unit<D, C> &lhs, const Value<D> &rhs)
+    {
+        return value(lhs) - rhs;
     }
 }

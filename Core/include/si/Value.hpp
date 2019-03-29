@@ -7,7 +7,7 @@
 
 namespace si {
 
-    template<typename D, typename Conv>
+    template<typename D, typename C>
     class unit;
 
     template<typename D>
@@ -18,7 +18,7 @@ namespace si {
 
         // friend class cannot be specialized,
         // so can't explicitely use the same D
-        template<typename D_, typename Conv>
+        template<typename D_, typename C>
         friend class unit;
 
     public:
@@ -28,22 +28,56 @@ namespace si {
             _repr { 0.0 }
         {}
 
-        template<typename Unit>
-        constexpr Value(const Unit &val) :
-            _repr {Unit::conv_type::conv(val.val())}
-        {
-            static_assert(std::is_same<dim_type, typename Unit::dim_type>::value);
-        }
+        template<typename C>
+        constexpr Value(const unit<D, C> &val) :
+            _repr { C::conv(val.val()) }
+        {}
+
+        template<typename D_=D, typename =
+                std::enable_if_t<std::is_same_v<D_, D> && std::is_same_v<NoDim, D> > >
+        constexpr Value(const double coef) :
+            _repr { coef }
+        {}
 
         constexpr Value(const Value &val) = default;
         constexpr Value& operator=(const Value &val) = default;
 
-        template<typename Unit>
-        constexpr Value& operator=(const Unit &val)
+        template<typename C>
+        constexpr Value& operator=(const unit<dim_type, C> &val)
         {
-            static_assert(std::is_same<dim_type, typename Unit::dim_type>::value);
-            _repr = Unit::conv_type::conv(val.val());
+            _repr = C::conv(val.val());
             return *this;
+        }
+
+        Value &operator+=(const Value &rhs)
+        {
+            _repr += rhs._repr;
+            return *this;
+        }
+
+        Value &operator-=(const Value &rhs)
+        {
+            _repr -= rhs._repr;
+            return *this;
+        }
+
+        Value &operator*=(const double &rhs)
+        {
+            _repr *= rhs;
+            return *this;
+        }
+
+        Value &operator/=(const double &rhs)
+        {
+            _repr /= rhs;
+            return *this;
+        }
+
+        template <typename D_=D, typename =
+            std::enable_if_t< std::is_same_v<D, NoDim> && std::is_same_v<D_, D> > >
+        operator double () const
+        {
+            return _repr;
         }
 
         template<typename Unit>

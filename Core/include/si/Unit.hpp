@@ -23,8 +23,12 @@ namespace si {
         using conv_type = C;
         using value_type = Value<D>;
 
+        constexpr explicit unit() :
+            _val{ 0.0 }
+        {}
+
         constexpr explicit unit(const double val) :
-            _val{val}
+            _val{ val }
         {}
 
         constexpr unit(const Value<D> &val) :
@@ -33,6 +37,16 @@ namespace si {
 
         constexpr unit(const unit &val) = default;
         constexpr unit& operator=(const unit &val) = default;
+
+        constexpr explicit operator double() const
+        {
+            return _val;
+        }
+
+        constexpr operator Value<dim_type>() const
+        {
+            return Value<dim_type>{ *this };
+        }
 
         constexpr double val() const
         {
@@ -44,6 +58,12 @@ namespace si {
             return C::conv(_val);
         }
     };
+
+    template<typename D, typename C>
+    constexpr Value<D> value(const unit<D, C> &u)
+    {
+        return Value<D>{ u };
+    }
 
     namespace detail {
         template<typename T>
@@ -57,7 +77,7 @@ namespace si {
         {};
 
         template<typename D>
-        struct default_unit_helper<Value<D> >
+        struct default_unit_helper<Value<D>>
         {
             using type = unit<D, identity_conv>;
         };
@@ -95,7 +115,7 @@ namespace si {
     template<typename V>
     constexpr default_unit<V> value_repr(const V& value)
     {
-        return value.template as<default_unit<V>>();
+        return default_unit<V>{ value };
     }
 }
 
