@@ -757,8 +757,19 @@
   {
     "name": "MolarMass",
     "aliases": [],
-    "units": [],
-    "foreign_units": [],
+    "units": [
+      {
+        "name": "",
+        "symbol": "",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
+    "foreign_units": ["gram"],
     "M": 1,
     "L": 0,
     "T": 0,
