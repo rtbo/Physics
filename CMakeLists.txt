@@ -24,8 +24,10 @@ if (NOT PHYSICS_DIMS_RESULT EQUAL "0")
     message(FATAL_ERROR "Could not list dimensions. Make sure Python 3 is available and that Jinja2 is installed")
 endif()
 
+string(REPLACE ":" ";" PHYSICS_DIM_LIST ${PHYSICS_DIMS})
 # need to cache this for outer projects to use the scripts
 set(PHYSICS_DIMS ${PHYSICS_DIMS} CACHE INTERNAL "")
+set(PHYSICS_DIM_LIST ${PHYSICS_DIM_LIST} CACHE INTERNAL "")
 
 find_package(Qt5Core)
 set(PHYSICS_HAVE_QT_CORE ${Qt5Core_FOUND})

@@ -36,7 +36,7 @@ function(physics_dim_codegen Template OutputPattern Result)
     endif()
 
     set(OutputList)
-    foreach(Dim ${PHYSICS_DIMS})
+    foreach(Dim ${PHYSICS_DIM_LIST})
         _physics_codegen_dim_file("${OutputPattern}" ${Dim} Output)
         add_custom_command(
             OUTPUT "${Output}"

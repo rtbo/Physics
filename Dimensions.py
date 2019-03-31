@@ -340,7 +340,7 @@ def complete_dim(dim_dict):
 
 def filter_dims(dims, included_dims, excluded_base_dims, excluded_dims):
     if included_dims:
-        includes = included_dims.split(';')
+        includes = included_dims.split(':')
     else:
         includes = list(map(lambda d: d["name"], dims))
     excludes = []
@@ -376,7 +376,6 @@ if __name__ == '__main__':
             help='list of dimensions to include.')
     ap.add_argument("--dim", dest="dim", default=None,
             help="The dimension to generate code for. Toggles to single dimension mode.")
-    # todo - exclusion/inclusion
     args = ap.parse_args()
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -399,7 +398,7 @@ if __name__ == '__main__':
 
         if args.print_dims:
             for dim in dims:
-                args.output.write(dim["name"] + ";")
+                args.output.write(dim["name"] + ":")
             sys.exit(0)
 
         tplt = Environment(trim_blocks=True).from_string(args.input.read())
