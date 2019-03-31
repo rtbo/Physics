@@ -7,7 +7,9 @@
     License.txt file at project root.
 */
 
+{% for dim in dims %}
 #include "siui/{{ dim.name }}SpinBox.hpp"
+{% endfor %}
 
 #include <QMenu>
 #include <QMetaType>
@@ -17,7 +19,9 @@
 
 namespace siui {
 
-static int _ = qRegisterMetaType<si::{{ dim.name }}>("si::{{ dim.name }}");
+{% for dim in dims %}
+
+static int _{{ dim.snake_name }} = qRegisterMetaType<si::{{ dim.name }}>("si::{{ dim.name }}");
 
 {% for unit in dim.units %}
 inline QString {{ unit.name }}str()
@@ -194,5 +198,7 @@ bool {{ dim.name }}SpinBox::eventFilter(QObject *obj, QEvent *event)
         return QDoubleSpinBox::eventFilter(obj, event);
     }
 }
+
+{% endfor %}
 
 } // namespace siui
