@@ -207,10 +207,10 @@ namespace si {
                 std::ratio_subtract<typename LhsD::ratio, typename RhsD::ratio>
             >;
 
-            template<typename D, int Num, int Den>
+            template<typename D, typename R>
             using PowDim = Dim<
                 D::name,
-                std::ratio_multiply<typename D::ratio, std::ratio<Num, Den> >
+                std::ratio_multiply<typename D::ratio, R>
             >;
         }
     }
@@ -237,15 +237,15 @@ namespace si {
         typename base::detail::DivDim<typename LhsD::light_intensity, typename RhsD::light_intensity>
     >;
 
-    template<typename D, int Num, int Den>
+    template<typename D, typename R>
     using PowDim = Dim<
-        typename base::detail::PowDim<typename D::mass, Num, Den>,
-        typename base::detail::PowDim<typename D::length, Num, Den>,
-        typename base::detail::PowDim<typename D::time, Num, Den>,
-        typename base::detail::PowDim<typename D::current, Num, Den>,
-        typename base::detail::PowDim<typename D::temperature, Num, Den>,
-        typename base::detail::PowDim<typename D::amount, Num, Den>,
-        typename base::detail::PowDim<typename D::light_intensity, Num, Den>
+        typename base::detail::PowDim<typename D::mass, R>,
+        typename base::detail::PowDim<typename D::length, R>,
+        typename base::detail::PowDim<typename D::time, R>,
+        typename base::detail::PowDim<typename D::current, R>,
+        typename base::detail::PowDim<typename D::temperature, R>,
+        typename base::detail::PowDim<typename D::amount, R>,
+        typename base::detail::PowDim<typename D::light_intensity, R>
     >;
 
 }

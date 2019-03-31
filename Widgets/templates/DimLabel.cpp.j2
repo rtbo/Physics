@@ -6,9 +6,9 @@
     terms of the BSD-style license, that can be found in the
     License.txt file at project root.
 */
-
+{% for dim in dims %}
 #include "siui/{{ dim.name }}Label.hpp"
-#include <si/Operations.hpp>
+{% endfor %}
 
 #include <QMenu>
 #include <QMetaType>
@@ -19,6 +19,8 @@
 #include <cmath>
 
 namespace siui {
+
+{% for dim in dims %}
 
 {% for unit in dim.units %}
 inline QString {{ unit.name }}str()
@@ -143,5 +145,7 @@ bool {{ dim.name }}Label::eventFilter(QObject *obj, QEvent *event)
         return QLabel::eventFilter(obj, event);
     }
 }
+
+{% endfor %}
 
 } // namespace siui
