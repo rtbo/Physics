@@ -2,7 +2,6 @@
 
 #include <si/Config.hpp>
 #include <si/Constants.hpp>
-#include <si/Operations.hpp>
 
 #ifdef HAVE_ACCELERATION_HPP
 #include <si/Acceleration.hpp>

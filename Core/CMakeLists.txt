@@ -2,7 +2,6 @@
 set(PHYSICS_CORE_SRC
     include/si/Constants.hpp
     include/si/Dim.hpp
-    include/si/Operations.hpp
     include/si/Unit.hpp
     include/si/Value.hpp
 

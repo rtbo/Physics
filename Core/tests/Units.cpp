@@ -9,7 +9,6 @@
 #include <si/Time.hpp>
 #include <si/Velocity.hpp>
 #include <si/Volume.hpp>
-#include <si/Operations.hpp>
 #include <si/Constants.hpp>
 
 #include "catch.hpp"

@@ -19,8 +19,6 @@
 #include "si/MolarEntropy.hpp"
 #endif
 
-#include "si/Operations.hpp"
-
 namespace si {
 
     namespace consts {

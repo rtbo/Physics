@@ -8,7 +8,6 @@
 */
 
 
-#include <si/Operations.hpp>
 #include <si/MolarMass.hpp>
 
 #include "catch.hpp"

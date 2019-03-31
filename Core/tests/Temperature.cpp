@@ -7,7 +7,6 @@
     License.txt file at project root.
 */
 
-#include <si/Operations.hpp>
 #include <si/Temperature.hpp>
 
 #include "catch.hpp"
