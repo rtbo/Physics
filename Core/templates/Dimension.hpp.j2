@@ -50,6 +50,13 @@ namespace si {
     >;
 {% endfor %}
 
+{% for unit in dim.units %}
+    constexpr double {{ unit.name }}(const {{ dim.name }} &val)
+    {
+        return {{ unit.name }}_t{ val }.val();
+    }
+{% endfor %}
+
     namespace literals {
 
 {% for unit in dim.units %}

@@ -830,6 +830,46 @@
         "prefixes": ["h", "k", "M"]
       },
       {
+        "name": "bar",
+        "symbol": "bar",
+        "unicode": "bar",
+        "factor": "100000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": ["m"]
+      },
+      {
+        "name": "atmosphere",
+        "symbol": "atm",
+        "unicode": "atm",
+        "factor": "101325",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "mm_of_mercury",
+        "symbol": "mmHg",
+        "unicode": "mmHg",
+        "factor": "133.322387415",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "torr",
+        "symbol": "torr",
+        "unicode": "Torr",
+        "factor": "101325/760",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": ["m"]
+      },
+      {
         "name": "pound_per_inch2",
         "symbol": "PSI",
         "unicode": "PSI",

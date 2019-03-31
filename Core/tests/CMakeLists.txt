@@ -4,6 +4,7 @@ add_executable(TestPhysicsCore
 
     main.cpp
 
+    Conversion.cpp
     MolarMass.cpp
     Temperature.cpp
     Units.cpp
