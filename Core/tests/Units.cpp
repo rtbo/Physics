@@ -1,14 +1,5 @@
 
-#include <si/Area.hpp>
-#include <si/Coefficient.hpp>
-#include <si/Energy.hpp>
-#include <si/Length.hpp>
-#include <si/Mass.hpp>
-#include <si/MolarEntropy.hpp>
-#include <si/Pressure.hpp>
-#include <si/Time.hpp>
-#include <si/Velocity.hpp>
-#include <si/Volume.hpp>
+#include <si/AllDims.hpp>
 #include <si/Constants.hpp>
 
 #include "catch.hpp"
@@ -42,6 +33,48 @@ TEST_CASE("Units", "[units]")
         REQUIRE(joules.val() == 230.0);
     }
 
+    SECTION("comparison") {
+        REQUIRE( 1400_Pa > 1300_Pa );
+        REQUIRE( 1e6_J != 1400_J );
+    }
+
+    SECTION("printing") {
+        std::ostringstream out;
+        out << 1350_J_p_molK;
+        REQUIRE(out.str() == u8"1350 J.mol\u207B\u00B9.K\u207B\u00B9");
+    }
+
+    SECTION("unary minus") {
+        const auto p = 230_Pa;
+        const auto pminus = -p;
+        REQUIRE(-pminus == p);
+        REQUIRE(pminus == pascal_t{-230.0});
+    }
+
+    SECTION("addition") {
+        REQUIRE( 123.4_m + 15_m == 138.4_m );
+        REQUIRE( 12_ohm + 14_kohm == 14012_ohm );
+    }
+
+    SECTION("subtraction") {
+        REQUIRE( 123.4_m - 15_m == 108.4_m );
+        REQUIRE( 12_ohm - 14_kohm == -13988_ohm );
+    }
+
+    SECTION("multiplication") {
+        REQUIRE( 2_m * 3_m == 6_m2 );
+        REQUIRE( 2_m3 * 4_Pa == 8_J );
+        REQUIRE( 1200 * 4_L == 4.8_m3 );
+        REQUIRE( 4 * 1200_L == 4.8_m3 );
+    }
+
+    SECTION("division") {
+        REQUIRE( 6_m2 / 3_m == 2_m );
+        REQUIRE( 8_J / 4_Pa == 2_m3 );
+        REQUIRE( 8_J / 4 == 2_J );
+        REQUIRE( 1 / 10_ms == 100_Hz );
+    }
+
     SECTION("composition") {
         REQUIRE( 240_m / 12_s == 20_m_p_s );
         REQUIRE( 240_km / 12_s == 20000_m_p_s );
@@ -67,24 +100,6 @@ TEST_CASE("Units", "[units]")
         REQUIRE( radian_t{ detail::pi } == 0.5_coef );
         REQUIRE( radian_t{ detail::pi } == 180_deg );
         REQUIRE( 55_percent == 0.55_coef );
-    }
-
-    SECTION("comparison") {
-        REQUIRE( 1400_Pa > 1300_Pa );
-        REQUIRE( 1e6_J != 1400_J );
-    }
-
-    SECTION("printing") {
-        std::ostringstream out;
-        out << 1350_J_p_molK;
-        REQUIRE(out.str() == u8"1350 J.mol\u207B\u00B9.K\u207B\u00B9");
-    }
-
-    SECTION("unary minus") {
-        const auto p = 230_Pa;
-        const auto pminus = -p;
-        REQUIRE(-pminus == p);
-        REQUIRE(pminus == pascal_t{-230.0});
     }
 }
 

@@ -197,14 +197,14 @@ namespace si {
         return Value<D>{ lhs } / rhs;
     }
 
-    template<typename D, typename C>
-    inline constexpr auto operator+(const unit<D, C> &lhs, const unit<D, C> &rhs)
+    template<typename D, typename CL, typename CR>
+    inline constexpr auto operator+(const unit<D, CL> &lhs, const unit<D, CR> &rhs)
     {
         return Value<D>{ lhs } + Value<D>{ rhs };
     }
 
-    template<typename D, typename C>
-    inline constexpr unit<D, C> operator-(const unit<D, C> &lhs, const unit<D, C> &rhs)
+    template<typename D, typename CL, typename CR>
+    inline constexpr auto operator-(const unit<D, CL> &lhs, const unit<D, CR> &rhs)
     {
         return Value<D>{ lhs } - Value<D>{ rhs };
     }

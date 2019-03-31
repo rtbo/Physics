@@ -203,19 +203,19 @@ namespace si {
     template<typename D>
     inline constexpr Value<D> operator-(const Value<D> &v)
     {
-        return Value{ -v._repr };
+        return Value<D>{ -v._repr };
     }
 
     template<typename D>
     inline constexpr Value<D> operator+(const Value<D> &lhs, const Value<D> &rhs)
     {
-        return Value{ lhs._repr + rhs._repr };
+        return Value<D>{ lhs._repr + rhs._repr };
     }
 
     template<typename D>
     inline constexpr Value<D> operator-(const Value<D> &lhs, const Value<D> &rhs)
     {
-        return Value{ lhs._repr - rhs._repr };
+        return Value<D>{ lhs._repr - rhs._repr };
     }
 
     template<typename LD, typename RD>
@@ -245,7 +245,7 @@ namespace si {
     template<typename D>
     inline constexpr Value<D> operator/(const Value<D> &lhs, const double &rhs)
     {
-        return Value{ lhs._repr / rhs };
+        return Value<D>{ lhs._repr / rhs };
     }
 
     template<typename D>
