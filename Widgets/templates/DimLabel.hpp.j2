@@ -27,7 +27,7 @@ public:
 
     enum {{ dim.name }}Unit {
 {% for unit in dim.units %}
-        {{ unit.name }},
+        {{ unit.cppname }},
 {% endfor %}
     };
 

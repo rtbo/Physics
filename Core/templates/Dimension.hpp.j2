@@ -10,13 +10,6 @@
 #include <ratio>
 #include <string_view>
 
-{% if dim.name == "Pressure" %}
-#ifdef pascal
-#undef pascal
-#pragma message ("Warning: deactivating pascal preprocessor definition")
-#endif
-{% endif %}
-
 namespace si {
 
     using {{ dim.name }}Dim = Dim<
@@ -51,7 +44,7 @@ namespace si {
 {% endfor %}
 
 {% for unit in dim.units %}
-    constexpr double {{ unit.name }}(const {{ dim.name }} &val)
+    constexpr double {{ unit.cppname }}(const {{ dim.name }} &val)
     {
         return {{ unit.name }}_t{ val }.val();
     }
@@ -85,13 +78,13 @@ namespace si {
 
         enum class Unit {
 {% for unit in dim.units %}
-            {{ unit.name }},
+            {{ unit.cppname }},
 {% endfor %}
         };
 
         constexpr std::array<Unit, {{ dim.units | length }}> all_units = {
 {% for unit in dim.units %}
-            Unit::{{ unit.name }},
+            Unit::{{ unit.cppname }},
 {% endfor %}
         };
 
@@ -99,7 +92,7 @@ namespace si {
         {
             switch (unit) {
 {% for unit in dim.units %}
-            case Unit::{{ unit.name }}:
+            case Unit::{{ unit.cppname }}:
                 return {{ dim.name }}{ {{ unit.name }}_t{ value } };
 {% endfor %}
             }
@@ -110,7 +103,7 @@ namespace si {
         {
             switch (unit) {
 {% for unit in dim.units %}
-            case Unit::{{ unit.name }}:
+            case Unit::{{ unit.cppname }}:
                 return value.as<{{ unit.name }}_t>().val();
 {% endfor %}
             }
@@ -140,7 +133,7 @@ namespace si {
             {
                 switch (unit) {
 {% for unit in dim.units %}
-                case Unit::{{ unit.name }}:
+                case Unit::{{ unit.cppname }}:
                     return {{ unit.symbol }}.data();
 {% endfor %}
                 }
@@ -151,7 +144,7 @@ namespace si {
             {
                 switch (unit) {
 {% for unit in dim.units %}
-                case Unit::{{ unit.name }}:
+                case Unit::{{ unit.cppname }}:
                     return {{ unit.symbol }};
 {% endfor %}
                 }
@@ -177,7 +170,7 @@ namespace si {
             {
                 switch (unit) {
 {% for unit in dim.units %}
-                case Unit::{{ unit.name }}:
+                case Unit::{{ unit.cppname }}:
                     return {{ unit.symbol }}.data();
 {% endfor %}
                 }
@@ -188,7 +181,7 @@ namespace si {
             {
                 switch (unit) {
 {% for unit in dim.units %}
-                case Unit::{{ unit.name }}:
+                case Unit::{{ unit.cppname }}:
                     return {{ unit.symbol }};
 {% endfor %}
                 }

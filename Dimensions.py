@@ -154,6 +154,7 @@ class UnitDef:
         return ud
 
 unit_defs = {}
+colliding_names = [ "pascal" ]
 
 def unicode_repr(s):
     res = ''
@@ -238,6 +239,10 @@ class Unit:
             add_comp(c)
         if self.name == "":
             self.name = "coef"
+
+    @property
+    def cppname(self):
+        return self.name + "_" if self.name in colliding_names else self.name
 
     @property
     def is_default(self):

@@ -36,7 +36,7 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}Label::{{ dim.name
 {
     switch (unit) {
 {% for unit in dim.units %}
-    case {{ dim.name }}Label::{{ unit.name }}:
+    case {{ dim.name }}Label::{{ unit.cppname }}:
         return {{ unit.name }}str();
 {% endfor %}
     }
@@ -48,11 +48,11 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}Label::{{ dim.name
 inline {{ dim.name }}Label::{{ dim.name }}Unit {{ dim.snake_name }}UnitFromString(QString s)
 {
 {% for unit in dim.units %}
-    if (s == {{ unit.name }}str()) return {{ dim.name }}Label::{{ unit.name }};
+    if (s == {{ unit.name }}str()) return {{ dim.name }}Label::{{ unit.cppname }};
 {% endfor %}
 
     assert(!"the passed string is wrong");
-    return {{ dim.name }}Label::{{ dim.default_unit.name }};
+    return {{ dim.name }}Label::{{ dim.default_unit.cppname }};
 }
 
 inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, {{ dim.name }}Label::{{ dim.name }}Unit unit)
@@ -67,7 +67,7 @@ inline si::{{ dim.name }} unit{{ dim.name }}(double value, {{ dim.name }}Label::
 
 {{ dim.name }}Label::{{ dim.name }}Label(QWidget *parent) :
     QLabel{ parent },
-    unit_({{ dim.default_unit.name }}),
+    unit_({{ dim.default_unit.cppname }}),
     precision_(2)
 {
     updateValue();
@@ -119,7 +119,7 @@ void {{ dim.name }}Label::handleCustomMenu(const QPoint &globalPos)
     QMenu menu;
 
 {% for unit in dim.units %}
-    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.name }}));
+    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.cppname }}));
 {% endfor %}
 
     QAction *a = menu.exec(globalPos);

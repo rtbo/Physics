@@ -37,7 +37,7 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}SpinBox::{{ dim.na
 {
     switch (unit) {
 {% for unit in dim.units %}
-    case {{ dim.name }}SpinBox::{{ unit.name }}:
+    case {{ dim.name }}SpinBox::{{ unit.cppname }}:
         return {{ unit.name }}str();
 {% endfor %}
     }
@@ -49,11 +49,11 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}SpinBox::{{ dim.na
 inline {{ dim.name }}SpinBox::{{ dim.name }}Unit {{ dim.snake_name }}UnitFromString(QString s)
 {
 {% for unit in dim.units %}
-    if (s == {{ unit.name }}str()) return {{ dim.name }}SpinBox::{{ unit.name }};
+    if (s == {{ unit.name }}str()) return {{ dim.name }}SpinBox::{{ unit.cppname }};
 {% endfor %}
 
     assert(!"the passed string is wrong");
-    return {{ dim.name }}SpinBox::{{ dim.default_unit.name }};
+    return {{ dim.name }}SpinBox::{{ dim.default_unit.cppname }};
 }
 
 inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, {{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
@@ -68,7 +68,7 @@ inline si::{{ dim.name }} unit{{ dim.name }}(double value, {{ dim.name }}SpinBox
 
 {{ dim.name }}SpinBox::{{ dim.name }}SpinBox(QWidget *parent) :
     QDoubleSpinBox(parent),
-    unit_({{ dim.default_unit.name }}),
+    unit_({{ dim.default_unit.cppname }}),
     changeUnitFlag_(false)
 {
     updateSuffix();
@@ -172,7 +172,7 @@ void {{ dim.name }}SpinBox::handleCustomMenu(const QPoint &globalPos)
     QMenu menu;
 
 {% for unit in dim.units %}
-    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.name }}));
+    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.cppname }}));
 {% endfor %}
 
     QAction *a = menu.exec(globalPos);
