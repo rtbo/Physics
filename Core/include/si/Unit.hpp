@@ -385,4 +385,46 @@ namespace si {
     {
         return Value<D>{ lhs } - rhs;
     }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> min(const Value<D> &v1, const unit<D, C> &v2)
+    {
+        return v1 < Value<D>{ v2 } ? v1 : Value<D>{ v2 };
+    }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> min(const unit<D, C> &v1, const Value<D> &v2)
+    {
+        return Value<D>{ v1 } < v2 ? Value<D>{ v1 } : v2;
+    }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> max(const Value<D> &v1, const unit<D, C> &v2)
+    {
+        return v1 > Value<D>{ v2 } ? v1 : Value<D>{ v2 };
+    }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> max(const unit<D, C> &v1, const Value<D> &v2)
+    {
+        return Value<D>{ v1 } > v2 ? Value<D>{ v1 } : v2;
+    }
+
+    template<typename D, typename C1, typename C2>
+    inline constexpr Value<D> clamp(const Value<D> &u, const unit<D, C1> &umin, const unit<D, C2> &umax)
+    {
+        return max(min(u, umax), umin);
+    }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> clamp(const Value<D> &u, const Value<D> &umin, const unit<D, C> &umax)
+    {
+        return max(min(u, umax), umin);
+    }
+
+    template<typename D, typename C>
+    inline constexpr Value<D> clamp(const Value<D> &u, const unit<D, C> &umin, const Value<D> &umax)
+    {
+        return max(min(u, umax), umin);
+    }
 }
