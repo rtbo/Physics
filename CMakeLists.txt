@@ -44,4 +44,6 @@ if(${Qt5Core_FOUND} AND ${Qt5Widgets_FOUND})
         add_subdirectory(DesignerPlugin)
     endif()
 
+    add_subdirectory(examples/WidgetApp)
+
 endif()
