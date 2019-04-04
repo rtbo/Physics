@@ -13,23 +13,23 @@
 
 #include <QLabel>
 
+namespace si {
+    namespace {{ dim.cppns }} {
+        Q_NAMESPACE
+        Q_ENUM_NS(Unit)
+    }
+}
+
 namespace siui {
 
 class {{ dim.name }}Label : public QLabel
 {
     Q_OBJECT
 
-    Q_PROPERTY({{ dim.name }}Unit unit READ unit WRITE setUnit)
+    Q_PROPERTY(si::{{ dim.cppns }}::Unit unit READ unit WRITE setUnit)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
-    Q_ENUMS({{ dim.name }}Unit)
 
 public:
-
-    enum {{ dim.name }}Unit {
-{% for unit in dim.units %}
-        {{ unit.cppname }},
-{% endfor %}
-    };
 
     {{ dim.name }}Label(QWidget *parent);
 
@@ -37,11 +37,11 @@ public:
 
     si::{{ dim.name }} {{ dim.snake_name }}() const;
 
-    {{ dim.name }}Unit unit() const {
+    si::{{ dim.cppns }}::Unit unit() const {
         return unit_;
     }
 
-    void setUnit({{ dim.name }}Unit unit);
+    void setUnit(si::{{ dim.cppns }}::Unit unit);
 
     int precision() const {
         return precision_;
@@ -70,7 +70,7 @@ protected:
 private:
 
     si::{{ dim.name }} value_;
-    {{ dim.name }}Unit unit_;
+    si::{{ dim.cppns }}::Unit unit_;
     double precision_;
 };
 

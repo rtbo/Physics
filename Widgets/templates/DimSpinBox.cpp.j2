@@ -26,18 +26,18 @@ static int _{{ dim.snake_name }} = qRegisterMetaType<si::{{ dim.name }}>("si::{{
 {% for unit in dim.units %}
 inline QString {{ unit.name }}str()
 {
-    const auto view = si::{{ dim.name | lower }}::u16::{{ unit.symbol }};
+    const auto view = si::{{ dim.cppns }}::u16::{{ unit.symbol }};
     return QString::fromUtf16(
         view.data(), static_cast<int>(view.length())
     );
 }
 {% endfor %}
 
-inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+inline QString {{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit unit)
 {
     switch (unit) {
 {% for unit in dim.units %}
-    case {{ dim.name }}SpinBox::{{ unit.cppname }}:
+    case si::{{ dim.cppns }}::Unit::{{ unit.cppname }}:
         return {{ unit.name }}str();
 {% endfor %}
     }
@@ -46,29 +46,29 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}SpinBox::{{ dim.na
     return "";
 }
 
-inline {{ dim.name }}SpinBox::{{ dim.name }}Unit {{ dim.snake_name }}UnitFromString(QString s)
+inline si::{{ dim.cppns }}::Unit {{ dim.snake_name }}UnitFromString(QString s)
 {
 {% for unit in dim.units %}
-    if (s == {{ unit.name }}str()) return {{ dim.name }}SpinBox::{{ unit.cppname }};
+    if (s == {{ unit.name }}str()) return si::{{ dim.cppns }}::Unit::{{ unit.cppname }};
 {% endfor %}
 
     assert(!"the passed string is wrong");
-    return {{ dim.name }}SpinBox::{{ dim.default_unit.cppname }};
+    return si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }};
 }
 
-inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, {{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, si::{{ dim.cppns }}::Unit unit)
 {
-    return si::{{ dim.name | lower }}::value_to(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
+    return si::{{ dim.cppns }}::value_to(static_cast<si::{{ dim.cppns }}::Unit>(unit), value);
 }
 
-inline si::{{ dim.name }} unit{{ dim.name }}(double value, {{ dim.name }}SpinBox::{{ dim.name }}Unit unit)
+inline si::{{ dim.name }} unit{{ dim.name }}(double value, si::{{ dim.cppns }}::Unit unit)
 {
-    return si::{{ dim.name | lower }}::value_from(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
+    return si::{{ dim.cppns }}::value_from(static_cast<si::{{ dim.cppns }}::Unit>(unit), value);
 }
 
 {{ dim.name }}SpinBox::{{ dim.name }}SpinBox(QWidget *parent) :
     QDoubleSpinBox(parent),
-    unit_({{ dim.default_unit.cppname }}),
+    unit_(si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }}),
     changeUnitFlag_(false)
 {
     updateSuffix();
@@ -135,7 +135,7 @@ void {{ dim.name }}SpinBox::handleValueChange(double value)
     emit {{ dim.snake_name }}Changed(unit{{ dim.name }}(value, unit()));
 }
 
-void {{ dim.name }}SpinBox::setUnit({{ dim.name }}Unit unit, bool trackBounds)
+void {{ dim.name }}SpinBox::setUnit(si::{{ dim.cppns }}::Unit unit, bool trackBounds)
 {
     if (unit != unit_) {
         if (trackBounds) {
@@ -172,7 +172,7 @@ void {{ dim.name }}SpinBox::handleCustomMenu(const QPoint &globalPos)
     QMenu menu;
 
 {% for unit in dim.units %}
-    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.cppname }}));
+    menu.addAction({{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit::{{ unit.cppname }}));
 {% endfor %}
 
     QAction *a = menu.exec(globalPos);

@@ -74,7 +74,7 @@ namespace si {
 {% endfor %}
     }
 
-    namespace {{ dim.name | lower }} {
+    namespace {{ dim.cppns }} {
 
         enum class Unit {
 {% for unit in dim.units %}

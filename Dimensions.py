@@ -316,7 +316,9 @@ def complete_dim(dim_dict):
     units = []
     dim = Dim.build_from_dict(dim_dict)
 
-    dim_dict["snake_name"] = snake_name(dim_dict["name"])
+    name = dim_dict["name"]
+    dim_dict["snake_name"] = snake_name(name)
+    dim_dict["cppns"] = name.lower()
 
     for unit_dict in dim_dict["units"]:
         if unit_dict["name"] == "":
