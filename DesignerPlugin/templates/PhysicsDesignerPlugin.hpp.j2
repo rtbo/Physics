@@ -11,126 +11,88 @@
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-namespace siui {
+class DesignerInterfaceCollection :
+        public QObject,
+        public QDesignerCustomWidgetCollectionInterface
+{
+    Q_OBJECT
+    Q_INTERFACES( QDesignerCustomWidgetCollectionInterface )
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
 
+public:
 
-    class DesignerInterface;
+    DesignerInterfaceCollection(QObject *parent=nullptr);
+    virtual ~DesignerInterfaceCollection();
 
-    class DesignerInterfaceCollection :
-            public QObject,
-            public QDesignerCustomWidgetCollectionInterface
-    {
-        Q_OBJECT
-        Q_INTERFACES( QDesignerCustomWidgetCollectionInterface )
-    #if QT_VERSION >= 0x050000
-        Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
-    #endif
+    virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
 
-    public:
+private:
 
-        DesignerInterfaceCollection(QObject *parent=0);
-        virtual ~DesignerInterfaceCollection();
+    QList<QDesignerCustomWidgetInterface*> plugs_;
+};
 
-        virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
+class DesignerInterface :
+        public QObject,
+        public QDesignerCustomWidgetInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-    private:
+public:
+    DesignerInterface(QObject *parent = 0);
+    virtual ~DesignerInterface();
 
-        QList<QDesignerCustomWidgetInterface*> plugs_;
+    virtual bool isContainer() const override {
+        return false;
+    }
+    virtual bool isInitialized() const;
 
-    };
+    virtual void initialize(QDesignerFormEditorInterface *core);
 
-
-
-    class DesignerInterface :
-            public QObject,
-            public QDesignerCustomWidgetInterface
-    {
-        Q_OBJECT
-        Q_INTERFACES(QDesignerCustomWidgetInterface)
-
-    public:
-        DesignerInterface(QObject *parent = 0);
-        virtual ~DesignerInterface();
-
-        virtual bool isContainer() const override {
-            return false;
-        }
-        virtual bool isInitialized() const;
-
-        virtual void initialize(QDesignerFormEditorInterface *core);
-
-    private:
-        bool m_initialized;
-    };
-
+private:
+    bool _initialized=false;
+};
 {% for dim in dims %}
 
-    class {{ dim.name }}LabelDesignerInterface : public DesignerInterface
-    {
-        Q_OBJECT
-        Q_INTERFACES(QDesignerCustomWidgetInterface)
+class {{ dim.name }}LabelDesignerInterface : public DesignerInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-    public:
-        {{ dim.name }}LabelDesignerInterface(QObject *parent = 0);
-        virtual ~{{ dim.name }}LabelDesignerInterface();
+public:
+    {{ dim.name }}LabelDesignerInterface(QObject *parent = nullptr);
+    virtual ~{{ dim.name }}LabelDesignerInterface();
 
-        virtual QString name() const override {
-            return "{{ dim.name }}Label";
-        }
+    virtual QString name() const override;
+    virtual QString includeFile() const override;
+    virtual QString group() const override;
+    virtual QString toolTip() const override;
+    virtual QString domXml() const override;
+    virtual QIcon icon() const override;
+    virtual QString whatsThis() const override;
 
-        virtual QString includeFile() const override {
-            return "{{ dim.name }}Label.hpp";
-        }
-
-        virtual QString group() const override {
-            return "QPhysics Widgets";
-        }
-
-        virtual QString toolTip() const override {
-            return "a label to display ph::{{ dim.name }} object";
-        }
-
-        virtual QString domXml() const override;
-        virtual QIcon icon() const override;
-        virtual QString whatsThis() const override;
-
-        virtual QWidget *createWidget(QWidget *parent) override;
-
-    };
-
-
-    class {{ dim.name }}SpinBoxDesignerInterface : public DesignerInterface
-    {
-        Q_OBJECT
-        Q_INTERFACES(QDesignerCustomWidgetInterface)
-
-    public:
-        {{ dim.name }}SpinBoxDesignerInterface(QObject *parent = 0);
-        virtual ~{{ dim.name }}SpinBoxDesignerInterface();
-
-        virtual QString name() const override {
-            return "{{ dim.name }}SpinBox";
-        }
-
-        virtual QString includeFile() const override {
-            return "{{ dim.name }}SpinBox.hpp";
-        }
-
-        virtual QString group() const override {
-            return "QPhysics Widgets";
-        }
-
-        virtual QString toolTip() const override {
-            return "a spin box to edit ph::{{ dim.name }} object";
-        }
-
-        virtual QString domXml() const override;
-        virtual QIcon icon() const override;
-        virtual QString whatsThis() const override;
-
-        virtual QWidget *createWidget(QWidget *parent) override;
-    };
+    virtual QWidget *createWidget(QWidget *parent) override;
+};
 {% endfor %}
+{% for dim in dims %}
 
+class {{ dim.name }}SpinBoxDesignerInterface : public DesignerInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(QDesignerCustomWidgetInterface)
 
-}
+public:
+    {{ dim.name }}SpinBoxDesignerInterface(QObject *parent = nullptr);
+    virtual ~{{ dim.name }}SpinBoxDesignerInterface();
+
+    virtual QString name() const override;
+    virtual QString includeFile() const override;
+    virtual QString group() const override;
+    virtual QString toolTip() const override;
+    virtual QString domXml() const override;
+    virtual QIcon icon() const override;
+    virtual QString whatsThis() const override;
+
+    virtual QWidget *createWidget(QWidget *parent) override;
+};
+{% endfor %}

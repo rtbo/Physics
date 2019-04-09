@@ -19,17 +19,17 @@ class {{ dim.name }}Label : public QLabel
 {
     Q_OBJECT
 
-    Q_PROPERTY({{ dim.name }}Unit unit READ unit WRITE setUnit)
+    Q_PROPERTY(DesignerUnit unit READ designerUnit WRITE setDesignerUnit)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
-    Q_ENUMS({{ dim.name }}Unit)
 
 public:
 
-    enum {{ dim.name }}Unit {
+    enum DesignerUnit {
 {% for unit in dim.units %}
-        {{ unit.cppname }},
+        {{ unit.name }},
 {% endfor %}
     };
+    Q_ENUM(DesignerUnit)
 
     {{ dim.name }}Label(QWidget *parent);
 
@@ -37,11 +37,19 @@ public:
 
     si::{{ dim.name }} {{ dim.snake_name }}() const;
 
-    {{ dim.name }}Unit unit() const {
+    si::{{ dim.cppns }}::Unit unit() const {
         return unit_;
     }
 
-    void setUnit({{ dim.name }}Unit unit);
+    void setUnit(si::{{ dim.cppns }}::Unit unit);
+
+    DesignerUnit designerUnit() const {
+        return static_cast<DesignerUnit>(unit());
+    }
+
+    void setDesignerUnit(const DesignerUnit unit) {
+        setUnit(static_cast<si::{{ dim.cppns }}::Unit>(unit));
+    }
 
     int precision() const {
         return precision_;
@@ -70,7 +78,7 @@ protected:
 private:
 
     si::{{ dim.name }} value_;
-    {{ dim.name }}Unit unit_;
+    si::{{ dim.cppns }}::Unit unit_;
     double precision_;
 };
 

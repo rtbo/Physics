@@ -16,24 +16,20 @@
 #include <siui/{{ dim.name }}SpinBox.hpp>
 {% endfor %}
 
-
-using namespace siui;
-
-
 DesignerInterfaceCollection::DesignerInterfaceCollection(QObject *parent) :
     QObject(parent)
 {
 {% for dim in dims %}
     plugs_.append(new {{ dim.name }}LabelDesignerInterface(this));
+{% endfor %}
+{% for dim in dims %}
     plugs_.append(new {{ dim.name }}SpinBoxDesignerInterface(this));
 {% endfor %}
 }
 
-
 DesignerInterfaceCollection::~DesignerInterfaceCollection()
 {
 }
-
 
 QList<QDesignerCustomWidgetInterface*>
     DesignerInterfaceCollection::customWidgets() const
@@ -41,31 +37,24 @@ QList<QDesignerCustomWidgetInterface*>
     return plugs_;
 }
 
-
-
-
 DesignerInterface::DesignerInterface(QObject *parent)
     : QObject(parent)
-{
-    m_initialized = false;
-}
+{}
 
 DesignerInterface::~DesignerInterface()
 {}
 
 void DesignerInterface::initialize(QDesignerFormEditorInterface * /* core */)
 {
-    if (m_initialized)
+    if (_initialized)
         return;
 
-    // Add extension registrations, etc. here
-
-    m_initialized = true;
+    _initialized = true;
 }
 
 bool DesignerInterface::isInitialized() const
 {
-    return m_initialized;
+    return _initialized;
 }
 
 
@@ -78,21 +67,41 @@ bool DesignerInterface::isInitialized() const
 {{ dim.name }}LabelDesignerInterface::~{{ dim.name }}LabelDesignerInterface()
 {}
 
+QString {{ dim.name }}LabelDesignerInterface::name() const
+{
+    return "siui::{{ dim.name }}Label";
+}
+
+QString {{ dim.name }}LabelDesignerInterface::includeFile() const
+{
+    return "siui/{{ dim.name }}Label.hpp";
+}
+
+QString {{ dim.name }}LabelDesignerInterface::group() const
+{
+    return "Physics Widgets";
+}
+
+QString {{ dim.name }}LabelDesignerInterface::toolTip() const
+{
+    return "A label to display {{ dim.name }} values";
+}
+
 QIcon {{ dim.name }}LabelDesignerInterface::icon() const
 {
-    return QIcon(":/{{ dim.name }}Spin.png");
+    return QIcon{};
 }
 
 QString {{ dim.name }}LabelDesignerInterface::whatsThis() const
 {
-    return QLatin1String("");
+    return QLatin1String("A label widget to display {{ dim.name }} values.");
 }
 
 QString {{ dim.name }}LabelDesignerInterface::domXml() const
 {
     return QLatin1String(
         "<widget "
-            "class=\"{{ dim.name }}Label\" "
+            "class=\"siui::{{ dim.name }}Label\" "
             "name=\"{{ dim.snake_name }}Label\">\n"
         "</widget>\n"
     );
@@ -100,7 +109,7 @@ QString {{ dim.name }}LabelDesignerInterface::domXml() const
 
 QWidget *{{ dim.name }}LabelDesignerInterface::createWidget(QWidget *parent)
 {
-    return new {{ dim.name }}Label(parent);
+    return new siui::{{ dim.name }}Label{ parent };
 }
 
 
@@ -113,21 +122,41 @@ QWidget *{{ dim.name }}LabelDesignerInterface::createWidget(QWidget *parent)
 {{ dim.name }}SpinBoxDesignerInterface::~{{ dim.name }}SpinBoxDesignerInterface()
 {}
 
+QString {{ dim.name }}SpinBoxDesignerInterface::name() const
+{
+    return "siui::{{ dim.name }}SpinBox";
+}
+
+QString {{ dim.name }}SpinBoxDesignerInterface::includeFile() const
+{
+    return "siui/{{ dim.name }}SpinBox.hpp";
+}
+
+QString {{ dim.name }}SpinBoxDesignerInterface::group() const
+{
+    return "Physics Widgets";
+}
+
+QString {{ dim.name }}SpinBoxDesignerInterface::toolTip() const
+{
+    return "A spin box to display and set {{ dim.name }} values";
+}
+
 QIcon {{ dim.name }}SpinBoxDesignerInterface::icon() const
 {
-    return QIcon(":/{{ dim.name }}Spin.png");
+    return QIcon{};
 }
 
 QString {{ dim.name }}SpinBoxDesignerInterface::whatsThis() const
 {
-    return QLatin1String("");
+    return QLatin1String("A spin box widget to display and set {{ dim.name }} values.");
 }
 
 QString {{ dim.name }}SpinBoxDesignerInterface::domXml() const
 {
     return QLatin1String(
         "<widget "
-            "class=\"{{ dim.name }}SpinBox\" "
+            "class=\"siui::{{ dim.name }}SpinBox\" "
             "name=\"{{ dim.snake_name }}SpinBox\">\n"
         "</widget>\n"
     );
@@ -135,6 +164,6 @@ QString {{ dim.name }}SpinBoxDesignerInterface::domXml() const
 
 QWidget *{{ dim.name }}SpinBoxDesignerInterface::createWidget(QWidget *parent)
 {
-    return new {{ dim.name }}SpinBox(parent);
+    return new siui::{{ dim.name }}SpinBox{ parent };
 }
 {% endfor %}

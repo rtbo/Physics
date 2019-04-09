@@ -16,4 +16,9 @@ add_library(PhysicsDesigner SHARED
 target_link_libraries(PhysicsDesigner Physics::Widgets Qt5::Designer)
 set_property(TARGET PhysicsDesigner PROPERTY AUTOMOC ON)
 
+install(TARGETS PhysicsDesigner
+    LIBRARY DESTINATION bin/plugins/designer
+    RUNTIME DESTINATION bin/plugins/designer
+)
+
 add_library(Physics::DesignerPlugin ALIAS PhysicsDesigner)

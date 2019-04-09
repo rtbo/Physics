@@ -23,20 +23,20 @@ namespace siui {
 {% for dim in dims %}
 
 {% for unit in dim.units %}
-inline QString {{ unit.name }}str()
+static QString {{ unit.name }}str()
 {
-    const auto view = si::{{ dim.name | lower }}::u16::{{ unit.symbol }};
+    const auto view = si::{{ dim.cppns }}::u16::{{ unit.symbol }};
     return QString::fromUtf16(
         view.data(), static_cast<int>(view.length())
     );
 }
 {% endfor %}
 
-inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}Label::{{ dim.name }}Unit unit)
+static QString {{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit unit)
 {
     switch (unit) {
 {% for unit in dim.units %}
-    case {{ dim.name }}Label::{{ unit.cppname }}:
+    case si::{{ dim.cppns }}::Unit::{{ unit.cppname }}:
         return {{ unit.name }}str();
 {% endfor %}
     }
@@ -45,29 +45,24 @@ inline QString {{ dim.snake_name }}UnitToString({{ dim.name }}Label::{{ dim.name
     return "";
 }
 
-inline {{ dim.name }}Label::{{ dim.name }}Unit {{ dim.snake_name }}UnitFromString(QString s)
+static si::{{ dim.cppns }}::Unit {{ dim.snake_name }}UnitFromString(QString s)
 {
 {% for unit in dim.units %}
-    if (s == {{ unit.name }}str()) return {{ dim.name }}Label::{{ unit.cppname }};
+    if (s == {{ unit.name }}str()) return si::{{ dim.cppns }}::Unit::{{ unit.cppname }};
 {% endfor %}
 
     assert(!"the passed string is wrong");
-    return {{ dim.name }}Label::{{ dim.default_unit.cppname }};
+    return si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }};
 }
 
-inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, {{ dim.name }}Label::{{ dim.name }}Unit unit)
+inline static si::{{ dim.name }} unit{{ dim.name }}(double value, si::{{ dim.cppns }}::Unit unit)
 {
-    return si::{{ dim.name | lower }}::value_to(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
-}
-
-inline si::{{ dim.name }} unit{{ dim.name }}(double value, {{ dim.name }}Label::{{ dim.name }}Unit unit)
-{
-    return si::{{ dim.name | lower }}::value_from(static_cast<si::{{ dim.name | lower }}::Unit>(unit), value);
+    return si::{{ dim.cppns }}::value_from(unit, value);
 }
 
 {{ dim.name }}Label::{{ dim.name }}Label(QWidget *parent) :
     QLabel{ parent },
-    unit_({{ dim.default_unit.cppname }}),
+    unit_(si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }}),
     precision_(2)
 {
     updateValue();
@@ -94,11 +89,11 @@ void {{ dim.name }}Label::set{{ dim.name }}(si::{{ dim.name }} val)
 
 void {{ dim.name }}Label::updateValue()
 {
-    const auto val = {{ dim.snake_name }}UnitValue(value_, unit_);
+    const auto val = si::{{ dim.cppns }}::value_to(unit_, value_);
     setText(QString("%1 %2").arg(QLocale().toString(val, 'f', precision_)).arg({{ dim.snake_name }}UnitToString(unit_)));
 }
 
-void {{ dim.name }}Label::setUnit({{ dim.name }}Unit unit)
+void {{ dim.name }}Label::setUnit(si::{{ dim.cppns }}::Unit unit)
 {
     if (unit_ == unit) return;
 
@@ -119,7 +114,7 @@ void {{ dim.name }}Label::handleCustomMenu(const QPoint &globalPos)
     QMenu menu;
 
 {% for unit in dim.units %}
-    menu.addAction({{ dim.snake_name }}UnitToString({{ unit.cppname }}));
+    menu.addAction({{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit::{{ unit.cppname }}));
 {% endfor %}
 
     QAction *a = menu.exec(globalPos);
