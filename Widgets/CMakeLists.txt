@@ -42,7 +42,7 @@ set_property(TARGET PhysicsWidgets PROPERTY PUBLIC_HEADER ${PHYSICS_WIDGETS_HPP}
 
 install(TARGETS PhysicsWidgets
     PUBLIC_HEADER DESTINATION include/siui
-    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
 )
 
 add_library(Physics::Widgets ALIAS PhysicsWidgets)

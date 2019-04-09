@@ -50,6 +50,7 @@ set_property(TARGET PhysicsCore PROPERTY PUBLIC_HEADER ${PHYSICS_CORE_HPP})
 
 install(TARGETS PhysicsCore
     PUBLIC_HEADER DESTINATION include/si
+    ARCHIVE DESTINATION lib
 )
 
 add_library(Physics::Core ALIAS PhysicsCore)
