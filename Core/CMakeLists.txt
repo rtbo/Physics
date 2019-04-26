@@ -1,9 +1,11 @@
 
 set(PHYSICS_CORE_SRC
     include/si/Constants.hpp
+    include/si/Conversion.hpp
     include/si/Dim.hpp
     include/si/Unit.hpp
     include/si/Value.hpp
+    include/si/Physics.hpp
 
     templates/AllDims.hpp.j2
     templates/Config.hpp.j2
