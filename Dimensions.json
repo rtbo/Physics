@@ -73,7 +73,38 @@
   {
     "name": "Area",
     "aliases": [],
-    "units": [],
+    "units": [
+      {
+        "name": "",
+        "symbol": "",
+        "unicode": "",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "centimeter2",
+        "symbol": "cm2",
+        "unicode": "cm\\u00B2",
+        "factor": "1/10000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "millimeter2",
+        "symbol": "mm2",
+        "unicode": "mm\\u00B2",
+        "factor": "1/1000000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
     "foreign_units": [],
     "M": 0,
     "L": 2,
@@ -1132,6 +1163,26 @@
         "symbol": "",
         "unicode": "",
         "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "centimeter3",
+        "symbol": "cm3",
+        "unicode": "cm\\u00B3",
+        "factor": "1/1000000",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "millimeter3",
+        "symbol": "mm3",
+        "unicode": "mm\\u00B3",
+        "factor": "1/1000000000",
         "offset": "",
         "pi_exp": "",
         "def_pref": "",
