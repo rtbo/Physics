@@ -34,7 +34,7 @@ public:
 
     constexpr operator Value<dim_type>() const
     {
-        return Value<dim_type>{ *this };
+        return Value<dim_type>{ C::conv(_val) };
     }
 
     constexpr double val() const { return _val; }
