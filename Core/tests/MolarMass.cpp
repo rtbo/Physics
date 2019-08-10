@@ -7,21 +7,17 @@
     License.txt file at project root.
 */
 
+#include "catch.hpp"
 
 #include <si/MolarMass.hpp>
-
-#include "catch.hpp"
 
 using namespace si::literals;
 
 TEST_CASE("Molar Mass", "[molarMass][quantity][mass]")
 {
-
-    SECTION("conversion") {
-
+    SECTION("conversion")
+    {
         // molar mass of carbon
         REQUIRE(0.012_kg_p_mol == 12_g_p_mol);
-
     }
-
 }

@@ -1,10 +1,11 @@
 
 #include "widget.h"
+
 #include <QtWidgets>
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    QApplication app { argc, argv };
+    QApplication app{ argc, argv };
     Widget widget;
 
     widget.setWindowTitle("Physics Widget App");

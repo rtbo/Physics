@@ -7,25 +7,28 @@
     License.txt file at project root.
 */
 
-#include <si/Temperature.hpp>
-
 #include "catch.hpp"
+
+#include <si/Temperature.hpp>
 
 using namespace si::literals;
 
-TEST_CASE("Temperature", "[temperature]") {
-
-    SECTION("default construct") {
+TEST_CASE("Temperature", "[temperature]")
+{
+    SECTION("default construct")
+    {
         REQUIRE(si::Temperature{} == 0_K);
         REQUIRE(si::Temperature{} == si::kelvin_t{ 0 });
     }
 
-    SECTION("conversion") {
+    SECTION("conversion")
+    {
         REQUIRE(0_K == -273.15_degC);
         REQUIRE(20_degC == 293.15_K);
     }
 
-    SECTION("farenheit") {
+    SECTION("farenheit")
+    {
         REQUIRE(0_degF > -18_degC);
         REQUIRE(0_degF < -17.5_degC);
 
