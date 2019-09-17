@@ -23,8 +23,6 @@ namespace si {
 
 namespace consts {
 
-    constexpr double pi = 3.14159265358979323846;
-
 #ifdef HAVE_ENTROPY_HPP
     constexpr Entropy boltzmann()
     {
@@ -64,7 +62,8 @@ namespace consts {
 
 #    ifdef HAVE_ENTROPY_HPP
     constexpr MolarEntropy gas() { return avogadro() * boltzmann(); }
-}
+
+} // namespace consts
 #    endif
 #endif
 } // namespace si

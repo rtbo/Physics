@@ -7,6 +7,7 @@ add_executable(TestPhysicsCore
     Conversion.cpp
     MolarMass.cpp
     Temperature.cpp
+    Trigo.cpp
     Units.cpp
 )
 target_link_libraries(TestPhysicsCore PRIVATE Physics::Core)
