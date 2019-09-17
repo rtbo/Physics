@@ -21,6 +21,21 @@ inline Coefficient tan(const PlaneAngle &angle)
     return coef_t{ std::tan(radian(angle)) };
 }
 
+inline PlaneAngle asin(const Coefficient &val)
+{
+    return radian_t{ std::asin(coef(val)) };
+}
+
+inline PlaneAngle acos(const Coefficient &val)
+{
+    return radian_t{ std::acos(coef(val)) };
+}
+
+inline PlaneAngle atan(const Coefficient &val)
+{
+    return radian_t{ std::atan(coef(val)) };
+}
+
 namespace consts {
     constexpr radian_t pi = radian_t{ 3.14159265358979323846 };
 } // namespace consts
