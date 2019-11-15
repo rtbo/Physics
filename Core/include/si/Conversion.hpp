@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Dim.hpp"
+
 #include <cmath>
 #include <ratio>
 
