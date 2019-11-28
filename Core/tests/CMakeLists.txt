@@ -6,6 +6,7 @@ add_executable(TestPhysicsCore
 
     Conversion.cpp
     MolarMass.cpp
+    Output.cpp
     Temperature.cpp
     Trigo.cpp
     Units.cpp
