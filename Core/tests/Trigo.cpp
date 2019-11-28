@@ -25,6 +25,7 @@ TEST_CASE("Trigo", "[coef][angle][trigo]")
         REQUIRE(Approx(static_cast<double>(si::cos(1_pi))) == -1.0);
         REQUIRE(Approx(static_cast<double>(si::tan(0_pi))).margin(0.001) ==
                 0_coef);
-        REQUIRE(Approx(static_cast<double>(si::tan(si::consts::pi))) == 0_coef);
+        REQUIRE(Approx(static_cast<double>(si::tan(si::consts::pi)))
+                    .margin(0.001) == 0_coef);
     }
 }
