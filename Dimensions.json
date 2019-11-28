@@ -1225,7 +1225,7 @@
       {
         "name": "liter_per_second",
         "symbol": "L_p_s",
-        "unicode": "L.s\\u00B9",
+        "unicode": "L.s\\u207B\\u00B9",
         "factor": "1/1000",
         "offset": "",
         "pi_exp": "",
@@ -1235,7 +1235,7 @@
       {
         "name": "liter_per_minute",
         "symbol": "L_p_min",
-        "unicode": "L.min\\u00B9",
+        "unicode": "L.min\\u207B\\u00B9",
         "factor": "1/60000",
         "offset": "",
         "pi_exp": "",
@@ -1245,7 +1245,7 @@
       {
         "name": "liter_per_hour",
         "symbol": "L_p_h",
-        "unicode": "L.h\\u00B9",
+        "unicode": "L.h\\u207B\\u00B9",
         "factor": "1/3600000",
         "offset": "",
         "pi_exp": "",
