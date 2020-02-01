@@ -36,20 +36,20 @@ namespace si {
 #ifdef HAVE_LENGTH_HPP
 constexpr Length circle(const Length &radius)
 {
-    return 2 * consts::pi * radius;
+    return 2 * detail::pi * radius;
 }
 
 #    ifdef HAVE_AREA_HPP
 constexpr Area disk(const Length &radius)
 {
-    return consts::pi * radius * radius;
+    return detail::pi * radius * radius;
 }
 #    endif
 
 #    ifdef HAVE_VOLUME_HPP
 constexpr Volume sphere(const Length &radius)
 {
-    return radius * radius * radius * consts::pi * 4.0 / 3.0;
+    return radius * radius * radius * detail::pi * 4.0 / 3.0;
 }
 
 constexpr Volume cube(const Length &side)
