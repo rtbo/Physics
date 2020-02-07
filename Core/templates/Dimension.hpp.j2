@@ -188,12 +188,55 @@ namespace si {
                 return string_view{};
             }
         }
+
+        namespace ws {
+
+            using string_view = std::wstring_view;
+
+{% for unit in dim.units %}
+            constexpr string_view {{ unit.symbol }} = string_view { L"{{ unit.unicode }}", {{ unit.u16_len }} };
+{% endfor %}
+
+            constexpr std::array<string_view, {{ dim.units | length }}> all_units = {
+{% for unit in dim.units %}
+                {{ unit.symbol }},
+{% endfor %}
+            };
+
+            constexpr const wchar_t *str(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.cppname }}:
+                    return {{ unit.symbol }}.data();
+{% endfor %}
+                }
+                return nullptr;
+            }
+
+            constexpr string_view str_view(const Unit unit)
+            {
+                switch (unit) {
+{% for unit in dim.units %}
+                case Unit::{{ unit.cppname }}:
+                    return {{ unit.symbol }};
+{% endfor %}
+                }
+                return string_view{};
+            }
+        }
     }
 
 {% for unit in dim.unit_set %}
     inline std::ostream &operator<<(std::ostream& out, const {{ unit.name }}_t &val)
     {
-        out << val.val() << {{ unit.unicode_cpp }};
+        out << val.val() << u8{{ unit.unicode_cpp }};
+        return out;
+    }
+
+    inline std::wostream &operator<<(std::wostream& out, const {{ unit.name }}_t &val)
+    {
+        out << val.val() << L{{ unit.unicode_cpp }};
         return out;
     }
 
@@ -201,6 +244,12 @@ namespace si {
     inline std::ostream &operator<<(std::ostream& out, const {{ dim.name }} &val)
     {
         out << "{{ dim.name }}{ " << value_repr(val) << " }";
+        return out;
+    }
+
+    inline std::wostream &operator<<(std::wostream& out, const {{ dim.name }} &val)
+    {
+        out << L"{{ dim.name }}{ " << value_repr(val) << L" }";
         return out;
     }
 }

@@ -250,7 +250,7 @@ class Unit:
 
     @property
     def unicode_cpp(self):
-        return 'u8"{}{}"'.format(' ' if len(self.unicode)>0 else '', self.unicode)
+        return '"{}{}"'.format(' ' if len(self.unicode)>0 else '', self.unicode)
 
     @property
     def u8_len(self):
