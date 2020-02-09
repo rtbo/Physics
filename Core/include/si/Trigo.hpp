@@ -47,7 +47,7 @@ namespace literals {
     }
     constexpr radian_t operator"" _pi(const unsigned long long val)
     {
-        return val * ::si::consts::pi;
+        return static_cast<double>(val) * ::si::consts::pi;
     }
 
     constexpr PlaneAngle operator"" _pi_val(const long double val)
@@ -56,7 +56,7 @@ namespace literals {
     }
     constexpr PlaneAngle operator"" _pi_val(const unsigned long long val)
     {
-        return PlaneAngle{ val * ::si::consts::pi };
+        return PlaneAngle{ static_cast<double>(val) * ::si::consts::pi };
     }
 } // namespace literals
 
