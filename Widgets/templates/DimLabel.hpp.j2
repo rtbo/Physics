@@ -20,7 +20,9 @@ class {{ dim.name }}Label : public QLabel
     Q_OBJECT
 
     Q_PROPERTY(DesignerUnit unit READ designerUnit WRITE setDesignerUnit)
-    Q_PROPERTY(int precision READ precision WRITE setPrecision)
+    Q_PROPERTY(double {{ dim.snake_name }} READ designerValue WRITE setDesignerValue)
+    Q_PROPERTY(int decimals READ decimals WRITE setDecimals)
+    Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
 
 public:
 
@@ -35,41 +37,33 @@ public:
 
     virtual ~{{ dim.name }}Label();
 
-    si::{{ dim.name }} {{ dim.snake_name }}() const;
+    si::{{ dim.cppns }}::Unit unit() const { return _unit; }
+    si::{{ dim.name }} {{ dim.snake_name }}() const { return _{{ dim.snake_name }}; }
+    int decimals() const { return _decimals; }
+    QString prefix() const { return _prefix; }
 
-    si::{{ dim.cppns }}::Unit unit() const {
-        return unit_;
-    }
 
-    void setUnit(si::{{ dim.cppns }}::Unit unit);
+    DesignerUnit designerUnit() const { return static_cast<DesignerUnit>(unit()); }
+    void setDesignerUnit(const DesignerUnit unit);
+    double designerValue() const;
+    void setDesignerValue(const double value);
 
-    DesignerUnit designerUnit() const {
-        return static_cast<DesignerUnit>(unit());
-    }
-
-    void setDesignerUnit(const DesignerUnit unit) {
-        setUnit(static_cast<si::{{ dim.cppns }}::Unit>(unit));
-    }
-
-    int precision() const {
-        return precision_;
-    }
-
-    void setPrecision(int precision);
 
 public slots:
 
-    void set{{ dim.name }}(si::{{ dim.name }} value);
+    void setUnit(const si::{{ dim.cppns }}::Unit unit);
+    void set{{ dim.name }}(const si::{{ dim.name }} {{ dim.snake_name }});
+    void setDecimals(const int decimals);
+    void setPrefix(const QString &prefix);
 
 signals:
 
-    void {{ dim.snake_name }}Changed(si::{{ dim.name }} value);
+    void {{ dim.snake_name }}Changed(const si::{{ dim.name }} value);
 
 private slots:
 
+    void updateText();
     void handleCustomMenu(const QPoint& globalPos);
-
-    void updateValue();
 
 protected:
 
@@ -77,9 +71,10 @@ protected:
 
 private:
 
-    si::{{ dim.name }} value_;
-    si::{{ dim.cppns }}::Unit unit_;
-    double precision_;
+    si::{{ dim.name }} _{{ dim.snake_name }};
+    si::{{ dim.cppns }}::Unit _unit;
+    int _decimals = 2;
+    QString _prefix;
 };
 
 } // namespace siui

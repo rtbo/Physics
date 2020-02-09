@@ -11,159 +11,198 @@
 #include "siui/{{ dim.name }}SpinBox.hpp"
 {% endfor %}
 
+#include <QContextMenuEvent>
+#include <QLineEdit>
+#include <QLocale>
 #include <QMenu>
 #include <QMetaType>
-#include <QContextMenuEvent>
 
 #include <cassert>
+#include <iostream>
 
 namespace siui {
 
 {% for dim in dims %}
-
 static int _{{ dim.snake_name }} = qRegisterMetaType<si::{{ dim.name }}>("si::{{ dim.name }}");
-
-{% for unit in dim.units %}
-inline QString {{ unit.name }}str()
-{
-    const auto view = si::{{ dim.cppns }}::u16::{{ unit.symbol }};
-    return QString::fromUtf16(
-        view.data(), static_cast<int>(view.length())
-    );
-}
 {% endfor %}
 
-inline QString {{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit unit)
-{
-    switch (unit) {
-{% for unit in dim.units %}
-    case si::{{ dim.cppns }}::Unit::{{ unit.cppname }}:
-        return {{ unit.name }}str();
-{% endfor %}
-    }
-
-    assert(!"the passed unit is wrong");
-    return "";
-}
-
-inline si::{{ dim.cppns }}::Unit {{ dim.snake_name }}UnitFromString(QString s)
-{
-{% for unit in dim.units %}
-    if (s == {{ unit.name }}str()) return si::{{ dim.cppns }}::Unit::{{ unit.cppname }};
-{% endfor %}
-
-    assert(!"the passed string is wrong");
-    return si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }};
-}
-
-inline double {{ dim.snake_name }}UnitValue(si::{{ dim.name }} value, si::{{ dim.cppns }}::Unit unit)
-{
-    return si::{{ dim.cppns }}::value_to(static_cast<si::{{ dim.cppns }}::Unit>(unit), value);
-}
-
-inline si::{{ dim.name }} unit{{ dim.name }}(double value, si::{{ dim.cppns }}::Unit unit)
-{
-    return si::{{ dim.cppns }}::value_from(static_cast<si::{{ dim.cppns }}::Unit>(unit), value);
-}
+{% for dim in dims %}
 
 {{ dim.name }}SpinBox::{{ dim.name }}SpinBox(QWidget *parent) :
-    QDoubleSpinBox(parent),
-    unit_(si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }}),
-    changeUnitFlag_(false)
+    QAbstractSpinBox{ parent },
+    _unit{ si::{{ dim.cppns }}::Unit::{{ dim.default_unit.cppname }} },
+    _{{ dim.snake_name }}{ si::{{ dim.default_unit.name }}_t{ 0.0 } },
+    _step{ si::{{ dim.default_unit.name }}_t{ 1.0 } },
+    _minimum{ si::{{ dim.default_unit.name }}_t{ 0.0 } },
+    _maximum{ si::{{ dim.default_unit.name }}_t{ 100.0 } }
 {
-    updateSuffix();
-
-    QObject::connect(this, SIGNAL(valueChanged(double)),
-                     this, SLOT(handleValueChange(double)));
-
     installEventFilter(this);
+    updateText();
+    // QObject::connect(lineEdit(), &QLineEdit::clicked, this, &{{ dim.name }}SpinBox::prepareEdition);
+    QObject::connect(lineEdit(), &QLineEdit::editingFinished, this, &{{ dim.name }}SpinBox::setValueFromText);
 }
 
 {{ dim.name }}SpinBox::~{{ dim.name }}SpinBox()
 {}
 
-si::{{ dim.name }} {{ dim.name }}SpinBox::{{ dim.snake_name }}() const
+void {{ dim.name }}SpinBox::stepBy(int steps)
 {
-    return unit{{ dim.name }}(value(), unit());
+    QAbstractSpinBox::stepBy(steps);
+    if (wrapping()) {
+        if (_{{ dim.snake_name }} == _minimum && steps < 0) {
+            set{{ dim.name }}(_maximum);
+            return;
+        }
+        if (_{{ dim.snake_name }} == _maximum && steps > 0) {
+            set{{ dim.name }}(_minimum);
+            return;
+        }
+    }
+{% if dim.name == 'Coefficient' %}
+    set{{ dim.name }}(_{{ dim.snake_name }} + si::Coefficient{ steps * static_cast<double>(_step) });
+{% else %}
+    set{{ dim.name }}(_{{ dim.snake_name }} + steps * _step);
+{% endif %}
 }
 
-void {{ dim.name }}SpinBox::set{{ dim.name }}(si::{{ dim.name }} val)
+double {{ dim.name }}SpinBox::designerValue() const
 {
-    if (val != {{ dim.snake_name }}() && val >= mini() && val <= maxi()) {
-        setValue({{ dim.snake_name }}UnitValue(val, unit()));
+    return si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
+}
+
+double {{ dim.name }}SpinBox::designerStep() const
+{
+    return si::{{ dim.cppns }}::value_to(_unit, _step);
+}
+
+double {{ dim.name }}SpinBox::designerMinimum() const
+{
+    return si::{{ dim.cppns }}::value_to(_unit, _minimum);
+}
+
+double {{ dim.name }}SpinBox::designerMaximum() const
+{
+    return si::{{ dim.cppns }}::value_to(_unit, _maximum);
+}
+
+void {{ dim.name }}SpinBox::setDesignerUnit(const DesignerUnit unit)
+{
+    const auto u = static_cast<si::{{ dim.cppns }}::Unit>(unit);
+    const auto v = designerValue();
+    const auto s = designerStep();
+    const auto mi = designerMinimum();
+    const auto ma = designerMaximum();
+    _unit = u;
+    _{{ dim.snake_name }} = si::{{ dim.cppns }}::value_from(_unit, v);
+    _step = si::{{ dim.cppns }}::value_from(_unit, s);
+    _minimum = si::{{ dim.cppns }}::value_from(_unit, mi);
+    _maximum = si::{{ dim.cppns }}::value_from(_unit, ma);
+    updateText();
+}
+
+void {{ dim.name }}SpinBox::setDesignerValue(const double val)
+{
+    set{{ dim.name }}(si::{{ dim.cppns }}::value_from(_unit, val));
+}
+
+void {{ dim.name }}SpinBox::setDesignerStep(const double val)
+{
+    setStep(si::{{ dim.cppns }}::value_from(_unit, val));
+}
+
+void {{ dim.name }}SpinBox::setDesignerMinimum(const double val)
+{
+    setMinimum(si::{{ dim.cppns }}::value_from(_unit, val));
+}
+
+void {{ dim.name }}SpinBox::setDesignerMaximum(const double val)
+{
+    setMaximum(si::{{ dim.cppns }}::value_from(_unit, val));
+}
+
+void {{ dim.name }}SpinBox::setUnit(const si::{{ dim.cppns }}::Unit unit)
+{
+    _unit = unit;
+    updateText();
+}
+
+void {{ dim.name }}SpinBox::set{{ dim.name }}(const si::{{ dim.name }} {{ dim.snake_name }})
+{
+    si::{{ dim.name }} v = {{ dim.snake_name }};
+    if (v > _maximum)
+        v = _maximum;
+    else if (v < _minimum)
+        v = _minimum;
+    if (_{{ dim.snake_name }} == v)
+        return;
+    _{{ dim.snake_name }} = v;
+    updateText();
+    emitSignal();
+}
+
+void {{ dim.name }}SpinBox::setStep(const si::{{ dim.name }} step)
+{
+    _step = step;
+}
+
+void {{ dim.name }}SpinBox::setMinimum(const si::{{ dim.name }} minimum)
+{
+    if (minimum == _minimum)
+        return;
+    _minimum = (minimum >= _maximum) ? _maximum : minimum;
+    if (_{{ dim.snake_name }} < _minimum) {
+        set{{ dim.name }}(_minimum);
     }
 }
 
-si::{{ dim.name }} {{ dim.name }}SpinBox::step() const
+void {{ dim.name }}SpinBox::setMaximum(const si::{{ dim.name }} maximum)
 {
-    return unit{{ dim.name }}(singleStep(), unit());
+    if (maximum == _maximum)
+        return;
+    _maximum = (maximum <= _minimum) ? _minimum : maximum;
+    if (_{{ dim.snake_name }} > _maximum) {
+        set{{ dim.name }}(_maximum);
+    }
 }
 
-void {{ dim.name }}SpinBox::setStep(si::{{ dim.name }} val)
+void {{ dim.name }}SpinBox::setPrefix(const QString &prefix)
 {
-    setSingleStep({{ dim.snake_name }}UnitValue(val, unit()));
+    _prefix = prefix;
+    updateText();
 }
 
-si::{{ dim.name }} {{ dim.name }}SpinBox::mini() const
+void {{ dim.name }}SpinBox::setDecimals(const int decimals)
 {
-    return unit{{ dim.name }}(minimum(), unit());
+    _decimals = decimals;
+    updateText();
 }
 
-void {{ dim.name }}SpinBox::setMini(si::{{ dim.name }} val)
+// void {{ dim.name }}SpinBox::prepareEdition()
+// {
+//     QLocale loc;
+//     const auto v = si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
+//     const auto vs = loc.toString(v, 'g', _decimals);
+//     auto *le = lineEdit();
+//     le->setText(vs);
+//     le->selectAll();
+// }
+
+void {{ dim.name }}SpinBox::setValueFromText()
 {
-    setMinimum({{ dim.snake_name }}UnitValue(val, unit()));
-}
-
-si::{{ dim.name }} {{ dim.name }}SpinBox::maxi() const
-{
-    return unit{{ dim.name }}(maximum(), unit());
-}
-
-void {{ dim.name }}SpinBox::setMaxi(si::{{ dim.name }} val)
-{
-    setMaximum({{ dim.snake_name }}UnitValue(val, unit()));
-}
-
-void {{ dim.name }}SpinBox::updateSuffix()
-{
-    setSuffix(QString(" %1").arg({{ dim.snake_name }}UnitToString(unit_)));
-}
-
-void {{ dim.name }}SpinBox::handleValueChange(double value)
-{
-    if (changeUnitFlag_) return;
-    emit {{ dim.snake_name }}Changed(unit{{ dim.name }}(value, unit()));
-}
-
-void {{ dim.name }}SpinBox::setUnit(si::{{ dim.cppns }}::Unit unit, bool trackBounds)
-{
-    if (unit != unit_) {
-        if (trackBounds) {
-            si::{{ dim.name }} t = {{ dim.snake_name }}();
-            si::{{ dim.name }} stp = step();
-            si::{{ dim.name }} min = mini();
-            si::{{ dim.name }} max = maxi();
-
-            changeUnitFlag_ = true;
-
-            unit_ = unit;
-            updateSuffix();
-
-            setMaxi(max);
-            setMini(min);
-            setStep(stp);
-            set{{ dim.name }}(t);
-
-            changeUnitFlag_ = false;
-        }
-        else {
-            changeUnitFlag_ = true;
-
-            unit_ = unit;
-            updateSuffix();
-
-            changeUnitFlag_ = false;
-        }
+    QString t = lineEdit()->text();
+    if (t.startsWith(_prefix)) {
+        t = t.right(t.size() - _prefix.size());
+    }
+    const auto strView = si::{{ dim.cppns }}::u16::str_view(_unit);
+    const auto unit = QString::fromUtf16(strView.data(), static_cast<int>(strView.size()));
+    if (t.endsWith(unit)) {
+        t = t.left(t.size() - unit.size());
+    }
+    t = t.trimmed();
+    bool ok = false;
+    const auto val = t.toDouble(&ok);
+    if (ok) {
+        set{{ dim.name }}(si::{{ dim.cppns }}::value_from(_unit, val));
     }
 }
 
@@ -171,14 +210,20 @@ void {{ dim.name }}SpinBox::handleCustomMenu(const QPoint &globalPos)
 {
     QMenu menu;
 
-{% for unit in dim.units %}
-    menu.addAction({{ dim.snake_name }}UnitToString(si::{{ dim.cppns }}::Unit::{{ unit.cppname }}));
-{% endfor %}
+    for (const auto u : si::{{ dim.cppns }}::u16::all_units) {
+        const QString s = QString::fromUtf16(u.data(), static_cast<int>(u.size()));
+        menu.addAction(s);
+    }
 
     QAction *a = menu.exec(globalPos);
-
     if (a) {
-        setUnit({{ dim.snake_name }}UnitFromString(a->text()), true);
+        for (const auto u : si::{{ dim.cppns }}::all_units) {
+            const auto strView = si::{{ dim.cppns }}::u16::str_view(u);
+            if (a->text() == QString::fromUtf16(strView.data(), static_cast<int>(strView.size()))) {
+                setUnit(u);
+                return;
+            }
+        }
     }
 }
 
@@ -195,8 +240,38 @@ bool {{ dim.name }}SpinBox::eventFilter(QObject *obj, QEvent *event)
         return false;
     }
     else {
-        return QDoubleSpinBox::eventFilter(obj, event);
+        return QAbstractSpinBox::eventFilter(obj, event);
     }
+}
+
+QAbstractSpinBox::StepEnabled {{ dim.name }}SpinBox::stepEnabled() const
+{
+    if (wrapping())
+        return QAbstractSpinBox::StepUpEnabled | QAbstractSpinBox::StepDownEnabled;
+
+    QAbstractSpinBox::StepEnabled res = QAbstractSpinBox::StepNone;
+    if (_{{ dim.snake_name }} > _minimum) {
+        res |= QAbstractSpinBox::StepDownEnabled;
+    }
+    if (_{{ dim.snake_name }} < _maximum) {
+        res |= QAbstractSpinBox::StepUpEnabled;
+    }
+    return res;
+}
+
+void {{ dim.name }}SpinBox::updateText()
+{
+    QLocale loc;
+    const auto v = si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
+    const auto vs = loc.toString(v, 'g', _decimals);
+    const auto strView = si::{{ dim.cppns }}::u16::str_view(_unit);
+    const auto us = QString::fromUtf16(strView.data(), static_cast<int>(strView.size()));
+    lineEdit()->setText(QString{ "%1%2 %3" }.arg(_prefix).arg(vs).arg(us));
+}
+
+void {{ dim.name }}SpinBox::emitSignal()
+{
+    emit {{ dim.snake_name }}Changed(_{{ dim.snake_name }});
 }
 
 {% endfor %}

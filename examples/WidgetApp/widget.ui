@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>46</height>
+    <width>314</width>
+    <height>49</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,44 +16,64 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="siui::VolumeSpinBox" name="volumeSpinBox">
-     <property name="value">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="volume" stdset="0">
       <double>12.000000000000000</double>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>at</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
    <item>
     <widget class="siui::PressureSpinBox" name="pressureSpinBox">
-     <property name="maximum">
-      <double>100.000000000000000</double>
-     </property>
-     <property name="value">
-      <double>4.000000000000000</double>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
      <property name="unit" stdset="0">
-      <enum>siui::PressureSpinBox::bar</enum>
+      <enum>siui::PressureSpinBox::hectopascal</enum>
+     </property>
+     <property name="pressure" stdset="0">
+      <double>14.000000000000000</double>
+     </property>
+     <property name="prefix">
+      <string/>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>represent</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="siui::EnergyLabel" name="energyLabel">
-     <property name="unit" stdset="0">
-      <enum>siui::EnergyLabel::kilojoule</enum>
-     </property>
-    </widget>
+    <widget class="siui::EnergyLabel" name="energyLabel"/>
    </item>
   </layout>
  </widget>
@@ -65,12 +85,12 @@
   </customwidget>
   <customwidget>
    <class>siui::PressureSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
+   <extends>QWidget</extends>
    <header>siui/PressureSpinBox.hpp</header>
   </customwidget>
   <customwidget>
    <class>siui::VolumeSpinBox</class>
-   <extends>QDoubleSpinBox</extends>
+   <extends>QWidget</extends>
    <header>siui/VolumeSpinBox.hpp</header>
   </customwidget>
  </customwidgets>
