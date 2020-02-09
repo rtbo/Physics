@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Remi Thebault
+    Copyright (C) 2013-2020 Remi Thebault
     All rights reserved.
 
     This program and its source code are distributed under the
@@ -24,7 +24,7 @@ public:
     DesignerInterfaceCollection(QObject *parent=nullptr);
     virtual ~DesignerInterfaceCollection();
 
-    virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
+    virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const override;
 
 private:
 
@@ -36,7 +36,6 @@ class DesignerInterface :
         public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
     DesignerInterface(QObject *parent = 0);
@@ -45,9 +44,9 @@ public:
     virtual bool isContainer() const override {
         return false;
     }
-    virtual bool isInitialized() const;
+    virtual bool isInitialized() const override;
 
-    virtual void initialize(QDesignerFormEditorInterface *core);
+    virtual void initialize(QDesignerFormEditorInterface *core) override;
 
 private:
     bool _initialized=false;

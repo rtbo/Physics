@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Remi Thebault
+    Copyright (C) 2013-2020 Remi Thebault
     All rights reserved.
 
     This program and its source code are distributed under the
@@ -11,15 +11,21 @@
 
 #include <si/{{ dim.name }}.hpp>
 
-#include <QDoubleSpinBox>
+#include <QAbstractSpinBox>
 
 namespace siui {
 
-class {{ dim.name }}SpinBox : public QDoubleSpinBox
+class {{ dim.name }}SpinBox : public QAbstractSpinBox
 {
     Q_OBJECT
 
     Q_PROPERTY(DesignerUnit unit READ designerUnit WRITE setDesignerUnit)
+    Q_PROPERTY(double {{ dim.snake_name }} READ designerValue WRITE setDesignerValue)
+    Q_PROPERTY(double step READ designerStep WRITE setDesignerStep)
+    Q_PROPERTY(double minimum READ designerMinimum WRITE setDesignerMinimum)
+    Q_PROPERTY(double maximum READ designerMaximum WRITE setDesignerMaximum)
+    Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
+    Q_PROPERTY(int decimals READ decimals WRITE setDecimals)
 
 public:
 
@@ -34,60 +40,67 @@ public:
 
     virtual ~{{ dim.name }}SpinBox();
 
-    si::{{ dim.name }} {{ dim.snake_name }}() const;
+    si::{{ dim.cppns }}::Unit unit() const { return _unit; }
+    si::{{ dim.name }} {{ dim.snake_name }}() const { return _{{ dim.snake_name }}; }
+    si::{{ dim.name }} step() const { return _step; }
+    si::{{ dim.name }} minimum() const { return _minimum; }
+    si::{{ dim.name }} maximum() const { return _maximum; }
+    QString prefix() const { return _prefix; }
+    int decimals() const { return _decimals; }
 
-    si::{{ dim.cppns }}::Unit unit() const {
-        return unit_;
-    }
-
-    // FIXME: actual values of spinbox depends on order of property setting
-    // Designer sets mini and maxi before the unit,
-    // setting the unit affects the spinbox mini maxi
-    // adding trackBounds with false default to fix it.
-    // is this the correct interface?
-    void setUnit(si::{{ dim.cppns }}::Unit unit, bool trackBounds=false);
+    virtual void stepBy(int steps) override;
 
     DesignerUnit designerUnit() const {
         return static_cast<DesignerUnit>(unit());
     }
-
-    void setDesignerUnit(const DesignerUnit unit) {
-        setUnit(static_cast<si::{{ dim.cppns }}::Unit>(unit));
-    }
-
-    si::{{ dim.name }} step() const;
-    void setStep(si::{{ dim.name }} val);
-
-    si::{{ dim.name }} mini() const;
-    void setMini(si::{{ dim.name }} val);
-
-    si::{{ dim.name }} maxi() const;
-    void setMaxi(si::{{ dim.name }} val);
+    double designerValue() const;
+    double designerStep() const;
+    double designerMinimum() const;
+    double designerMaximum() const;
+    void setDesignerUnit(const DesignerUnit unit);
+    void setDesignerValue(const double val);
+    void setDesignerStep(const double val);
+    void setDesignerMinimum(const double val);
+    void setDesignerMaximum(const double val);
 
 public slots:
 
-    void set{{ dim.name }}(si::{{ dim.name }} {{ dim.snake_name }});
+    void setUnit(const si::{{ dim.cppns }}::Unit unit);
+    void set{{ dim.name }}(const si::{{ dim.name }} {{ dim.snake_name }});
+    void setStep(const si::{{ dim.name }} step);
+    void setMinimum(const si::{{ dim.name }} minimum);
+    void setMaximum(const si::{{ dim.name }} maximum);
+    void setPrefix(const QString &prefix);
+    void setDecimals(const int decimals);
+
+private slots:
+
+    // void prepareEdition();
+    void setValueFromText();
+    void handleCustomMenu(const QPoint& globalPos);
 
 signals:
 
     void {{ dim.snake_name }}Changed(si::{{ dim.name }} {{ dim.snake_name }});
 
-private slots:
-
-    void handleValueChange(double value);
-    void handleCustomMenu(const QPoint& globalPos);
-
-    void updateSuffix();
-
 protected:
 
     virtual bool eventFilter(QObject *obj, QEvent *ev) override;
+    virtual StepEnabled stepEnabled() const override;
 
 private:
 
-    si::{{ dim.cppns }}::Unit unit_;
+    void updateText();
+    void emitSignal();
 
-    bool changeUnitFlag_;
+    si::{{ dim.cppns }}::Unit _unit;
+    si::{{ dim.name }} _{{ dim.snake_name }};
+    si::{{ dim.name }} _step;
+    si::{{ dim.name }} _minimum;
+    si::{{ dim.name }} _maximum;
+    QString _prefix;
+    int _decimals = 2;
+
 };
 
 } // namespace siui
