@@ -20,7 +20,7 @@ function(physics_dims_codegen Template Output)
         OUTPUT "${Output}"
         COMMAND "${Python_EXECUTABLE}" "${Script}" --input "${Template}" --output "${Output}"
                 --dims "${PHYSICS_DIMS}"
-        DEPENDS "${Template}" "${Script}" "${Data}"
+        DEPENDS "${Template}" "${Script}" "${Data}" "${ARGV2}"
     )
 endfunction()
 
@@ -42,7 +42,7 @@ function(physics_dim_codegen Template OutputPattern Result)
             OUTPUT "${Output}"
             COMMAND "${Python_EXECUTABLE}" "${Script}" --dim ${Dim} --input "${Template}" --output "${Output}"
             WORKING_DIRECTORY "${Physics_SOURCE_DIR}"
-            DEPENDS "${Template}" "${Script}" "${Data}"
+            DEPENDS "${Template}" "${Script}" "${Data}" "${ARGV3}"
         )
         list(APPEND OutputList "${Output}")
     endforeach()
