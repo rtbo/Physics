@@ -177,16 +177,6 @@ void {{ dim.name }}SpinBox::setDecimals(const int decimals)
     updateText();
 }
 
-// void {{ dim.name }}SpinBox::prepareEdition()
-// {
-//     QLocale loc;
-//     const auto v = si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
-//     const auto vs = loc.toString(v, 'g', _decimals);
-//     auto *le = lineEdit();
-//     le->setText(vs);
-//     le->selectAll();
-// }
-
 void {{ dim.name }}SpinBox::setValueFromText()
 {
     QString t = lineEdit()->text();
@@ -263,7 +253,7 @@ void {{ dim.name }}SpinBox::updateText()
 {
     QLocale loc;
     const auto v = si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
-    const auto vs = loc.toString(v, 'g', _decimals);
+    const auto vs = loc.toString(v, 'f', _decimals);
     const auto strView = si::{{ dim.cppns }}::u16::str_view(_unit);
     const auto us = QString::fromUtf16(strView.data(), static_cast<int>(strView.size()));
     lineEdit()->setText(QString{ "%1%2 %3" }.arg(_prefix).arg(vs).arg(us));
