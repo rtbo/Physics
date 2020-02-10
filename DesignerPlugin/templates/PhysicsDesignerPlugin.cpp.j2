@@ -10,6 +10,7 @@
 #include "QtPlugin"
 
 #include "PhysicsDesignerPlugin.hpp"
+#include "Config.hpp"
 
 {% for dim in dims %}
 #include <siui/{{ dim.name }}Label.hpp>
@@ -89,7 +90,11 @@ QString {{ dim.name }}LabelDesignerInterface::toolTip() const
 
 QIcon {{ dim.name }}LabelDesignerInterface::icon() const
 {
+#ifdef HAVE_ICONS_QRC
+    return QIcon{":/icons/{{ dim.name }}Label.png"};
+#else
     return QIcon{};
+#endif
 }
 
 QString {{ dim.name }}LabelDesignerInterface::whatsThis() const
@@ -144,7 +149,11 @@ QString {{ dim.name }}SpinBoxDesignerInterface::toolTip() const
 
 QIcon {{ dim.name }}SpinBoxDesignerInterface::icon() const
 {
+#ifdef HAVE_ICONS_QRC
+    return QIcon{":/icons/{{ dim.name }}SpinBox.png"};
+#else
     return QIcon{};
+#endif
 }
 
 QString {{ dim.name }}SpinBoxDesignerInterface::whatsThis() const

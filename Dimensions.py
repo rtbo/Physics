@@ -3,6 +3,7 @@ import sys
 import os
 import argparse
 import json
+import re
 from jinja2 import Environment
 
 class Conversion:
@@ -263,6 +264,10 @@ class Unit:
     @property
     def conv1(self):
         return self.conv.conv(1) if self.conv else 0
+
+    @property
+    def xml_unicode(self):
+        return re.sub(r'\\u([0-9A-Fa-f]{4})', r'&#x\1;', self.unicode)
 
     @staticmethod
     def build_from_def(unit_def, prefix=None):
