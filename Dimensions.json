@@ -37,7 +37,12 @@
     "name": "Action",
     "aliases": [],
     "units": [],
-    "foreign_units": ["joule"],
+    "foreign_units": [
+      {
+        "unit": "joule",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 2,
     "T": -1,
@@ -254,7 +259,12 @@
     "name": "Conductivity",
     "aliases": [],
     "units": [],
-    "foreign_units": ["siemens"],
+    "foreign_units": [
+      {
+        "unit": "siemens",
+        "prefixes": []
+      }
+    ],
     "M": -1,
     "L": -3,
     "T": 3,
@@ -304,7 +314,12 @@
     "name": "DynamicViscosity",
     "aliases": [],
     "units": [],
-    "foreign_units": ["pascal"],
+    "foreign_units": [
+      {
+        "unit": "pascal",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": -1,
     "T": -1,
@@ -341,7 +356,12 @@
     "name": "ElectricField",
     "aliases": [],
     "units": [],
-    "foreign_units": ["volt"],
+    "foreign_units": [
+      {
+        "unit": "volt",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 1,
     "T": -3,
@@ -389,7 +409,12 @@
         "prefixes": ["k", "M"]
       }
     ],
-    "foreign_units": ["newton"],
+    "foreign_units": [
+      {
+        "unit": "newton",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 2,
     "T": -2,
@@ -402,7 +427,12 @@
     "name": "Entropy",
     "aliases": [],
     "units": [],
-    "foreign_units": ["joule"],
+    "foreign_units": [
+      {
+        "unit": "joule",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 2,
     "T": -2,
@@ -460,7 +490,12 @@
         "prefixes": ["G", "T"]
       }
     ],
-    "foreign_units": ["radian"],
+    "foreign_units": [
+      {
+        "unit": "radian",
+        "prefixes": []
+      }
+    ],
     "M": 0,
     "L": 0,
     "T": -1,
@@ -473,7 +508,12 @@
     "name": "HeatTransfer",
     "aliases": [],
     "units": [],
-    "foreign_units": ["watt"],
+    "foreign_units": [
+      {
+        "unit": "watt",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 0,
     "T": -3,
@@ -514,6 +554,24 @@
     "M": 0,
     "L": 2,
     "T": -1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 0
+  },
+  {
+    "name": "LatentHeat",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [
+      {
+        "unit": "joule",
+        "prefixes": ["k"]
+      }
+    ],
+    "M": 0,
+    "L": 2,
+    "T": -2,
     "I": 0,
     "Th": 0,
     "N": 0,
@@ -776,7 +834,12 @@
     "name": "MolarEntropy",
     "aliases": ["MolarHeatCapacity"],
     "units": [],
-    "foreign_units": ["joule"],
+    "foreign_units": [
+      {
+        "unit": "joule",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 2,
     "T": -2,
@@ -800,7 +863,12 @@
         "prefixes": []
       }
     ],
-    "foreign_units": ["gram"],
+    "foreign_units": [
+      {
+        "unit": "gram",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 0,
     "T": 0,
@@ -931,34 +999,15 @@
     "J": 0
   },
   {
-    "name": "RadiationDose",
-    "aliases": [],
-    "units": [
-      {
-        "name": "gray",
-        "symbol": "Gy",
-        "unicode": "Gy",
-        "factor": "",
-        "offset": "",
-        "pi_exp": "",
-        "def_pref": "",
-        "prefixes": ["G", "T"]
-      }
-    ],
-    "foreign_units": [],
-    "M": 0,
-    "L": 2,
-    "T": -2,
-    "I": 0,
-    "Th": 0,
-    "N": 0,
-    "J": 0
-  },
-  {
     "name": "SpecificHeatCapacity",
     "aliases": [],
     "units": [],
-    "foreign_units": ["joule"],
+    "foreign_units": [
+      {
+        "unit": "joule",
+        "prefixes": []
+      }
+    ],
     "M": 0,
     "L": 2,
     "T": -2,
@@ -1041,7 +1090,12 @@
     "name": "ThermalConductance",
     "aliases": [],
     "units": [],
-    "foreign_units": ["watt"],
+    "foreign_units": [
+      {
+        "unit": "watt",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 2,
     "T": -3,
@@ -1054,7 +1108,12 @@
     "name": "ThermalConductivity",
     "aliases": [],
     "units": [],
-    "foreign_units": ["watt"],
+    "foreign_units": [
+      {
+        "unit": "watt",
+        "prefixes": []
+      }
+    ],
     "M": 1,
     "L": 1,
     "T": -3,
