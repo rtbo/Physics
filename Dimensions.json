@@ -1123,6 +1123,19 @@
     "J": 0
   },
   {
+    "name": "ThermalExpansion",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 1,
+    "L": -3,
+    "T": 0,
+    "I": 0,
+    "Th": -1,
+    "N": 0,
+    "J": 0
+  },
+  {
     "name": "Time",
     "aliases": [],
     "units": [
