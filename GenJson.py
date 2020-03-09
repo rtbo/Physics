@@ -39,6 +39,11 @@ class AliasCol(IntEnum):
     DIM         = 1
     NAME        = 2
 
+class ForeignUnitDef:
+    def __init__(self, unit, prefixes):
+        self.unit = unit
+        self.prefixes = prefixes
+
 class UnitDef:
     def __init__(self):
         self.name = ""
@@ -72,7 +77,11 @@ def completeUnits(ws, dim):
             name = ws.getCellByPosition(UnitCol.NAME, row).String
             foreign = ws.getCellByPosition(UnitCol.FOREIGN, row).String
             if foreign != "":
-                dim.foreign_units.append(foreign)
+                prefixStr = ws.getCellByPosition(UnitCol.PREFIX, row).String
+                prefixes = []
+                if prefixStr != "":
+                    prefixes = prefixStr.split(", ")
+                dim.foreign_units.append(ForeignUnitDef(foreign, prefixes))
             else:
                 unit = UnitDef()
                 unit.name = name
@@ -121,7 +130,7 @@ def readDimensions(calc):
     return dims
 
 def printDimensionsJson(dims, path):
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write('[\n')
         for di, dim in enumerate(dims):
             f.write('  {\n')
@@ -163,9 +172,24 @@ def printDimensionsJson(dims, path):
 
             f.write('    "foreign_units": [')
             for i, foreign in enumerate(dim.foreign_units):
-                f.write('"{}"'.format(foreign))
-                if i < len(dim.foreign_units)-1:
-                    f.write(', ')
+                if i == 0:
+                    f.write('\n')
+                f.write('      {\n')
+                f.write('        "unit": "{}",\n'.format(foreign.unit))
+
+                f.write('        "prefixes": [')
+                for pi, prefix in enumerate(foreign.prefixes):
+                    f.write('"{}"'.format(prefix))
+                    if pi < len(foreign.prefixes)-1:
+                        f.write(', ')
+                f.write(']\n')
+
+                if ui < len(dim.foreign_units)-1:
+                    f.write('      },\n')
+                else:
+                    f.write('      }\n')
+                    f.write('    ')
+
             f.write('],\n')
 
             f.write('    "M": {},\n'.format(dim.M))

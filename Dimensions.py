@@ -293,7 +293,7 @@ class Unit:
         return unit
 
     @staticmethod
-    def build_from_dim_and_foreign(dim, foreign):
+    def build_from_dim_and_foreign(dim, foreign, prefix=None):
         unit = Unit()
         unit.check_add_comp(1, foreign)
         foreign_def = unit_defs[foreign]
@@ -301,6 +301,11 @@ class Unit:
         unit.add_dim_comps(dim)
         unit.compose()
         unit.conv = Conversion(foreign_def.factor, foreign_def.offset, foreign_def.pi_exp)
+        if prefix:
+            unit.name = prefix.name + unit.name
+            unit.symbol = prefix.symbol + unit.symbol
+            unit.unicode = prefix.unicode + unit.unicode
+            prefix.adapt_conv(unit.conv)
         return unit
 
 def check_unit_def(dim_dict):
@@ -336,9 +341,12 @@ def complete_dim(dim_dict):
                 prefix = prefixes[p]
                 units.append(Unit.build_from_def(unit_def, prefix))
 
-    for foreign in dim_dict["foreign_units"]:
-        unit = Unit.build_from_dim_and_foreign( dim, foreign )
+    for foreign_dict in dim_dict["foreign_units"]:
+        unit = Unit.build_from_dim_and_foreign( dim, foreign_dict["unit"] )
         units.append( unit )
+        for p in foreign_dict["prefixes"]:
+            prefix = prefixes[p]
+            units.append(Unit.build_from_dim_and_foreign(dim, foreign_dict["unit"], prefix))
 
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
