@@ -26,6 +26,38 @@ namespace siui {
 static int _{{ dim.snake_name }} = qRegisterMetaType<si::{{ dim.name }}>("si::{{ dim.name }}");
 {% endfor %}
 
+namespace {
+    class AutoSelectLineEdit : public QLineEdit
+    {
+    public:
+        AutoSelectLineEdit(QWidget *parent) : QLineEdit{ parent } {}
+        virtual ~AutoSelectLineEdit() {}
+
+    protected:
+        virtual void focusInEvent(QFocusEvent *ev) override
+        {
+            QLineEdit::focusInEvent(ev);
+            _focus = true;
+        }
+
+        // mouse press event triggers just after focusIn.
+        // default impl will deselect the text, so we need to select
+        // all after QLineEdit::mousePressEvent (but only after focusIn)
+        virtual void mousePressEvent(QMouseEvent *ev) override
+        {
+            QLineEdit::mousePressEvent(ev);
+            if (_focus) {
+                selectAll();
+                _focus = false;
+            }
+        }
+
+    private:
+        bool _focus = false;
+    };
+} // namespace
+
+
 {% for dim in dims %}
 
 {{ dim.name }}SpinBox::{{ dim.name }}SpinBox(QWidget *parent) :
@@ -36,10 +68,17 @@ static int _{{ dim.snake_name }} = qRegisterMetaType<si::{{ dim.name }}>("si::{{
     _minimum{ si::{{ dim.default_unit.name }}_t{ 0.0 } },
     _maximum{ si::{{ dim.default_unit.name }}_t{ 100.0 } }
 {
+    auto *lineEdit = new AutoSelectLineEdit{ this };
+    setLineEdit(lineEdit);
+
     installEventFilter(this);
+
+    QObject::connect(lineEdit, &QLineEdit::editingFinished,
+                     this, &{{ dim.name }}SpinBox::setValueFromText);
+    QObject::connect(lineEdit, &QLineEdit::returnPressed,
+                     this, &{{ dim.name }}SpinBox::setValueFromText);
+
     updateText();
-    // QObject::connect(lineEdit(), &QLineEdit::clicked, this, &{{ dim.name }}SpinBox::prepareEdition);
-    QObject::connect(lineEdit(), &QLineEdit::editingFinished, this, &{{ dim.name }}SpinBox::setValueFromText);
 }
 
 {{ dim.name }}SpinBox::~{{ dim.name }}SpinBox()
