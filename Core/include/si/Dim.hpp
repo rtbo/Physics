@@ -36,13 +36,13 @@ namespace base {
 
     enum class DimName
     {
-        Mass,           //< Main unit: kilogram - symbol M
-        Length,         //< Main unit: meter    - symbol L
-        Time,           //< Main unit: second   - symbol T
-        Current,        //< Main unit: ampere   - symbol I - electrical current
-        Temperature,    //< Main unit: kelvin   - symbol Theta
-        Amount,         //< Main unit: mole     - symbol N - amount of substance
-        LightIntensity, //< Main unit: candela  - symbol J
+        Mass,        //< Main unit: kilogram - symbol M
+        Length,      //< Main unit: meter    - symbol L
+        Time,        //< Main unit: second   - symbol T
+        Current,     //< Main unit: ampere   - symbol I - electrical current
+        Temperature, //< Main unit: kelvin   - symbol Theta
+        Amount,      //< Main unit: mole     - symbol N - amount of substance
+        LuminuousIntensity, //< Main unit: candela  - symbol J
     };
 
     template<DimName D, typename R>
@@ -73,7 +73,8 @@ namespace base {
     using Amount = Dim<DimName::Amount, std::ratio<Num, Den>>;
 
     template<int Num, int Den = 1>
-    using LightIntensity = Dim<DimName::LightIntensity, std::ratio<Num, Den>>;
+    using LuminuousIntensity =
+        Dim<DimName::LuminuousIntensity, std::ratio<Num, Den>>;
 
     using NoMass = Mass<0>;
     using NoLength = Length<0>;
@@ -81,7 +82,7 @@ namespace base {
     using NoCurrent = Current<0>;
     using NoTemperature = Temperature<0>;
     using NoAmount = Amount<0>;
-    using NoLightIntensity = LightIntensity<0>;
+    using NoLuminuousIntensity = LuminuousIntensity<0>;
 
     namespace detail {
         template<typename T>
@@ -136,9 +137,9 @@ namespace base {
     }
 
     template<typename D>
-    constexpr bool is_light_intensity_dim()
+    constexpr bool is_luminuous_intensity_dim()
     {
-        return is_dim<D>() && D::name == DimName::LightIntensity;
+        return is_dim<D>() && D::name == DimName::LuminuousIntensity;
     }
 
 } // namespace base
@@ -146,7 +147,7 @@ namespace base {
 template<typename M = base::NoMass, typename L = base::NoLength,
          typename T = base::NoTime, typename I = base::NoCurrent,
          typename Th = base::NoTemperature, typename N = base::NoAmount,
-         typename J = base::NoLightIntensity>
+         typename J = base::NoLuminuousIntensity>
 struct Dim
 {
     static_assert(base::is_mass_dim<M>());
@@ -155,7 +156,7 @@ struct Dim
     static_assert(base::is_current_dim<I>());
     static_assert(base::is_temperature_dim<Th>());
     static_assert(base::is_amount_dim<N>());
-    static_assert(base::is_light_intensity_dim<J>());
+    static_assert(base::is_luminuous_intensity_dim<J>());
 
     using mass = M;
     using length = L;
@@ -163,7 +164,7 @@ struct Dim
     using current = I;
     using temperature = Th;
     using amount = N;
-    using light_intensity = J;
+    using luminuous_intensity = J;
 };
 
 using NoDim = Dim<>;
@@ -222,8 +223,8 @@ using MulDim = Dim<
     typename base::detail::MulDim<typename LhsD::temperature,
                                   typename RhsD::temperature>,
     typename base::detail::MulDim<typename LhsD::amount, typename RhsD::amount>,
-    typename base::detail::MulDim<typename LhsD::light_intensity,
-                                  typename RhsD::light_intensity>>;
+    typename base::detail::MulDim<typename LhsD::luminuous_intensity,
+                                  typename RhsD::luminuous_intensity>>;
 
 template<typename LhsD, typename RhsD>
 using DivDim = Dim<
@@ -235,8 +236,8 @@ using DivDim = Dim<
     typename base::detail::DivDim<typename LhsD::temperature,
                                   typename RhsD::temperature>,
     typename base::detail::DivDim<typename LhsD::amount, typename RhsD::amount>,
-    typename base::detail::DivDim<typename LhsD::light_intensity,
-                                  typename RhsD::light_intensity>>;
+    typename base::detail::DivDim<typename LhsD::luminuous_intensity,
+                                  typename RhsD::luminuous_intensity>>;
 
 template<typename D, typename R>
 using PowDim =
@@ -246,6 +247,6 @@ using PowDim =
         typename base::detail::PowDim<typename D::current, R>,
         typename base::detail::PowDim<typename D::temperature, R>,
         typename base::detail::PowDim<typename D::amount, R>,
-        typename base::detail::PowDim<typename D::light_intensity, R>>;
+        typename base::detail::PowDim<typename D::luminuous_intensity, R>>;
 
 } // namespace si

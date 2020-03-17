@@ -351,7 +351,10 @@ def complete_dim(dim_dict):
     if len(units) == 0:
         units.append(Unit.build_from_dim(dim))
 
-    dim_dict["default_unit"] = next(u for u in units if u.is_default)
+    if len(units) == 1:
+        dim_dict["default_unit"] = units[0]
+    else:
+        dim_dict["default_unit"] = next(u for u in units if u.is_default)
     dim_dict["units"] = units
 
     from itertools import groupby

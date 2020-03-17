@@ -480,6 +480,16 @@
         "prefixes": ["k", "M", "G"]
       },
       {
+        "name": "revolution_per_minute",
+        "symbol": "RPM",
+        "unicode": "RPM",
+        "factor": "1/60",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
         "name": "becquerel",
         "symbol": "Bq",
         "unicode": "Bq",
@@ -652,46 +662,32 @@
     "J": 0
   },
   {
-    "name": "LightEnergy",
+    "name": "LinearDensity",
     "aliases": [],
     "units": [],
     "foreign_units": [],
-    "M": 0,
-    "L": 0,
-    "T": 1,
+    "M": 1,
+    "L": -1,
+    "T": 0,
     "I": 0,
     "Th": 0,
     "N": 0,
-    "J": 1
+    "J": 0
   },
   {
-    "name": "LightIntensity",
-    "aliases": [],
+    "name": "Luminance",
+    "aliases": ["Illuminance"],
     "units": [
       {
-        "name": "candela",
-        "symbol": "cd",
-        "unicode": "cd",
+        "name": "",
+        "symbol": "",
+        "unicode": "",
         "factor": "",
         "offset": "",
         "pi_exp": "",
         "def_pref": "",
         "prefixes": []
-      }
-    ],
-    "foreign_units": [],
-    "M": 0,
-    "L": 0,
-    "T": 0,
-    "I": 0,
-    "Th": 0,
-    "N": 0,
-    "J": 1
-  },
-  {
-    "name": "Luminance",
-    "aliases": [],
-    "units": [
+      },
       {
         "name": "lux",
         "symbol": "lx",
@@ -706,6 +702,90 @@
     "foreign_units": [],
     "M": 0,
     "L": -2,
+    "T": 0,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "LuminuousEfficacy",
+    "aliases": [],
+    "units": [
+      {
+        "name": "lumen_per_watt",
+        "symbol": "lm_p_W",
+        "unicode": "lm.W\\u207B\\u00B9",
+        "factor": "1/4",
+        "offset": "",
+        "pi_exp": "-1",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
+    "foreign_units": [],
+    "M": -1,
+    "L": -2,
+    "T": 3,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "LuminuousEnergy",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
+    "T": 1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "LuminuousExposure",
+    "aliases": [],
+    "units": [],
+    "foreign_units": [],
+    "M": 0,
+    "L": -2,
+    "T": 1,
+    "I": 0,
+    "Th": 0,
+    "N": 0,
+    "J": 1
+  },
+  {
+    "name": "LuminuousIntensity",
+    "aliases": ["LuminuousFlux"],
+    "units": [
+      {
+        "name": "candela",
+        "symbol": "cd",
+        "unicode": "cd",
+        "factor": "",
+        "offset": "",
+        "pi_exp": "",
+        "def_pref": "",
+        "prefixes": []
+      },
+      {
+        "name": "lumen",
+        "symbol": "lm",
+        "unicode": "lm",
+        "factor": "1/4",
+        "offset": "",
+        "pi_exp": "-1",
+        "def_pref": "",
+        "prefixes": []
+      }
+    ],
+    "foreign_units": [],
+    "M": 0,
+    "L": 0,
     "T": 0,
     "I": 0,
     "Th": 0,

@@ -19,7 +19,7 @@ namespace si {
         base::Current<{{ dim.I }}>,
         base::Temperature<{{ dim.Th }}>,
         base::Amount<{{ dim.N }}>,
-        base::LightIntensity<{{ dim.J }}>
+        base::LuminuousIntensity<{{ dim.J }}>
     >;
 
 {% for alias in dim.aliases %}
