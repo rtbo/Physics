@@ -195,9 +195,20 @@ void {{ dim.name }}SpinBox::setValueFromText()
     }
     t = t.trimmed();
     bool ok = false;
-    const auto val = t.toDouble(&ok);
+    double val = QLocale{}.toDouble(t, &ok);
+    if (!ok) {
+        val = QLocale::c().toDouble(t, &ok);
+    }
     if (ok) {
-        set{{ dim.name }}(si::{{ dim.cppns }}::value_from(_unit, val));
+        const auto pval = si::{{ dim.cppns }}::value_from(_unit, val);
+        if (pval == _{{ dim.snake_name }})
+            updateText();
+        else
+            set{{ dim.name }}(pval);
+        lineEdit()->setStyleSheet("");
+    }
+    else {
+        lineEdit()->setStyleSheet("color: red");
     }
 }
 
@@ -256,12 +267,12 @@ QAbstractSpinBox::StepEnabled {{ dim.name }}SpinBox::stepEnabled() const
 
 void {{ dim.name }}SpinBox::updateText()
 {
-    QLocale loc;
     const auto v = si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
-    const auto vs = loc.toString(v, 'f', _decimals);
+    const auto vs = QLocale{}.toString(v, 'f', _decimals);
     const auto strView = si::{{ dim.cppns }}::u16::str_view(_unit);
     const auto us = QString::fromUtf16(strView.data(), static_cast<int>(strView.size()));
     lineEdit()->setText(QString{ "%1%2 %3" }.arg(_prefix).arg(vs).arg(us));
+    lineEdit()->setStyleSheet("");
 }
 
 void {{ dim.name }}SpinBox::emitSignal()
