@@ -99,17 +99,16 @@ QIcon {{ dim.name }}LabelDesignerInterface::icon() const
 
 QString {{ dim.name }}LabelDesignerInterface::whatsThis() const
 {
-    return QLatin1String("A label widget to display {{ dim.name }} values.");
+    return "A label widget to display {{ dim.name }} values.";
 }
 
 QString {{ dim.name }}LabelDesignerInterface::domXml() const
 {
-    return QLatin1String(
-        "<widget "
-            "class=\"siui::{{ dim.name }}Label\" "
-            "name=\"{{ dim.snake_name }}Label\">\n"
-        "</widget>\n"
-    );
+    return R"(<widget
+    class="siui::{{ dim.name }}Label"
+    name="{{ dim.snake_name }}Label">
+</widget>
+)";
 }
 
 QWidget *{{ dim.name }}LabelDesignerInterface::createWidget(QWidget *parent)
@@ -158,17 +157,16 @@ QIcon {{ dim.name }}SpinBoxDesignerInterface::icon() const
 
 QString {{ dim.name }}SpinBoxDesignerInterface::whatsThis() const
 {
-    return QLatin1String("A spin box widget to display and set {{ dim.name }} values.");
+    return "A spin box widget to display and set {{ dim.name }} values.";
 }
 
 QString {{ dim.name }}SpinBoxDesignerInterface::domXml() const
 {
-    return QLatin1String(
-        "<widget "
-            "class=\"siui::{{ dim.name }}SpinBox\" "
-            "name=\"{{ dim.snake_name }}SpinBox\">\n"
-        "</widget>\n"
-    );
+    return R"(<widget
+    class="siui::{{ dim.name }}SpinBox"
+    name="{{ dim.snake_name }}SpinBox">
+</widget>
+)";
 }
 
 QWidget *{{ dim.name }}SpinBoxDesignerInterface::createWidget(QWidget *parent)
