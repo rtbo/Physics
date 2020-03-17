@@ -50,6 +50,8 @@ public:
 
     virtual void stepBy(int steps) override;
 
+    virtual QSize sizeHint() const override;
+
     DesignerUnit designerUnit() const {
         return static_cast<DesignerUnit>(unit());
     }

@@ -65,6 +65,11 @@ void {{ dim.name }}SpinBox::stepBy(int steps)
 {% endif %}
 }
 
+QSize {{ dim.name }}SpinBox::sizeHint() const
+{
+    return QSize{ 81, 20 };
+}
+
 double {{ dim.name }}SpinBox::designerValue() const
 {
     return si::{{ dim.cppns }}::value_to(_unit, _{{ dim.snake_name }});
