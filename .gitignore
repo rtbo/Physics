@@ -1,6 +1,7 @@
 # cmake
 CMakeFiles/
 build/
+install/
 
 # libreoffice doc related
 *.ods#
