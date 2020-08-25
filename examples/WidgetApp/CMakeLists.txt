@@ -8,4 +8,4 @@ add_executable(WidgetApp
 set_property(TARGET WidgetApp PROPERTY AUTOMOC ON)
 set_property(TARGET WidgetApp PROPERTY AUTOUIC ON)
 
-target_link_libraries(WidgetApp Physics::Widgets)
+target_link_libraries(WidgetApp SI_Units::Widgets)

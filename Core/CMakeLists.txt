@@ -1,5 +1,5 @@
 
-set(PHYSICS_CORE_SRC
+set(SI_UNITS_CORE_SRC
     include/si/Constants.hpp
     include/si/Conversion.hpp
     include/si/Dim.hpp
@@ -17,45 +17,45 @@ configure_file(
     templates/Version.hpp.in
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Version.hpp"
 )
-physics_dims_codegen(
+si_units_dims_codegen(
     templates/AllDims.hpp.j2
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/AllDims.hpp"
 )
-physics_dims_codegen(
+si_units_dims_codegen(
     templates/Config.hpp.j2
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Config.hpp"
 )
-physics_dim_codegen(
+si_units_dim_codegen(
     templates/Dimension.hpp.j2
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/@Dim@.hpp"
-    PHYSICS_CORE_GEN_HPP
+    SI_UNITS_CORE_GEN_HPP
 )
 
-set(PHYSICS_CORE_HPP
-    ${PHYSICS_CORE_SRC}
+set(SI_UNITS_CORE_HPP
+    ${SI_UNITS_CORE_SRC}
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/AllDims.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Config.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/include/si/Version.hpp"
-    ${PHYSICS_CORE_GEN_HPP}
+    ${SI_UNITS_CORE_GEN_HPP}
 )
 
 # generating an empty static lib instead of an INTERFACE target
 # otherwise code generation is not triggered
-add_library(PhysicsCore STATIC
-    ${PHYSICS_CORE_HPP}
+add_library(SI_Units_Core STATIC
+    ${SI_UNITS_CORE_HPP}
     Empty.cpp
 )
 
-set_target_properties(PhysicsCore PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_features(PhysicsCore PUBLIC cxx_std_17)
-target_include_directories(PhysicsCore PUBLIC include "${CMAKE_CURRENT_BINARY_DIR}/include")
-set_property(TARGET PhysicsCore PROPERTY PUBLIC_HEADER ${PHYSICS_CORE_HPP})
+set_target_properties(SI_Units_Core PROPERTIES LINKER_LANGUAGE CXX)
+target_compile_features(SI_Units_Core PUBLIC cxx_std_17)
+target_include_directories(SI_Units_Core PUBLIC include "${CMAKE_CURRENT_BINARY_DIR}/include")
+set_property(TARGET SI_Units_Core PROPERTY PUBLIC_HEADER ${SI_UNITS_CORE_HPP})
 
-install(TARGETS PhysicsCore
+install(TARGETS SI_Units_Core
     PUBLIC_HEADER DESTINATION include/si
     ARCHIVE DESTINATION lib
 )
 
-add_library(Physics::Core ALIAS PhysicsCore)
+add_library(SI_Units::Core ALIAS SI_Units_Core)
 
 add_subdirectory(tests)

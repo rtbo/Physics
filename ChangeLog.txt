@@ -2,6 +2,8 @@ Change Log of Physics
 
 version 2.0.0
 	new SI system
+    rename project from "Physics" to "SI_Units"
+    rename cmake targets "Physics" to "SI_Units"
 
 version 1.3.0
 	remove QPhysics (functionality handled by Core)

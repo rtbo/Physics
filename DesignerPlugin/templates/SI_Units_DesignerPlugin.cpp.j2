@@ -9,7 +9,7 @@
 
 #include "QtPlugin"
 
-#include "PhysicsDesignerPlugin.hpp"
+#include "SI_Units_DesignerPlugin.hpp"
 #include "Config.hpp"
 
 {% for dim in dims %}
@@ -80,7 +80,7 @@ QString {{ dim.name }}LabelDesignerInterface::includeFile() const
 
 QString {{ dim.name }}LabelDesignerInterface::group() const
 {
-    return "Physics Labels";
+    return "SI Units Labels";
 }
 
 QString {{ dim.name }}LabelDesignerInterface::toolTip() const
@@ -138,7 +138,7 @@ QString {{ dim.name }}SpinBoxDesignerInterface::includeFile() const
 
 QString {{ dim.name }}SpinBoxDesignerInterface::group() const
 {
-    return "Physics Spin boxes";
+    return "SI Units Spin boxes";
 }
 
 QString {{ dim.name }}SpinBoxDesignerInterface::toolTip() const

@@ -384,7 +384,7 @@ def filter_dims(dims, included_dims, excluded_base_dims, excluded_dims):
 
 if __name__ == '__main__':
 
-    ap = argparse.ArgumentParser(description="Physics dimensions code generator")
+    ap = argparse.ArgumentParser(description="SI_Units dimensions code generator")
     ap.add_argument("--input", nargs='?', type=argparse.FileType('r'),
             default=sys.stdin, help="Input template to be used")
     ap.add_argument("--output", nargs='?', type=argparse.FileType('w'),
