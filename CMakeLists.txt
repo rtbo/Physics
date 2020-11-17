@@ -5,6 +5,10 @@ project(SI_Units VERSION 1.3.0
                 DESCRIPTION "SI_Units C++ library"
                 LANGUAGES CXX)
 
+
+option(DISABLE_QT_WIDGETS "Disables the build of the SI_Units Qt widgets" OFF)
+option(DISABLE_QT_DESIGNER_PLUGIN "Disables the build of the Qt designer plugin" OFF)
+
 set(EXCLUDED_BASE_DIMS "" CACHE STRING "; separated list of base dimensions to exclude")
 set(EXCLUDED_DIMS "" CACHE PATH "File containing a list of dimensions to exclude")
 
@@ -29,21 +33,27 @@ string(REPLACE ":" ";" SI_UNITS_DIM_LIST ${SI_UNITS_DIMS})
 set(SI_UNITS_DIMS ${SI_UNITS_DIMS} CACHE INTERNAL "")
 set(SI_UNITS_DIM_LIST ${SI_UNITS_DIM_LIST} CACHE INTERNAL "")
 
-find_package(Qt5Core)
-set(SI_UNITS_HAVE_QT_CORE ${Qt5Core_FOUND})
-
 add_subdirectory(Core)
 
+if(NOT DISABLE_QT_WIDGETS)
+    find_package(Qt5Core)
 find_package(Qt5Widgets)
 if(${Qt5Core_FOUND} AND ${Qt5Widgets_FOUND})
 
     add_subdirectory(Widgets)
 
+        if(NOT DISABLE_QT_DESIGNER_PLUGIN)
     find_package(Qt5Designer)
     if(${Qt5Designer_FOUND})
         add_subdirectory(DesignerPlugin)
+            else()
+                message(WARNING "Qt5 Designer package not found - The designer plugin will not be built")
+            endif()
     endif()
 
     add_subdirectory(examples/WidgetApp)
 
+    else()
+        message(WARNING "Qt5 libraries not found - The SI_Units Qt widgets will not be built")
+    endif()
 endif()
