@@ -18,7 +18,7 @@ function(si_units_dims_codegen Template Output)
 
     add_custom_command(
         OUTPUT "${Output}"
-        COMMAND "${Python_EXECUTABLE}" "${Script}" --input "${Template}" --output "${Output}"
+        COMMAND "${Python3_EXECUTABLE}" "${Script}" --input "${Template}" --output "${Output}"
                 --dims "${SI_UNITS_DIMS}"
         DEPENDS "${Template}" "${Script}" "${Data}" "${ARGV2}"
     )
@@ -40,7 +40,7 @@ function(si_units_dim_codegen Template OutputPattern Result)
         _si_units_codegen_dim_file("${OutputPattern}" ${Dim} Output)
         add_custom_command(
             OUTPUT "${Output}"
-            COMMAND "${Python_EXECUTABLE}" "${Script}" --dim ${Dim} --input "${Template}" --output "${Output}"
+            COMMAND "${Python3_EXECUTABLE}" "${Script}" --dim ${Dim} --input "${Template}" --output "${Output}"
             WORKING_DIRECTORY "${SI_Units_SOURCE_DIR}"
             DEPENDS "${Template}" "${Script}" "${Data}" "${ARGV3}"
         )
