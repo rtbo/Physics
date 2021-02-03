@@ -28,7 +28,7 @@ public:
 
     enum DesignerUnit {
 {% for unit in dim.units %}
-        {{ unit.name }},
+        {{ unit.cppname }},
 {% endfor %}
     };
     Q_ENUM(DesignerUnit)
